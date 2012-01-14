@@ -5,11 +5,8 @@ Current Features
 -------
   Regions
   
-Commands
+Supported Database Types
 -------
-  /bank addregion <NAME> - Adds a region
-  
-  /bank delregion <NAME> - Deletes a region
-  
-  /bank region <NAME> - Shows infos about a region
-   
+ Mysql
+ 
+ SQLite
