@@ -1,0 +1,50 @@
+<project name="iBank" default="dist" basedir=".">
+<property name="pluginname" value="iBank"/>
+<property name="extension" value="-SNAPSHOT"/>
+<property name="dep_bukkit" location="../craftbukkit-1.0.1-R1.jar"/>
+<property name="dep_vault" location="../Vault.jar"/>
+<property name="version" value="0.1.0"/>
+
+<property name="src" location="src"/>
+<property name="srcfiles" location="src/com"/>
+<property name="bin" location="bin"/>
+<property name="dist" location="dist"/>
+
+<target name="init">
+<mkdir dir="${bin}"/>
+</target>
+
+<target name="compile" depends="init">
+<javac srcdir="${srcfiles}" destdir="${bin}" includeantruntime="false">
+<classpath>
+<pathelement location="${dep_bukkit}"/>
+<pathelement location="${dep_vault}"/>
+</classpath>
+</javac>
+</target>
+
+<target name="dist" depends="compile">
+<mkdir dir="${dist}"/>
+<mkdir dir="${dist}/docs"/>
+
+<jar jarfile="${dist}/${pluginname}-${version}${extension}.jar">
+<fileset dir="${bin}"/>
+<fileset dir="${src}/resources/"/>
+</jar>
+</target>
+
+ <target name="javadoc" depends="compile">
+    <mkdir dir="${dist}/docs"/>
+    <javadoc sourcepath="${srcfiles}"
+                destdir="${dist}/docs"
+                packagenames="*"
+                classpath="${dep_vault};${dep_bukkit}"
+           >
+    </javadoc>
+  </target>             
+
+<target name="clean">
+<delete dir="${bin}"/>
+<delete dir="${dist}"/>
+</target>
+</project>

@@ -1,0 +1,38 @@
+# iBank Sample Configuration for SQLite
+System:
+   # If iBank is enabled
+   Enabled: true 
+   # Regions enabled?
+   # If this is set to false, all commands can be executed globally
+   # If not, some commands can only be executed in a region
+   BoundToRegion: true
+   # The selection tool for regions
+   # Right-click first position
+   # Left-click second position
+   # 280 , itemid, => Stick
+   SelectionTool: 280
+   Interest:
+      # Whether to enable interest?
+      Enabled: false 
+      Percentages:
+         # The percentage the player will receive if he's logged in
+         Online: 1.00
+         # The percentage the player will receive if he's not logged in
+         Offline: 0.50
+   Database:
+      # The type of the database
+      # Valid types: sqlite,mysql
+      Type: 'sqlite'
+      # Host or filename to the server
+      # Example: test.db or localhost:1234
+      Url: 'bank.db'
+      # For systems which need either dbname, dbuser or dbpassword
+      Database: 'bank'
+      User: ''
+      Password: ''
+      # The name of the tables
+      Tables: 
+         # The name of the region table
+         Region: 'regions'
+         # The name of the accounts table (bankaccounts)
+         Accounts: 'accounts'

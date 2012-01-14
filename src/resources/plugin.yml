@@ -1,0 +1,17 @@
+#General
+name: iBank
+main: com.iBank.iBank
+version: 0.1
+commands:
+     bank:
+       description: Manage your money
+       permission: iBank.access
+       usage: /bank help
+depend: [Vault]
+#Generator
+description: Banks for iConomy
+maintainer: steffengy
+authors: [steffengy]
+
+#Super Perms
+#permissions:
