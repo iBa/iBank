@@ -65,8 +65,8 @@ public class SQLBuilder {
 		}
 		sqlcode += ") VALUES (";
 		for(c = 0;c<values.length;c++) {
-			if(values[c] instanceof Integer||values[c] instanceof Double||values[c] instanceof Float||values[c] instanceof BigInteger) sqlcode += (String)values[c];
-			else sqlcode += "'"+(String)values[c]+"'";
+			if(values[c] instanceof Integer||values[c] instanceof Double||values[c] instanceof Float||values[c] instanceof BigInteger) sqlcode += String.valueOf(values[c]);
+			else sqlcode += "'"+String.valueOf(values[c])+"'";
 			if(c!=values.length-1) sqlcode += ",";
 		}
 		return sqlcode + ")";

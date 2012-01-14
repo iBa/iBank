@@ -6,6 +6,8 @@ System:
    # If this is set to false, all commands can be executed globally
    # If not, some commands can only be executed in a region
    BoundToRegion: true
+   # The balance a new account will have
+   StandardBalance: 30
    # The selection tool for regions
    # Right-click first position
    # Left-click second position

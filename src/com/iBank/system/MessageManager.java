@@ -25,7 +25,7 @@ public class MessageManager {
 	public static String parse(String message) {
 		message = message.replace("&g&",ChatColor.GREEN.toString()).replace("&b&",ChatColor.BLACK.toString()).replace("&w&", ChatColor.WHITE.toString());
 		message = message.replace("&gray&", ChatColor.GRAY.toString()).replaceAll("&gold&",ChatColor.GOLD.toString()).replace("&y&", ChatColor.YELLOW.toString());
-		message = message.replace("&r&", ChatColor.RED.toString());
+		message = message.replace("&r&", ChatColor.RED.toString()).replace("&blue&", ChatColor.BLUE.toString());
 		return message;
 	}
 }

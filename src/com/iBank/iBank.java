@@ -23,6 +23,7 @@ import com.iBank.Commands.BankRootCommand;
 import com.iBank.Commands.CommandAddRegion;
 import com.iBank.Commands.CommandDelRegion;
 import com.iBank.Commands.CommandHelp;
+import com.iBank.Commands.CommandOpenAccount;
 import com.iBank.Commands.CommandRegion;
 import com.iBank.Database.DataSource;
 import com.iBank.Database.DataSource.Drivers;
@@ -111,15 +112,23 @@ public class iBank extends JavaPlugin {
 	      Commands.setHelp(Configuration.StringEntry.AddRegionDescription.getValue());
 	      Commands.setHandler(new CommandAddRegion());
 	      
+	      
 	      Commands.addSubCommand("bank", "delregion");
 	      Commands.setPermission("iBank.regions");
 	      Commands.setHelp(Configuration.StringEntry.DelRegionDescription.getValue());
 	      Commands.setHandler(new CommandDelRegion());
+	     
 	      
 	      Commands.addSubCommand("bank", "region");
 	      Commands.setPermission("iBank.regions");
 	      Commands.setHelp(Configuration.StringEntry.RegionDescription.getValue());
 	      Commands.setHandler(new CommandRegion());
+	      
+	      
+	      Commands.addSubCommand("bank", "open");
+	      Commands.setPermission("iBank.access");
+	      Commands.setHelp(Configuration.StringEntry.OpenAccountDescription.getValue());
+	      Commands.setHandler(new CommandOpenAccount());
 	      
 		description = this.getDescription();  
 		  

@@ -33,14 +33,25 @@ public class BankAccount {
 	 * @param str
 	 */
 	public void Owners(String str) {
-		owners = new ArrayList<String>(Arrays.asList(str.split(",")));
+		if(str.contains(","))
+			owners = new ArrayList<String>(Arrays.asList(str.split(",")));
+		else {
+			owners = new ArrayList<String>();
+			owners.add(str);
+		}
+		
 	}
 	/**
 	 * Inits all users as string
 	 * @param str
 	 */
 	public void Users(String str) {
-		users = new ArrayList<String>(Arrays.asList(str.split(",")));
+		if(str.contains(",")) 
+			users = new ArrayList<String>(Arrays.asList(str.split(",")));
+		else {
+			users = new ArrayList<String>();
+			users.add(str);
+		}
 	}
 	/**
 	 * Sets the online percentage
