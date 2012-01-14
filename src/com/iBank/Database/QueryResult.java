@@ -1,5 +1,6 @@
 package com.iBank.Database;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,14 @@ public class QueryResult {
 		keyvalues.get(readpointer).put(key, value);
 		found = true;
 	}
-	
+	/**
+	 * Returns if the current set contains this key
+	 * @param string
+	 * @return
+	 */
+	public boolean hasKey(String string) {
+		return keyvalues.size()>readpointer ? keyvalues.get(readpointer).containsKey(string) : false;
+	}
 	/**
 	 * Gets an entry from the result
 	 * @param key
@@ -41,12 +49,22 @@ public class QueryResult {
 	}
 	/**
 	 * Gets an entry from the result as Double
-	 * @param key
+	 * @param key String
 	 */
 	public double getDouble(String key) {
 		try{
 			return keyvalues.size()>readpointer ? (Double)keyvalues.get(readpointer).get(key) : null;
 		}catch(Exception e) { return 0.00; }
+	}
+	/**
+	 * Gets an entry from the result as BigInteger
+	 * @param key String
+	 * @return
+	 */
+	public BigInteger getBigInteger(String key) {
+		try{
+			return keyvalues.size()>readpointer ? (BigInteger)keyvalues.get(readpointer).get(key) : null;
+		}catch(Exception e) { return null; }
 	}
     /**
      * Creates an new entry and counts up

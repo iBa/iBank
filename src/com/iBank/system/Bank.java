@@ -43,7 +43,6 @@ public class Bank {
 		if(!data.found) return null;
 		List<String> ret = new ArrayList<String>();
 		boolean c = true;
-		data.print();
 		while(c == true) {
 			ret.add(data.getString("name"));
 			c = data.nextEntry();
@@ -86,4 +85,34 @@ public class Bank {
 		return loc.getWorld().getName()+";"+loc.getX()+";"+loc.getY()+";"+loc.getZ();
 	}
 	
+	/**
+	 * Gets an Bankaccount by Name
+	 * @param name The name
+	 * @return
+	 */
+	public static BankAccount getAccount(String name) {
+		QueryResult data = DataSource.query(new String[]{"balance", "owners", "users", "onper", "offper"}, Configuration.Entry.DatabaseAccountsTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		if(!data.found) return null;
+		BankAccount obj = new BankAccount(name, data.getBigInteger("balance"));
+		obj.Users(data.getString("users"));
+		obj.Owners(data.getString("owners"));
+		if(data.hasKey("onper")) obj.setOnPercentage(data.getDouble("onper"), false);
+		if(data.hasKey("offper")) obj.setOffPercentage(data.getDouble("offper"), false);
+		return obj;
+	}
+	/**
+	 * Gets a list of bankaccounts
+	 * @return List<String>
+	 */
+	public List<String> getAccounts() {
+		QueryResult data = DataSource.query(new String[]{"name"}, Configuration.Entry.DatabaseAccountsTable.toString());
+		if(!data.found) return null;
+		List<String> ret = new ArrayList<String>();
+		boolean c = true;
+		while(c == true) {
+			ret.add(data.getString("name"));
+			c = data.nextEntry();
+		}
+		return ret;
+	}
 }
