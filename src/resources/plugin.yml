@@ -5,7 +5,6 @@ version: 0.1
 commands:
      bank:
        description: Manage your money
-       permission: iBank.access
        usage: /bank help
 depend: [Vault]
 #Generator

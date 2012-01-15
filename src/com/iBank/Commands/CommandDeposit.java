@@ -31,7 +31,6 @@ public class CommandDeposit extends Handler {
 			if(Bank.hasAccount(arguments[0])) {
 				BigInteger todp = null;
 				BankAccount account = Bank.getAccount(arguments[0]);
-				if(account.isOwner(((Player)sender).getName()) || account.isUser(((Player)sender).getName()))
 				try{
 				todp = new BigInteger(arguments[1]);
 				}catch(Exception e) {
