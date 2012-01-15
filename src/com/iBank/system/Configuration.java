@@ -116,11 +116,13 @@ public class Configuration {
 		DelRegionDescription("Description.delregion", "Deletes a region"),
 		OpenAccountDescription("Description.openaccount", "Opens a bankaccount"),
 		DepositDescription("Description.deposit", "Deposit money to an account"),
+		WithdrawDescription("Description.withdraw", "Withdraw from an account"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
 		SuccessAddAccount("Success.addaccount", "Successfully, opened the account $name$"),
 		SuccessDeposit("Success.deposit", "Successfully, deposited $amount$ to $name$"),
+		SuccessWithdraw("Success.withdraw", "Successfully, withdrawed $amount$ to $name$"),
 		
 		ErrorAlreadyExists("Error.already_exists", "$name$ does already exists!"),
 		ErrorRegionSelect("Error.region_select", "Please select a region first!"),
@@ -129,6 +131,7 @@ public class Configuration {
 		ErrorNotExist("Error.not_exist", "$name$ does not exist!"),
 		ErrorNotRegion("Error.not_region", "You need to be in a bank region!"),
 		ErrorNotEnough("Error.not_enough", "You dont have enough money!"),
+		ErrorNoAccess("Error.no_access", "You dont have access to this account!"),
 		
 		GeneralInfo("General.Info", "Info about $type$ $name$:"), 
 		GeneralNoAccounts("General.no_accounts", "You dont have access to any accounts!");

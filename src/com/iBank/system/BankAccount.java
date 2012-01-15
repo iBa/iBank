@@ -101,6 +101,14 @@ public class BankAccount {
 		return balance;
 	}
 	/**
+	 * Returns if the account has that amount
+	 * @param amount The amount
+	 * @return Boolean
+	 */
+	public boolean has(BigInteger amount) {
+		return balance.compareTo(balance) >= 0;
+	}
+	/**
 	 * Subtracts a value from this account
 	 * @param balance BigInteger
 	 */
