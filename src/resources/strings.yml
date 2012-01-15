@@ -7,10 +7,12 @@ Description:
    region: 'Shows info about a region'
    delregion: 'Deletes a region'
    openaccount: 'Opens a bankaccount'
+   deposit: 'Deposit money to an account'
 Error:
    already_exists: '$name$ does already exists!'
    not_exist: '$name$ does not exist!'
    not_region: 'You need to be in a bank region!'
+   not_enough: 'You dont have enough money!'
    wrong_arguments: 'Wrong arguments given!'
    no_player: 'Sorry, you need to be a player to execute this!'
    region_select: 'Please select a region first!'
@@ -18,5 +20,7 @@ Success:
    addregion: 'Successfully, created the region $name$'
    delregion: 'Successfully, deleted the region $name$'
    addaccount: 'Successfully, opened the account $name$'
+   deposit: 'Successfully, deposited $amount$ to $name$'
 General:
    Info: 'Info about $type$ $name$:'
+   no_accounts: 'You dont have access to any accounts!'

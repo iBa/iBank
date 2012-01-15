@@ -45,7 +45,7 @@ public class QueryResult {
 	 * @param key
 	 */
 	public String getString(String key) {
-		return keyvalues.size()>readpointer ? (String)keyvalues.get(readpointer).get(key) : null;
+		return keyvalues.size()>readpointer ? String.valueOf(keyvalues.get(readpointer).get(key)) : null;
 	}
 	/**
 	 * Gets an entry from the result as Double
@@ -63,7 +63,7 @@ public class QueryResult {
 	 */
 	public BigInteger getBigInteger(String key) {
 		try{
-			return keyvalues.size()>readpointer ? (BigInteger)keyvalues.get(readpointer).get(key) : null;
+			return keyvalues.size()>readpointer ? new BigInteger(String.valueOf(keyvalues.get(readpointer).get(key))) : null;
 		}catch(Exception e) { return null; }
 	}
     /**

@@ -3,6 +3,8 @@ package com.iBank;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.iBank.Commands.BankRootCommand;
 import com.iBank.Commands.CommandAddRegion;
 import com.iBank.Commands.CommandDelRegion;
+import com.iBank.Commands.CommandDeposit;
 import com.iBank.Commands.CommandHelp;
 import com.iBank.Commands.CommandOpenAccount;
 import com.iBank.Commands.CommandRegion;
@@ -111,31 +114,37 @@ public class iBank extends JavaPlugin {
 	      Commands.setPermission("iBank.regions");
 	      Commands.setHelp(Configuration.StringEntry.AddRegionDescription.getValue());
 	      Commands.setHandler(new CommandAddRegion());
-	      
+	      Commands.setHelpArgs("[Name]");
 	      
 	      Commands.addSubCommand("bank", "delregion");
 	      Commands.setPermission("iBank.regions");
 	      Commands.setHelp(Configuration.StringEntry.DelRegionDescription.getValue());
 	      Commands.setHandler(new CommandDelRegion());
-	     
+	      Commands.setHelpArgs("[Name]");
 	      
 	      Commands.addSubCommand("bank", "region");
 	      Commands.setPermission("iBank.regions");
 	      Commands.setHelp(Configuration.StringEntry.RegionDescription.getValue());
 	      Commands.setHandler(new CommandRegion());
-	      
+	      Commands.setHelpArgs("[Name]");
 	      
 	      Commands.addSubCommand("bank", "open");
 	      Commands.setPermission("iBank.access");
 	      Commands.setHelp(Configuration.StringEntry.OpenAccountDescription.getValue());
 	      Commands.setHandler(new CommandOpenAccount());
+	      Commands.setHelpArgs("[Name]");
+	      
+	      Commands.addSubCommand("bank", "deposit");
+	      Commands.setPermission("iBank.access");
+	      Commands.setHelp(Configuration.StringEntry.DepositDescription.getValue());
+	      Commands.setHandler(new CommandDeposit());
+	      Commands.setHelpArgs("[Name] [Amount]");
 	      
 		description = this.getDescription();  
 		  
 		//DB
 			if(Configuration.Entry.DatabaseType.getValue().toString().equalsIgnoreCase("sqlite") || Configuration.Entry.DatabaseType.getValue().toString().equalsIgnoreCase("mysql")) {
-				if(Configuration.Entry.DatabaseUrl.getValue().toString() != null)
-				{
+				if(Configuration.Entry.DatabaseUrl.getValue().toString() != null) {
 					// connect
 					Drivers driver = DataSource.Drivers.SQLite;
 					if(Configuration.Entry.DatabaseType.getValue().toString().equalsIgnoreCase("mysql")) {
@@ -151,8 +160,7 @@ public class iBank extends JavaPlugin {
 					System.out.println("[iBank] Database connection failed! No File specified!");
 				}
 			}else{
-				if(Configuration.Entry.DatabaseUrl.getValue().toString() != null)
-				{
+				if(Configuration.Entry.DatabaseUrl.getValue().toString() != null) {
 				// connect
 				if(!DataSource.setup(DataSource.Drivers.SQLite, Configuration.Entry.DatabaseUrl.getValue().toString(), this)) {
 					System.out.println("[iBank] Database connection failed! Shuting down iBank...");
@@ -181,7 +189,7 @@ public class iBank extends JavaPlugin {
 	/**
 	 * Reloads the config
 	 */
-	public void reloadConfig()
+	public void reloadConfig() 
 	{
 	    if(ConfigFile == null) {
 	    	ConfigFile = new File(getDataFolder(), "config.yml");
@@ -199,7 +207,7 @@ public class iBank extends JavaPlugin {
 	/**
 	 * Loads the strings file
 	 */
-	private void loadStrings()
+	private void loadStrings() 
 	{
 	    if(StringFile == null) {
 	    	StringFile = new File(getDataFolder(), "strings.yml");
@@ -276,5 +284,14 @@ public class iBank extends JavaPlugin {
     		}
     	}
     	return false;
+    }
+    /**
+     * Formats an big Integer
+     * @param amount The amount
+     * @return String
+     * (probalby wrong formated due to BigInteger/double limits
+     */
+    public static String format(BigInteger amount) {
+         return economy.format(amount.doubleValue());
     }
 }

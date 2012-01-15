@@ -77,7 +77,7 @@ public class SQLBuilder {
 	 * @param table The table where to change
 	 * @param values The values "
 	 * @param conds The conditions where to change
-	 * @return
+	 * @return SqlCode
 	 */
 	public static String update(String[] fields, String table, Object[] values, Condition... conds) {
 		String sqlcode = "UPDATE " + table+" SET ";

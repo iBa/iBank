@@ -173,7 +173,7 @@ public class DataSource {
 	 */
 	public static void update(String table, String[] fields, Object[] values, Condition... condition) {
 		if(type == Drivers.MYSQL || type == Drivers.SQLite) {
-			String query = SQLBuilder.update(fields,table, values);
+			String query = SQLBuilder.update(fields,table, values, condition);
 			if(type == Drivers.MYSQL) {
 				mysqldb.execute(query);
 			}else if(type==Drivers.SQLite){

@@ -27,6 +27,7 @@ public class BankAccount {
 	
 	public BankAccount(String name, BigInteger balance) {
 		this.balance = balance;
+		this.name = name;
 	}
 	/**
 	 * Inits all owners as string
@@ -103,7 +104,7 @@ public class BankAccount {
 	 * Subtracts a value from this account
 	 * @param balance BigInteger
 	 */
-	public void substractBalance(BigInteger balance) {
+	public void subtractBalance(BigInteger balance) {
 		BigInteger newval = this.balance.subtract(balance);
 		setBalance(newval.compareTo(BigInteger.ZERO)>0?newval:BigInteger.ZERO, true);
 	}

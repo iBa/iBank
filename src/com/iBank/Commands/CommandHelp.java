@@ -37,14 +37,14 @@ public class CommandHelp extends Handler {
 			return;
 		}
 		
-		MessageManager.send(sender, "iBank "+iBank.description.getVersion()+" ("+")");
+		MessageManager.send(sender, "iBank "+iBank.description.getVersion()+" ("+iBank.CodeName+")", "");
 		String args = "";
 		for(String name : Commands.getCommands("bank"))
 		{
 			if(Commands.isCallable((Player)sender, root , name))
 			{
 				args = Commands.getHelpArgs(root, name) != null ? Commands.getHelpArgs(root, name) : "";
-				MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+Commands.getHelp(root, name));
+				MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+Commands.getHelp(root, name), "");
 			}
 		}
 		
