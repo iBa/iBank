@@ -1,5 +1,5 @@
 Tags:
-   Bank: '&g&[&w&iBank&g&]&w&'
+   Bank: '&g&[&w&Bank&g&]&w&'
 Description:
    Help: 'Displays the help'
    bank: 'Shows a list of your accounts'
@@ -9,6 +9,7 @@ Description:
    openaccount: 'Opens a bankaccount'
    deposit: 'Deposit money to an account'
    withdraw: 'Withdraw from an account'
+   balance: 'Shows the accounts balance'
 Error:
    already_exists: '$name$ does already exists!'
    not_exist: '$name$ does not exist!'
@@ -27,3 +28,5 @@ Success:
 General:
    Info: 'Info about $type$ $name$:'
    no_accounts: 'You dont have access to any accounts!'
+Short:
+   Balance: 'Balance'

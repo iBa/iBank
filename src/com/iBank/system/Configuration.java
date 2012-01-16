@@ -108,9 +108,12 @@ public class Configuration {
 	}
 	public static enum StringEntry
 	{
-		BankTag("Tags.Bank", "&g&[&w&iBank&g&]"),
+		BankTag("Tags.Bank", "&g&[&w&Bank&g&]"),
+		BalanceShort("Short.Balance", "Balance"),
+		
 		HelpDescription("Description.Help", "Displays the help"),
 		BankDescription("Description.bank", "Shows a list of your accounts"),
+		BalanceDescription("Description.balance", "Shows the accounts balance"),
 		AddRegionDescription("Description.addregion", "Adds a region"),
 		RegionDescription("Description.region", "Shows info about a region"),
 		DelRegionDescription("Description.delregion", "Deletes a region"),
