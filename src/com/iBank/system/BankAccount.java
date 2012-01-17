@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+
 import com.iBank.Database.AndCondition;
 import com.iBank.Database.DataSource;
 import com.iBank.Database.Condition.Operators;
@@ -175,5 +177,40 @@ public class BankAccount {
 	 */
 	public boolean isUser(String user) {
 		return users.contains(user);
+	}
+	/**
+	 * Returns a string array with all users online
+	 * @param int limit The max count of users who shall got
+	 * @return String[] Contains the usernames
+	 */
+	public String[] getOnlines(int limit) {
+		List<String> b = new ArrayList<String>();
+		int c = 0;
+		for(String p : owners) {
+			if(Bukkit.getServer().getPlayer(p) != null) 
+				if(limit == -1 || c > limit) {
+					b.add(p); 
+					c++;
+				}else{
+					break;
+				}
+		}
+		for(String p : users) {
+			if(Bukkit.getServer().getPlayer(p) != null)
+				if(limit == -1 || c > limit) {
+					b.add(p);
+					c++;
+				}else{
+					break;
+				}
+		}
+		return b.toArray(new String[1]);
+	}
+	/**
+	 * Returns a string array with all users online without limit
+	 * @return String[] Contains the usernames
+	 */
+	public String[] getOnlines() {
+		return getOnlines(-1);
 	}
 }

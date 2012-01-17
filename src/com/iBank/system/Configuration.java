@@ -1,6 +1,5 @@
 package com.iBank.system;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,6 +19,8 @@ public class Configuration {
 		InterestEnabled("System.Interest.Enabled", false),
 		InterestOnPercentage("System.Interest.Percentages.Online", 1),
 		InterestOffPercentage("System.Interest.Percentages.Offline", 1),
+		InterestPeriod("System.Interest.Period", 10),
+		InterestOnline("System.Interest.Online", 1),
 		
 		DatabaseType("System.Database.Type", "sqlite"),
 		DatabaseUrl("System.Database.Url", "bank.db"),

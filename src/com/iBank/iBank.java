@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
-import java.text.DecimalFormat;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -189,6 +189,18 @@ public class iBank extends JavaPlugin {
 	    
 		//Register events
 		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.Normal, this);
+		
+		//start interest syncer
+		if(Configuration.Entry.InterestEnabled.getBoolean()) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					 long time = Configuration.Entry.InterestPeriod.getLong() * 60L * 1000L;
+					 Timer Interest = new Timer();
+	                 Interest.scheduleAtFixedRate(new BankInterest(), time, time);
+				}
+			}).start();
+		}
 		
 		System.out.println("[iBank] Version "+description.getVersion()+" "+CodeName+" loaded successfully!");
 	}

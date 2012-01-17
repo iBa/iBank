@@ -22,6 +22,11 @@ System:
          Online: 1.00
          # The percentage the player will receive if he's not logged in
          Offline: 0.50
+      # The default period between the interests given to the user, in minutes
+      Period: 10
+      # How many people which belong to the account need to be online
+      # 0 => Nobody needs to
+      Online: 1
    Database:
       # The type of the database
       # Valid types: sqlite,mysql
