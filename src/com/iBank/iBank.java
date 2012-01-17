@@ -3,6 +3,7 @@ package com.iBank;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -207,7 +208,6 @@ public class iBank extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		saveConfig();
 		DataSource.shutdown();
 		System.out.println("[iBank] unloaded");
 	}
@@ -244,19 +244,6 @@ public class iBank extends JavaPlugin {
 	    if (defConfigStream != null) {
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 	        StringConfig.setDefaults(defConfig);
-	    }
-	}
-	/**
-	 * Save config
-	 */
-	public void saveConfig() {
-	    if (Config == null || ConfigFile == null) {
-	    return;
-	    }
-	    try {
-	        Config.save(ConfigFile);
-	    } catch (IOException ex) {
-	        Logger.getLogger("Minecraft").log(Level.SEVERE, "[iBank] Could not save config to " + ConfigFile, ex);
 	    }
 	}
 	/**
@@ -313,11 +300,11 @@ public class iBank extends JavaPlugin {
     }
     /**
      * Formats an big Integer
-     * @param amount The amount
+     * @param todp The amount
      * @return String
      * (probalby wrong formated due to BigInteger/double limits
      */
-    public static String format(BigInteger amount) {
-         return economy.format(amount.doubleValue());
+    public static String format(BigDecimal todp) {
+         return economy.format(todp.doubleValue());
     }
 }

@@ -17,7 +17,7 @@ public class Configuration {
 		StandardBalance("System.StandardBalance", 30),
 		
 		InterestEnabled("System.Interest.Enabled", false),
-		InterestOnPercentage("System.Interest.Percentages.Online", 1),
+		InterestOnPercentage("System.Interest.Percentages.Online", 1.00),
 		InterestOffPercentage("System.Interest.Percentages.Offline", 1),
 		InterestPeriod("System.Interest.Period", 10),
 		InterestOnline("System.Interest.Online", 1),
@@ -136,6 +136,7 @@ public class Configuration {
 		ErrorNotRegion("Error.not_region", "You need to be in a bank region!"),
 		ErrorNotEnough("Error.not_enough", "You dont have enough money!"),
 		ErrorNoAccess("Error.no_access", "You dont have access to this account!"),
+		ErrorInvalidAm("Error.invalid_amount", "The given amount has to be bigger than 0.10"),
 		
 		GeneralInfo("General.Info", "Info about $type$ $name$:"), 
 		GeneralNoAccounts("General.no_accounts", "You dont have access to any accounts!");

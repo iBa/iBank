@@ -1,5 +1,6 @@
 package com.iBank.system;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ import com.iBank.utils.StringUtils;
  */
 public class BankAccount {
 	private String name;
-	private BigInteger balance = null;
+	private BigDecimal balance = null;
 	private double on = Configuration.Entry.InterestOnPercentage.getDouble();
 	private boolean onDefault = true;
 	private double off = Configuration.Entry.InterestOffPercentage.getDouble();
@@ -27,8 +28,8 @@ public class BankAccount {
 	private List<String> owners = new ArrayList<String>();
 	private List<String> users = new ArrayList<String>();
 	
-	public BankAccount(String name, BigInteger balance) {
-		this.balance = balance;
+	public BankAccount(String name, BigDecimal bigInteger) {
+		this.balance = bigInteger;
 		this.name = name;
 	}
 	/**
@@ -83,23 +84,26 @@ public class BankAccount {
 	 * @param newbalance The new balance as BigInteger
 	 * @param write The boolean
 	 */
-	public void setBalance(BigInteger newbalance, boolean write) {
+	public void setBalance(BigDecimal newbalance, boolean write) {
+		// round
+		newbalance = newbalance.setScale(2, BigDecimal.ROUND_DOWN);
+		//save
 		this.balance = newbalance;
 		//Write to DB
 		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"balance"}, new Object[]{newbalance}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
 	 * Adds a balance to this account
-	 * @param balance BigInteger
+	 * @param todp BigInteger
 	 */
-	public void addBalance(BigInteger balance) {
-		setBalance(this.balance.add(balance), true);
+	public void addBalance(BigDecimal todp) {
+		setBalance(this.balance.add(todp), true);
 	}
 	/**
 	 * Returns the balance
 	 * @return BigInteger
 	 */
-	public BigInteger getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
 	/**
@@ -107,16 +111,16 @@ public class BankAccount {
 	 * @param amount The amount
 	 * @return Boolean
 	 */
-	public boolean has(BigInteger amount) {
+	public boolean has(BigDecimal amount) {
 		return balance.compareTo(balance) >= 0;
 	}
 	/**
 	 * Subtracts a value from this account
 	 * @param balance BigInteger
 	 */
-	public void subtractBalance(BigInteger balance) {
-		BigInteger newval = this.balance.subtract(balance);
-		setBalance(newval.compareTo(BigInteger.ZERO)>0?newval:BigInteger.ZERO, true);
+	public void subtractBalance(BigDecimal balance) {
+		BigDecimal newval = this.balance.subtract(balance);
+		setBalance(newval.compareTo(BigDecimal.ZERO)>0?newval:BigDecimal.ZERO, true);
 	}
 	/**
 	 * Returns the online percentage

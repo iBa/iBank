@@ -1,6 +1,6 @@
 package com.iBank.Commands;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,12 +29,16 @@ public class CommandDeposit extends Handler {
 				return;
 			}
 			if(Bank.hasAccount(arguments[0])) {
-				BigInteger todp = null;
+				BigDecimal todp = null;
 				BankAccount account = Bank.getAccount(arguments[0]);
 				try{
-				todp = new BigInteger(arguments[1]);
+				todp = new BigDecimal(arguments[1]);
 				}catch(Exception e) {
 					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [AMOUNT]");
+					return;
+				}
+				if(todp.compareTo(new BigDecimal(0.10)) < 0) {
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.toString());
 					return;
 				}
 				// check if current player has that amount

@@ -1,6 +1,6 @@
 package com.iBank.Database;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,13 +57,13 @@ public class QueryResult {
 		}catch(Exception e) { return 0.00; }
 	}
 	/**
-	 * Gets an entry from the result as BigInteger
+	 * Gets an entry from the result as BigDecimal
 	 * @param key String
 	 * @return
 	 */
-	public BigInteger getBigInteger(String key) {
+	public BigDecimal getBigInteger(String key) {
 		try{
-			return keyvalues.size()>readpointer ? new BigInteger(String.valueOf(keyvalues.get(readpointer).get(key))) : null;
+			return keyvalues.size()>readpointer ? new BigDecimal(String.valueOf(keyvalues.get(readpointer).get(key))) : null;
 		}catch(Exception e) { return null; }
 	}
     /**

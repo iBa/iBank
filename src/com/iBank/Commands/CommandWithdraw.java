@@ -1,6 +1,6 @@
 package com.iBank.Commands;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,11 +31,15 @@ public class CommandWithdraw extends Handler {
 			if(Bank.hasAccount(arguments[0])) {
 				BankAccount account = Bank.getAccount(arguments[0]);
 				if(account.isOwner(((Player)sender).getName()) || account.isUser(((Player)sender).getName())) {
-					BigInteger todp = null;
+					BigDecimal todp = null;
 					try{
-					todp = new BigInteger(arguments[1]);
+					todp = new BigDecimal(arguments[1]);
 					}catch(Exception e) {
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [AMOUNT]");
+						return;
+					}
+					if(todp.compareTo(new BigDecimal(0.10)) < 0) {
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.toString());
 						return;
 					}
 					if(account.has(todp)) {
