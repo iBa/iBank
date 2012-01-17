@@ -46,7 +46,7 @@ public class CommandWithdraw extends Handler {
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
 					}
 				}else{
-					
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				}
 			}else{
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
