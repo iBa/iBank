@@ -21,13 +21,19 @@ public class CommandOpenAccount extends Handler {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.toString());
 				return;
 			}
-			if(!iBank.canExecuteCommand(((Player)sender).getLocation())) {
+			String region = "";
+			if((region = iBank.GetRegionAt(((Player)sender).getLocation())) == "") {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 				return;
 			}
 			if(!Bank.hasAccount(arguments[0])) {
 				Bank.createAccount(arguments[0], ((Player)sender).getName());
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAddAccount.toString());
+				// check for custom percentages
+				if(region != " ") {
+					Bank.getAccount(arguments[0]).setOnPercentage(Bank.getRegion(region).getOnPercentage(), true);
+					Bank.getAccount(arguments[0]).setOffPercentage(Bank.getRegion(region).getOffPercentage(), true);
+				}
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAddAccount.toString().replace("$name$", "Account "+arguments[0]+" "));
 			}else{
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.toString().replace("$name$", "Account "+arguments[0]+" "));
 			}

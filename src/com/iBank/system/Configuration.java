@@ -127,6 +127,7 @@ public class Configuration {
 		SuccessAddAccount("Success.addaccount", "Successfully, opened the account $name$"),
 		SuccessDeposit("Success.deposit", "Successfully, deposited $amount$ to $name$"),
 		SuccessWithdraw("Success.withdraw", "Successfully, withdrawed $amount$ to $name$"),
+		SuccessRegion("Success.region", "Successfully, modified the region $name$"),
 		
 		ErrorAlreadyExists("Error.already_exists", "$name$ does already exists!"),
 		ErrorRegionSelect("Error.region_select", "Please select a region first!"),

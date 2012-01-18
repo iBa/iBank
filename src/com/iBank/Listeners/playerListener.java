@@ -37,7 +37,7 @@ public class playerListener extends PlayerListener {
     	    				   LastMarkedPoint.remove(LastMarkedPoint.remove(event.getPlayer().getName()));
     	    				   LastMarkedPoint.put(event.getPlayer().getName(), new AbstractMap.SimpleEntry<Location, Location>(event.getClickedBlock().getLocation(), second));
     	    			   }
-    	    			   MessageManager.send(event.getPlayer(), "[iBank] Position 1 set!");
+    	    			   MessageManager.send(event.getPlayer(), "Position 1 set!");
     	    		   }else{
     	    			   //2nd
     	    			   if(!LastMarkedPoint.containsKey(event.getPlayer().getName())) {
@@ -45,7 +45,7 @@ public class playerListener extends PlayerListener {
     	    			   }else{
     	    				   LastMarkedPoint.get(event.getPlayer().getName()).setValue(event.getClickedBlock().getLocation());
     	    			   }
-    	    			   MessageManager.send(event.getPlayer(), "[iBank] Position 2 set!");
+    	    			   MessageManager.send(event.getPlayer(), "Position 2 set!");
     	    		   }
     	    	   } 
     	    	}

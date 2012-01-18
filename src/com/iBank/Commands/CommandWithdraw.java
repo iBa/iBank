@@ -24,7 +24,7 @@ public class CommandWithdraw extends Handler {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.toString());
 				return;
 			}
-			if(!iBank.canExecuteCommand(((Player)sender).getLocation())) {
+			if(iBank.GetRegionAt(((Player)sender).getLocation()) != "") {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 				return;
 			}

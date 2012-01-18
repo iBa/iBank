@@ -109,8 +109,8 @@ public class DataSource {
 			}else if(type==Drivers.SQLite){
 				result = db.query(query);
 			}
-			if(result == null) return null;
 			QueryResult retval = new QueryResult();
+			if(result == null) return retval;
 			boolean first = true;
 			try {
 				while(result.next()) {
@@ -124,10 +124,11 @@ public class DataSource {
 						retval.found = true;
 					}
 				}
-			} catch (SQLException e) { System.out.println("[iBank] Error while parsing DB-Query result!"); }
-			retval.resetPointer();
+				retval.resetPointer();
+			} catch (Exception e) { System.out.println("[iBank] Error while parsing DB-Query result!"); }
 			return retval;
 		}
+		System.out.println("[iBank] Uncaught Error!");
 		return null;
 	}
 	/**

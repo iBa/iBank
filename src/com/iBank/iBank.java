@@ -1,10 +1,8 @@
 package com.iBank;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +58,6 @@ import com.iBank.utils.StreamUtils;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-//@todo Dbnames in config
 public class iBank extends JavaPlugin {
     private YamlConfiguration StringConfig = null;
     private YamlConfiguration Config = null;
@@ -281,10 +278,10 @@ public class iBank extends JavaPlugin {
      * Checks if a player can execute this command
      * !NO PERMISSION CHECK!
      * @param l The location of the player
-     * @return booleans
+     * @return String name of region
      */
-    public static boolean canExecuteCommand(Location l) {
-    	if(!Configuration.Entry.BoundToRegion.getBoolean()) return true;
+    public static String GetRegionAt(Location l) {
+    	if(!Configuration.Entry.BoundToRegion.getBoolean()) return " ";
     	double x = l.getX();
     	double y = l.getY();
     	double z = l.getZ();
@@ -292,11 +289,13 @@ public class iBank extends JavaPlugin {
     	for(String i : Bank.getRegions()) {
     		tmp = Bank.getRegion(i);
     		if(l.getWorld() == tmp.getFirstLocation().getWorld()) {
-    			if(Mathematics.isInBox(x,y,z,tmp.getFirstLocation().getX(),tmp.getFirstLocation().getY(),tmp.getFirstLocation().getZ(),tmp.getSecondLocation().getX(),tmp.getSecondLocation().getY(),tmp.getSecondLocation().getZ()))
-    		       return true;
+    			if(Mathematics.isInBox(x,y,z,tmp.getFirstLocation().getX(),tmp.getFirstLocation().getY(),tmp.getFirstLocation().getZ(),tmp.getSecondLocation().getX(),tmp.getSecondLocation().getY(),tmp.getSecondLocation().getZ())) {
+    				return i;
+    			}
+    		       
     		}
     	}
-    	return false;
+    	return "";
     }
     /**
      * Formats an big Integer

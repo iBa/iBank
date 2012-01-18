@@ -26,7 +26,7 @@ public class CommandBalance extends Handler {
 			if(console || (acc.isOwner(((Player)sender).getName()) || acc.isUser(((Player)sender).getName())) || iBank.permission.has(sender, "iBank.balance")) {
 				String formattedBalance = iBank.economy.format(acc.getBalance().doubleValue());
 				if(!console) {
-					if(!iBank.canExecuteCommand(((Player)sender).getLocation())) {
+					if(iBank.GetRegionAt(((Player)sender).getLocation()) == "") {
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 						return;
 					}

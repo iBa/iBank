@@ -23,6 +23,7 @@ Error:
 Success: 
    addregion: 'Successfully, created the region $name$'
    delregion: 'Successfully, deleted the region $name$'
+   region: 'Successfully, modified the region $name$'
    addaccount: 'Successfully, opened the account $name$'
    deposit: 'Successfully, deposited $amount$ to $name$'
    withdraw: 'Successfully, withdrawed $amount$ to $name$'

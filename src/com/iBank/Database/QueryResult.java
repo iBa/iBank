@@ -53,8 +53,8 @@ public class QueryResult {
 	 */
 	public double getDouble(String key) {
 		try{
-			return keyvalues.size()>readpointer ? (Double)keyvalues.get(readpointer).get(key) : null;
-		}catch(Exception e) { return 0.00; }
+			return keyvalues.size()>readpointer ? Double.parseDouble(String.valueOf(keyvalues.get(readpointer).get(key))) : null;
+		}catch(Exception e) { System.out.println("[iBank] Error while parsing Double!"+e); return 0.00; }
 	}
 	/**
 	 * Gets an entry from the result as BigDecimal

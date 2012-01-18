@@ -38,6 +38,39 @@ public class CommandRegion extends Handler {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", "Region "+arguments[0]+" "));
 				return;
 			}
+		} else
+		//Saves info
+		if(arguments.length == 3) {
+			if(Bank.hasRegion(arguments[0])) {
+				if(arguments[1].equalsIgnoreCase("online") || arguments[1].equalsIgnoreCase("on")) {
+					Double percentage = 0.00;
+					try{
+						percentage = Double.parseDouble(arguments[2]);
+					}catch(Exception e) {
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[2]);
+						return;
+					}
+					Bank.getRegion(arguments[0]).setOnPercentage(percentage, true);
+				}else if(arguments[1].equalsIgnoreCase("offline") || arguments[1].equalsIgnoreCase("off")) {
+					Double percentage = 0.00;
+					try{
+						percentage = Double.parseDouble(arguments[2]);
+					}catch(Exception e) {
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[2]);
+						return;
+					}
+					Bank.getRegion(arguments[0]).setOffPercentage(percentage, true);
+				}else{
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[1]);
+					return;
+				}
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessRegion.toString().replace("$name$", arguments[0]));
+			}else{
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", "Region "+arguments[0]+" "));
+				return;
+			}
+		} else {
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
 		}
 	}
 }

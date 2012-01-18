@@ -116,8 +116,8 @@ public class Bank {
 	 */
 	public static List<String> getAccounts() {
 		QueryResult data = DataSource.query(new String[]{"name"}, Configuration.Entry.DatabaseAccountsTable.toString());
-		if(!data.found) return null;
 		List<String> ret = new ArrayList<String>();
+		if(!data.found) return ret;
 		boolean c = true;
 		while(c == true) {
 			ret.add(data.getString("name"));
