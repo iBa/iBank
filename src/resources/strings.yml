@@ -10,6 +10,7 @@ Description:
    deposit: 'Deposit money to an account'
    withdraw: 'Withdraw from an account'
    balance: 'Shows the accounts balance'
+   list: 'Shows a list of accounts'
 Error:
    already_exists: '$name$ does already exists!'
    not_exist: '$name$ does not exist!'
@@ -29,6 +30,6 @@ Success:
    withdraw: 'Successfully, withdrawed $amount$ to $name$'
 General:
    Info: 'Info about $type$ $name$:'
-   no_accounts: 'You dont have access to any accounts!'
+   no_accounts: 'No accounts found!'
 Short:
    Balance: 'Balance'

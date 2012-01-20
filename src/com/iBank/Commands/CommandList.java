@@ -14,38 +14,38 @@ import com.iBank.system.MessageManager;
 import com.iBank.utils.StringUtils;
 
 /**
- *  /bank - Shows the balance
+ *  /bank LIST (NAME)
+ *  If name is given, all accounts of NAME will be shown
+ *  else all accounts will be shown
  * @author steffengy
  *
  */
-public class BankRootCommand extends Handler{
-
-	/**
-	 *  Shows if in bank region if enabled
-	 *  Shows a list of all accounts the player owns and has access to
-	 */
-	@Override
+public class CommandList extends Handler {
+	
 	public void handle(CommandSender sender, String[] arguments) {
-		if(!(sender instanceof Player)) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.toString());
-			return;
-		}
-		if(iBank.GetRegionAt(((Player)sender).getLocation()) == "") {
+		if(!(sender instanceof Player) || iBank.GetRegionAt(((Player)sender).getLocation()) == "") {
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 			return;
 		}
-		// Show list of accounts
-		List<String> owner = Bank.getAccountsByOwner(((Player)sender).getName());
-		List<String> user = Bank.getAccountsByUser(((Player)sender).getName());
-		if(owner == null && user == null) {
+		// Show list of accounts#
+		List<String> owner;
+		List<String> user;
+		if(arguments.length > 0 && arguments[0] != null) {
+			owner = Bank.getAccountsByOwner(arguments[0]);
+			user = Bank.getAccountsByUser(arguments[0]);
+			MessageManager.send(sender, "&blue&Owner &y&User");
+		}else{
+			owner = Bank.getAccounts();
+			user = new ArrayList<String>();
+		}
+		
+		if(owner.size() == 0 && user.size() == 0) {
 			MessageManager.send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.toString());
 			return;
 		}
-		MessageManager.send(sender, "&blue&Owner &y&User");
 		owner = owner == null ? new ArrayList<String>() : owner;
 		user = user == null ? new ArrayList<String>() : user;
 		MessageManager.send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
 		MessageManager.send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");
 	}
-	
 }

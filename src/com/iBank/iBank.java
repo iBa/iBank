@@ -26,6 +26,7 @@ import com.iBank.Commands.CommandBalance;
 import com.iBank.Commands.CommandDelRegion;
 import com.iBank.Commands.CommandDeposit;
 import com.iBank.Commands.CommandHelp;
+import com.iBank.Commands.CommandList;
 import com.iBank.Commands.CommandOpenAccount;
 import com.iBank.Commands.CommandRegion;
 import com.iBank.Commands.CommandWithdraw;
@@ -126,7 +127,7 @@ public class iBank extends JavaPlugin {
 	      Commands.setPermission("iBank.regions");
 	      Commands.setHelp(Configuration.StringEntry.RegionDescription.getValue());
 	      Commands.setHandler(new CommandRegion());
-	      Commands.setHelpArgs("[Name]");
+	      Commands.setHelpArgs("[Name]");	
 	      
 	      Commands.addSubCommand("bank", "open");
 	      Commands.setPermission("iBank.access");
@@ -139,6 +140,12 @@ public class iBank extends JavaPlugin {
 	      Commands.setHelp(Configuration.StringEntry.BalanceDescription.getValue());
 	      Commands.setHandler(new CommandBalance());
 	      Commands.setHelpArgs("[Name]");
+	      
+	      Commands.addSubCommand("bank", "list");
+	      Commands.setPermission("iBank.list");
+	      Commands.setHelp(Configuration.StringEntry.ListDescription.getValue());
+	      Commands.setHandler(new CommandList());
+	      Commands.setHelpArgs("(Player)");
 	      
 	      Commands.addSubCommand("bank", "deposit");
 	      Commands.setPermission("iBank.access");

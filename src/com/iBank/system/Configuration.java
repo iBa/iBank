@@ -121,6 +121,7 @@ public class Configuration {
 		OpenAccountDescription("Description.openaccount", "Opens a bankaccount"),
 		DepositDescription("Description.deposit", "Deposit money to an account"),
 		WithdrawDescription("Description.withdraw", "Withdraw from an account"),
+		ListDescription("Description.list", "Shows a list of accounts"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
@@ -140,7 +141,7 @@ public class Configuration {
 		ErrorInvalidAm("Error.invalid_amount", "The given amount has to be bigger than 0.10"),
 		
 		GeneralInfo("General.Info", "Info about $type$ $name$:"), 
-		GeneralNoAccounts("General.no_accounts", "You dont have access to any accounts!");
+		GeneralNoAccounts("General.no_accounts", "No accounts found!");
 		
 		String key;
 		String value;
