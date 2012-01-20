@@ -122,6 +122,7 @@ public class Configuration {
 		DepositDescription("Description.deposit", "Deposit money to an account"),
 		WithdrawDescription("Description.withdraw", "Withdraw from an account"),
 		ListDescription("Description.list", "Shows a list of accounts"),
+		AccountDescription("Description.account", "Provides managment stuff for accounts"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
@@ -129,6 +130,7 @@ public class Configuration {
 		SuccessDeposit("Success.deposit", "Successfully, deposited $amount$ to $name$"),
 		SuccessWithdraw("Success.withdraw", "Successfully, withdrawed $amount$ to $name$"),
 		SuccessRegion("Success.region", "Successfully, modified the region $name$"),
+		SuccessAccount("Success.account", "Successfully, modfied the account $name$"),
 		
 		ErrorAlreadyExists("Error.already_exists", "$name$ does already exists!"),
 		ErrorRegionSelect("Error.region_select", "Please select a region first!"),

@@ -21,9 +21,9 @@ public class BankAccount {
 	private String name;
 	private BigDecimal balance = null;
 	private double on = Configuration.Entry.InterestOnPercentage.getDouble();
-	private boolean onDefault = true;
+	public boolean onDefault = true;
 	private double off = Configuration.Entry.InterestOffPercentage.getDouble();
-	private boolean offDefault = true;
+	public boolean offDefault = true;
 	private List<String> owners = new ArrayList<String>();
 	private List<String> users = new ArrayList<String>();
 	

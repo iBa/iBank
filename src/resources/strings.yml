@@ -11,6 +11,7 @@ Description:
    withdraw: 'Withdraw from an account'
    balance: 'Shows the accounts balance'
    list: 'Shows a list of accounts'
+   account: 'Provides managment stuff for accounts'
 Error:
    already_exists: '$name$ does already exists!'
    not_exist: '$name$ does not exist!'
@@ -25,6 +26,7 @@ Success:
    addregion: 'Successfully, created the region $name$'
    delregion: 'Successfully, deleted the region $name$'
    region: 'Successfully, modified the region $name$'
+   account: 'Successfully, modfied the account $name$'
    addaccount: 'Successfully, opened the account $name$'
    deposit: 'Successfully, deposited $amount$ to $name$'
    withdraw: 'Successfully, withdrawed $amount$ to $name$'
