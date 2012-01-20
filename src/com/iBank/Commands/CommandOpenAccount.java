@@ -8,6 +8,7 @@ import com.iBank.system.Bank;
 import com.iBank.system.Configuration;
 import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
+import com.iBank.system.Region;
 
 /**
  * /bank open <ACCOUNTNAME>
@@ -30,8 +31,9 @@ public class CommandOpenAccount extends Handler {
 				Bank.createAccount(arguments[0], ((Player)sender).getName());
 				// check for custom percentages
 				if(region != " ") {
-					Bank.getAccount(arguments[0]).setOnPercentage(Bank.getRegion(region).getOnPercentage(), true);
-					Bank.getAccount(arguments[0]).setOffPercentage(Bank.getRegion(region).getOffPercentage(), true);
+					Region reg = Bank.getRegion(region);
+					if(!reg.onDefault) Bank.getAccount(arguments[0]).setOnPercentage(reg.getOnPercentage(), true);
+					if(!reg.offDefault) Bank.getAccount(arguments[0]).setOffPercentage(reg.getOffPercentage(), true);
 				}
 				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAddAccount.toString().replace("$name$", "Account "+arguments[0]+" "));
 			}else{
