@@ -42,10 +42,13 @@ public class CommandDeposit extends Handler {
 					return;
 				}
 				// check if current player has that amount
-				if(iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) {
-					iBank.economy.withdrawPlayer(((Player)sender).getName(), todp.doubleValue());
+				//double needed = 0.00;
+				BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeDeposit.toString(), todp);
+				if(iBank.economy.has(((Player)sender).getName(), todp.doubleValue() + fee.doubleValue())) {
+					iBank.economy.withdrawPlayer(((Player)sender).getName(), todp.doubleValue() + fee.doubleValue());
 					account.addBalance(todp);
 					MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessDeposit.toString().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
+					if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.toString().replace("$amount$", iBank.format(fee)));
 				}else{
 					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
 					return;

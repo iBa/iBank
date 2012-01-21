@@ -32,9 +32,10 @@ public class Configuration {
 		
 		SelectionTool("System.SelectionTool", 280),
 	
-		FeeCreate("FeeCreate", "0.00%;1.00%;2.00%"),
+		FeeCreate("Fee.Create", "0.00%;1.00%;2.00%"),
 		FeeDeposit("Fee.Deposit", "0.00%"),
-		FeeWithdraw("Fee.Withdraw", "0.00%");
+		FeeWithdraw("Fee.Withdraw", "0.00%"),
+		FeeTransfer("Fee.Transfer", "0.00%");
 		
 		String key;
 		Object value;
@@ -129,6 +130,7 @@ public class Configuration {
 		AccountDescription("Description.account", "Provides managment stuff for accounts"),
 		GiveDescription("Description.give", "Gives an amount to an account"),
 		TakeDescription("Description.take", "Takes money from an account"),
+		TransferDescription("Description.transfer", "Transfers money"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
@@ -139,6 +141,7 @@ public class Configuration {
 		SuccessWithdraw("Success.withdraw", "Successfully, withdrawed $amount$ to $name$"),
 		SuccessRegion("Success.region", "Successfully, modified the region $name$"),
 		SuccessAccount("Success.account", "Successfully, modfied the account $name$"),
+		SuccessTransfer("Success.transfer", "Successfully, transfered $amount$ from $name$ to $name2$"),
 		
 		ErrorAlreadyExists("Error.already_exists", "$name$ does already exists!"),
 		ErrorRegionSelect("Error.region_select", "Please select a region first!"),
@@ -151,7 +154,8 @@ public class Configuration {
 		ErrorInvalidAm("Error.invalid_amount", "The given amount has to be bigger than 0.10"),
 		
 		GeneralInfo("General.Info", "Info about $type$ $name$:"), 
-		GeneralNoAccounts("General.no_accounts", "No accounts found!");
+		GeneralNoAccounts("General.no_accounts", "No accounts found!"),
+		PaidFee("General.paid_fee", "You paid $amount$ in fee!");
 		
 		String key;
 		String value;

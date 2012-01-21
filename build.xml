@@ -35,7 +35,7 @@
 
  <target name="javadoc" depends="compile">
     <mkdir dir="${dist}/docs"/>
-    <javadoc sourcepath="${srcfiles}"
+    <javadoc sourcepath="${src}"
                 destdir="${dist}/docs"
                 packagenames="*"
                 classpath="${dep_vault};${dep_bukkit}"

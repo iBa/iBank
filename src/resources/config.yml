@@ -24,11 +24,13 @@ System:
       # create: '0.00%;1.00%+40;2.00%+100
       # In this case the first is free, The second is 1% but at least 40, 
       # The third is 2% but at least 100
-      create: '0.00%;1.00%;2.00%'
+      Create: '0.00%;1.00%;2.00%'
       # The amount which will be substracted while depositing ; % or Amount
-      deposit: '0.00%'
+      Deposit: '0.00%'
       # The amount which will be substracted while withdrawing ; % or Amount
-      withdraw: '40.24'
+      Withdraw: '40.24'
+      # The amount which will be substracted while transferring ; % or Amount
+      Transfer: '0.00%'
    Interest:
       # Whether to enable interest?
       Enabled: false 

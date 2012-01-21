@@ -12,8 +12,9 @@ Description:
    balance: 'Shows the accounts balance'
    list: 'Shows a list of accounts'
    account: 'Provides managment stuff for accounts'
-   give: 'Gives an amount to an account'
-   take: 'Takes money from an account'
+   give: 'Give an amount to an account'
+   take: 'Take money from an account'
+   transfer: 'Transfer money'
 Error:
    already_exists: '$name$ does already exists!'
    not_exist: '$name$ does not exist!'

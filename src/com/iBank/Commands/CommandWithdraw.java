@@ -42,10 +42,13 @@ public class CommandWithdraw extends Handler {
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.toString());
 						return;
 					}
-					if(account.has(todp)) {
-						account.subtractBalance(todp);
+					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.toString(), todp);
+					
+					if(account.has(todp.add(fee))) {
+						account.subtractBalance(todp.add(fee));
 						iBank.economy.depositPlayer(((Player)sender).getName(), todp.doubleValue());
 						MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessWithdraw.toString().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
+						if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.toString().replace("$amount$", iBank.format(fee)));
 					}else{
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
 					}

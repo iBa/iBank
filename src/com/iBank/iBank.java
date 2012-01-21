@@ -31,6 +31,7 @@ import com.iBank.Commands.CommandList;
 import com.iBank.Commands.CommandManager;
 import com.iBank.Commands.CommandOpenAccount;
 import com.iBank.Commands.CommandRegion;
+import com.iBank.Commands.CommandTransfer;
 import com.iBank.Commands.CommandWithdraw;
 import com.iBank.Database.DataSource;
 import com.iBank.Database.DataSource.Drivers;
@@ -163,6 +164,12 @@ public class iBank extends JavaPlugin {
 	      Commands.setHelp(Configuration.StringEntry.WithdrawDescription.getValue());
 	      Commands.setHandler(new CommandWithdraw());
 	      Commands.setHelpArgs("[Name] [Amount]");
+	      
+	      Commands.addSubCommand("bank", "transfer");
+	      Commands.setPermission("iBank.access");
+	      Commands.setHelp(Configuration.StringEntry.TransferDescription.getValue());
+	      Commands.setHandler(new CommandTransfer());
+	      Commands.setHelpArgs("[Src] [Dest] [Amount]");
 	      
 	      Commands.addSubCommand("bank", "account");
 	      Commands.setPermission("iBank.manage");
@@ -336,4 +343,42 @@ public class iBank extends JavaPlugin {
     public static String format(BigDecimal todp) {
          return economy.format(todp.doubleValue());
     }
+    /**
+     * Calculates the fee by a given fee and a config-string
+     * @param fee The to apply fee
+     * @param due The value, which shall be applied to 
+     * @return BigDecimal The fee value
+     */
+	public static BigDecimal parseFee(String fee, BigDecimal due) {
+		BigDecimal val = new BigDecimal("0.00");
+		//check if percentage or static amount
+		if(fee.contains("+")) {
+			String[] plus = fee.split("+");
+			val = val.add(parseFeeString(plus[0], due));
+			val = val.add(parseFeeString(plus[1], due));
+		}else
+		if(fee.contains("-")) {
+			String[] minus = fee.split("-");
+			val = val.subtract(parseFeeString(minus[0], due));
+			val = val.subtract(parseFeeString(minus[1], due));
+		}else{
+			val = parseFeeString(fee, due);
+		}
+		return val;
+	}
+	/**
+	 * Parses a single part of a feestring
+	 * @param part The part
+	 * @param due The due
+	 * @return
+	 */
+	public static BigDecimal parseFeeString(String part, BigDecimal due) {
+		BigDecimal tmp = new BigDecimal("0.00");
+		if(part.endsWith("%")) {
+			tmp.add(due.multiply(new BigDecimal(Double.parseDouble(part.replace("%","")) / 100)));
+		}else{
+			tmp.add(new BigDecimal(Double.parseDouble(part)));
+		}
+		return tmp;
+	}
 }

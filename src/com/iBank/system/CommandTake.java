@@ -35,7 +35,7 @@ public class CommandTake extends Handler {
 				}else{
 					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
 				}
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessGive.toString().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessTake.toString().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
 			}else{
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
 			}
