@@ -14,9 +14,9 @@ import com.iBank.system.MessageManager;
 import com.iBank.utils.StringUtils;
 
 /**
- *  /bank - Shows the balance
+ *  /bank - Shows the accounts of the executor
  * @author steffengy
- *
+ * Can't be run from console
  */
 public class BankRootCommand extends Handler{
 

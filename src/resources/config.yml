@@ -14,6 +14,21 @@ System:
    # Left-click second position
    # 280 , itemid, => Stick
    SelectionTool: 280
+   Fee:
+      # The Fee for creating an account
+      # In this case the first account is free
+      # The second is 1% of it's money
+      # The third and everyone after is 2% of it's money
+      # create: '40.00;70.00;1000.00' 
+      # In this case the first is 40 , second is 70 and third and everyone after 70
+      # create: '0.00%;1.00%+40;2.00%+100
+      # In this case the first is free, The second is 1% but at least 40, 
+      # The third is 2% but at least 100
+      create: '0.00%;1.00%;2.00%'
+      # The amount which will be substracted while depositing ; % or Amount
+      deposit: '0.00%'
+      # The amount which will be substracted while withdrawing ; % or Amount
+      withdraw: '40.24'
    Interest:
       # Whether to enable interest?
       Enabled: false 

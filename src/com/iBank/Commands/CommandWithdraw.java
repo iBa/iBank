@@ -15,7 +15,7 @@ import com.iBank.system.MessageManager;
 /**
  *  /bank withdraw <NAME> <AMOUNT>
  * @author steffengy
- *
+ * Can't be run from console
  */
 public class CommandWithdraw extends Handler {
 	public void handle(CommandSender sender, String[] arguments) { 	

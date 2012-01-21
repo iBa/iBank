@@ -2,7 +2,6 @@ package com.iBank.Database;
 
 import java.io.File;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import com.iBank.iBank;
 import com.iBank.system.Configuration;
@@ -68,7 +67,7 @@ public class DataSource {
 				type = driver;
 				mysqldb = new Mysql(url, Configuration.Entry.DatabaseUser.toString(), Configuration.Entry.DatabasePW.toString(), Configuration.Entry.DatabaseName.toString());
 				if(!mysqldb.success()) return false;
-				if(!mysqldb.existsTable("accounts") || !db.existsTable("regions")) {
+				if(!mysqldb.existsTable(Configuration.Entry.DatabaseAccountsTable.toString()) || !db.existsTable(Configuration.Entry.DatabaseRegionTable.toString())) {
 					System.out.println("[iBank] Creating Mysql tables...");
 					String sql = StreamUtils.inputStreamToString(main.getResource("sql/mysql.sql"));
 					for(String line : sql.split(";")) {

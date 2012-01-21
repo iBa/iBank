@@ -17,7 +17,7 @@ public class CommandAddRegion extends Handler {
 	/**
 	 * Adds an region
 	 *  /bank addregion REGIONNAME
-	 *  
+	 *  Can't be run from console
 	 */
 	@Override
 	public void handle(CommandSender sender, String[] arguments) {

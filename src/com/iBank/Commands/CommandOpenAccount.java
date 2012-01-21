@@ -11,9 +11,10 @@ import com.iBank.system.MessageManager;
 import com.iBank.system.Region;
 
 /**
- * /bank open <ACCOUNTNAME>
+ * [1] /bank open <ACCOUNTNAME>
  * @author steffengy
- *
+ * [1] Can't be run from console
+ * @todo Add parameter for other owners
  */
 public class CommandOpenAccount extends Handler {
 	public void handle(CommandSender sender, String[] arguments) { 

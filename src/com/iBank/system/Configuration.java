@@ -30,8 +30,12 @@ public class Configuration {
 		DatabaseRegionTable("System.Database.Tables.Region", "regions"),
 		DatabaseAccountsTable("System.Database.Tables.Accounts", "accounts"),
 		
-		SelectionTool("System.SelectionTool", 280);
+		SelectionTool("System.SelectionTool", 280),
 	
+		FeeCreate("FeeCreate", "0.00%;1.00%;2.00%"),
+		FeeDeposit("Fee.Deposit", "0.00%"),
+		FeeWithdraw("Fee.Withdraw", "0.00%");
+		
 		String key;
 		Object value;
 	
@@ -123,11 +127,15 @@ public class Configuration {
 		WithdrawDescription("Description.withdraw", "Withdraw from an account"),
 		ListDescription("Description.list", "Shows a list of accounts"),
 		AccountDescription("Description.account", "Provides managment stuff for accounts"),
+		GiveDescription("Description.give", "Gives an amount to an account"),
+		TakeDescription("Description.take", "Takes money from an account"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
 		SuccessAddAccount("Success.addaccount", "Successfully, opened the account $name$"),
 		SuccessDeposit("Success.deposit", "Successfully, deposited $amount$ to $name$"),
+		SuccessGive("Success.give", "Successfully, gave $amount$ to $name$"),
+		SuccessTake("Success.take", "Successfully, took $amount$ from $name$"),
 		SuccessWithdraw("Success.withdraw", "Successfully, withdrawed $amount$ to $name$"),
 		SuccessRegion("Success.region", "Successfully, modified the region $name$"),
 		SuccessAccount("Success.account", "Successfully, modfied the account $name$"),

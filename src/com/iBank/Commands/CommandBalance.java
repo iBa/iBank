@@ -13,7 +13,7 @@ import com.iBank.system.MessageManager;
 /**
  *  /bank balance [NAME]
  * @author steffengy
- *
+ * 
  */
 public class CommandBalance extends Handler {
 	public void handle(CommandSender sender, String[] arguments) {

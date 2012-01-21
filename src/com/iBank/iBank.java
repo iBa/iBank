@@ -25,6 +25,7 @@ import com.iBank.Commands.CommandAddRegion;
 import com.iBank.Commands.CommandBalance;
 import com.iBank.Commands.CommandDelRegion;
 import com.iBank.Commands.CommandDeposit;
+import com.iBank.Commands.CommandGive;
 import com.iBank.Commands.CommandHelp;
 import com.iBank.Commands.CommandList;
 import com.iBank.Commands.CommandManager;
@@ -36,6 +37,7 @@ import com.iBank.Database.DataSource.Drivers;
 import com.iBank.Listeners.playerListener;
 import com.iBank.system.Bank;
 import com.iBank.system.CommandHandler;
+import com.iBank.system.CommandTake;
 import com.iBank.system.Commands;
 import com.iBank.system.Configuration;
 import com.iBank.system.Region;
@@ -72,9 +74,11 @@ public class iBank extends JavaPlugin {
     public static Economy economy = null;
     public static String CodeName = "Gilbert";
     public static DataSource data = new DataSource();
+    public static File directory = null;
     
 	@Override
 	public void onEnable() {
+		directory = getDataFolder();
 		if(!(getDataFolder().exists())) getDataFolder().mkdir();
 		// Load configuration + strings
 		reloadConfig();
@@ -165,6 +169,18 @@ public class iBank extends JavaPlugin {
 	      Commands.setHelp(Configuration.StringEntry.AccountDescription.getValue());
 	      Commands.setHandler(new CommandManager());
 	      Commands.setHelpArgs("[Name]");
+	      
+	      Commands.addSubCommand("bank", "give");
+	      Commands.setPermission("iBank.manage");
+	      Commands.setHelp(Configuration.StringEntry.GiveDescription.getValue());
+	      Commands.setHandler(new CommandGive());
+	      Commands.setHelpArgs("[Player] [Amount]");
+	      
+	      Commands.addSubCommand("bank", "take");
+	      Commands.setPermission("iBank.manage");
+	      Commands.setHelp(Configuration.StringEntry.TakeDescription.getValue());
+	      Commands.setHandler(new CommandTake());
+	      Commands.setHelpArgs("[Player] [Amount]");
 	      
 		description = this.getDescription();  
 		  

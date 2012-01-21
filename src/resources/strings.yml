@@ -12,6 +12,8 @@ Description:
    balance: 'Shows the accounts balance'
    list: 'Shows a list of accounts'
    account: 'Provides managment stuff for accounts'
+   give: 'Gives an amount to an account'
+   take: 'Takes money from an account'
 Error:
    already_exists: '$name$ does already exists!'
    not_exist: '$name$ does not exist!'
@@ -30,6 +32,8 @@ Success:
    addaccount: 'Successfully, opened the account $name$'
    deposit: 'Successfully, deposited $amount$ to $name$'
    withdraw: 'Successfully, withdrawed $amount$ to $name$'
+   give: 'Successfully, gave $amount$ to $name$'
+   take: 'Successfully, took $amount$ from $name$'
 General:
    Info: 'Info about $type$ $name$:'
    no_accounts: 'No accounts found!'

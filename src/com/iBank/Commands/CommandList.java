@@ -23,7 +23,7 @@ import com.iBank.utils.StringUtils;
 public class CommandList extends Handler {
 	
 	public void handle(CommandSender sender, String[] arguments) {
-		if(!(sender instanceof Player) || iBank.GetRegionAt(((Player)sender).getLocation()) == "") {
+		if((sender instanceof Player) && iBank.GetRegionAt(((Player)sender).getLocation()) == "") {
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 			return;
 		}
