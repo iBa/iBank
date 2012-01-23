@@ -183,4 +183,11 @@ public class Bank {
 	public static void createAccount(String name, String name2) {
 		DataSource.insertEntry(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"name","balance","owners","users","onper","offper"}, new Object[] {name, Configuration.Entry.StandardBalance.getInteger(), name2, "", "", ""});
 	}
+	/**
+	 * Removes an account
+	 * @param name The name of the account
+	 */
+	public static void removeAccount(String name) {
+		DataSource.deleteEntry(Configuration.Entry.DatabaseAccountsTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL)); 
+	}
 }

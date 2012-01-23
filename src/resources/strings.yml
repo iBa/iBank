@@ -15,6 +15,7 @@ Description:
    give: 'Give an amount to an account'
    take: 'Take money from an account'
    transfer: 'Transfer money'
+   delete: 'Delete an account'
 Error:
    already_exists: '$name$ does already exists!'
    not_exist: '$name$ does not exist!'
@@ -31,6 +32,7 @@ Success:
    region: 'Successfully, modified the region $name$'
    account: 'Successfully, modfied the account $name$'
    addaccount: 'Successfully, opened the account $name$'
+   delaccount: 'Successfully, deleted the account $name$'
    deposit: 'Successfully, deposited $amount$ to $name$'
    withdraw: 'Successfully, withdrawed $amount$ to $name$'
    give: 'Successfully, gave $amount$ to $name$'

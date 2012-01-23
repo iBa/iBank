@@ -24,6 +24,7 @@ import com.iBank.Commands.BankRootCommand;
 import com.iBank.Commands.CommandAddRegion;
 import com.iBank.Commands.CommandBalance;
 import com.iBank.Commands.CommandDelRegion;
+import com.iBank.Commands.CommandDelete;
 import com.iBank.Commands.CommandDeposit;
 import com.iBank.Commands.CommandGive;
 import com.iBank.Commands.CommandHelp;
@@ -188,6 +189,12 @@ public class iBank extends JavaPlugin {
 	      Commands.setHelp(Configuration.StringEntry.TakeDescription.getValue());
 	      Commands.setHandler(new CommandTake());
 	      Commands.setHelpArgs("[Player] [Amount]");
+	      
+	      Commands.addSubCommand("bank", "delete");
+	      Commands.setPermission("iBank.manage");
+	      Commands.setHelp(Configuration.StringEntry.DeleteDescription.getValue());
+	      Commands.setHandler(new CommandDelete());
+	      Commands.setHelpArgs("[Name]");
 	      
 		description = this.getDescription();  
 		  

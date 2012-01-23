@@ -131,10 +131,12 @@ public class Configuration {
 		GiveDescription("Description.give", "Gives an amount to an account"),
 		TakeDescription("Description.take", "Takes money from an account"),
 		TransferDescription("Description.transfer", "Transfers money"),
+		DeleteDescription("Description.delete", "Deletes an account"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
 		SuccessAddAccount("Success.addaccount", "Successfully, opened the account $name$"),
+		SuccessDelAccount("Success.delaccount", "Successfully, deleted the account $name$"),
 		SuccessDeposit("Success.deposit", "Successfully, deposited $amount$ to $name$"),
 		SuccessGive("Success.give", "Successfully, gave $amount$ to $name$"),
 		SuccessTake("Success.take", "Successfully, took $amount$ from $name$"),
