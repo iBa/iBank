@@ -382,9 +382,9 @@ public class iBank extends JavaPlugin {
 	public static BigDecimal parseFeeString(String part, BigDecimal due) {
 		BigDecimal tmp = new BigDecimal("0.00");
 		if(part.endsWith("%")) {
-			tmp.add(due.multiply(new BigDecimal(Double.parseDouble(part.replace("%","")) / 100)));
+			tmp = tmp.add(due.multiply(new BigDecimal(Double.parseDouble(part.replace("%","")) / 100)));
 		}else{
-			tmp.add(new BigDecimal(Double.parseDouble(part)));
+			tmp = tmp.add(new BigDecimal(Double.parseDouble(part)));
 		}
 		return tmp;
 	}

@@ -24,7 +24,7 @@ public class CommandTransfer extends Handler {
 		if(arguments.length == 3) {
 			BigDecimal money = null;
 			try{
-				money = new BigDecimal(arguments[1]);
+				money = new BigDecimal(arguments[2]);
 			}catch(Exception e) {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [AMOUNT]");
 				return;
@@ -43,7 +43,7 @@ public class CommandTransfer extends Handler {
 			}
 			BankAccount src = Bank.getAccount(arguments[0]);
 			BankAccount dest = Bank.getAccount(arguments[1]);
-			if(!console && (!src.isUser(((Player)sender).getName()) || !src.isOwner(((Player)sender).getName()))) {
+			if(!console && !src.isUser(((Player)sender).getName()) && !src.isOwner(((Player)sender).getName())) {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
 			}

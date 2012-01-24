@@ -1,6 +1,5 @@
 # iBank Sample Configuration for SQLite
 System:
-   Default:
    # If iBank is enabled
    Enabled: true 
    # Regions enabled?

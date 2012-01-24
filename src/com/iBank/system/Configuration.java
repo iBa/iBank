@@ -32,10 +32,10 @@ public class Configuration {
 		
 		SelectionTool("System.SelectionTool", 280),
 	
-		FeeCreate("Fee.Create", "0.00%;1.00%;2.00%"),
-		FeeDeposit("Fee.Deposit", "0.00%"),
-		FeeWithdraw("Fee.Withdraw", "0.00%"),
-		FeeTransfer("Fee.Transfer", "0.00%");
+		FeeCreate("System.Fee.Create", "0.00%;1.00%;2.00%"),
+		FeeDeposit("System.Fee.Deposit", "0.00%"),
+		FeeWithdraw("System.Fee.Withdraw", "0.00%"),
+		FeeTransfer("System.Fee.Transfer", "0.00%");
 		
 		String key;
 		Object value;
