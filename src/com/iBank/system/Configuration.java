@@ -30,9 +30,20 @@ public class Configuration {
 		DatabasePW("System.Database.Password", "pw"), 
 		DatabaseRegionTable("System.Database.Tables.Region", "regions"),
 		DatabaseAccountsTable("System.Database.Tables.Accounts", "accounts"),
+		DatabaseLoanTable("System.Database.Tables.Loan", "loan"),
 		
 		SelectionTool("System.SelectionTool", 280),
 	
+		Loan("System.Loan.Enabled", false),
+		LoanMax("System.Loan.Max", 1),
+		LoanAmount("System.Loan.Amount", 10000),
+		LoanTime("System.Loan.Time", 60),
+		LoanForceInterest("System.Loan.forceInterest", true),
+		LoanForceMoney("System.Loan.forceMoney", false),
+		LoanInterestTime("System.Loan.DefaultInterestTime", 20),
+		LoanInterest("System.Loan.DefaultInterest", 1),
+		LoanForceBank("System.Loan.forceBank", false),
+		
 		FeeCreate("System.Fee.Create", "0.00%;1.00%;2.00%"),
 		FeeDeposit("System.Fee.Deposit", "0.00%"),
 		FeeWithdraw("System.Fee.Withdraw", "0.00%"),

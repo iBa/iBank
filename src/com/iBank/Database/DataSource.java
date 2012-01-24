@@ -51,11 +51,11 @@ public class DataSource {
 				type = driver;
 				db = new SQLite(new File(main.getDataFolder(), url));
 				if(!db.success())  return false;
-				if(!db.existsTable("accounts") || !db.existsTable("regions")) {
+				if(!db.existsTable(Configuration.Entry.DatabaseLoanTable.toString()) || !db.existsTable(Configuration.Entry.DatabaseAccountsTable.toString()) || !db.existsTable(Configuration.Entry.DatabaseRegionTable.toString())) {
 					System.out.println("[iBank] Creating SQLite tables...");
 					String sql = StreamUtils.inputStreamToString(main.getResource("sql/sqlite.sql"));
 					for(String line : sql.split(";")) {
-						if(line.length()>1) db.execute(line.replace("{$accounts$}", Configuration.Entry.DatabaseAccountsTable.toString()).replace("{$regions$}", Configuration.Entry.DatabaseRegionTable.toString()));
+						if(line.length()>1) db.execute(line.replace("{$loan$}", Configuration.Entry.DatabaseLoanTable.toString()).replace("{$accounts$}", Configuration.Entry.DatabaseAccountsTable.toString()).replace("{$regions$}", Configuration.Entry.DatabaseRegionTable.toString()));
 					}
 				}
 				return true;
@@ -67,11 +67,11 @@ public class DataSource {
 				type = driver;
 				mysqldb = new Mysql(url, Configuration.Entry.DatabaseUser.toString(), Configuration.Entry.DatabasePW.toString(), Configuration.Entry.DatabaseName.toString());
 				if(!mysqldb.success()) return false;
-				if(!mysqldb.existsTable(Configuration.Entry.DatabaseAccountsTable.toString()) || !db.existsTable(Configuration.Entry.DatabaseRegionTable.toString())) {
+				if(!mysqldb.existsTable(Configuration.Entry.DatabaseLoanTable.toString()) || !mysqldb.existsTable(Configuration.Entry.DatabaseAccountsTable.toString()) || !mysqldb.existsTable(Configuration.Entry.DatabaseRegionTable.toString())) {
 					System.out.println("[iBank] Creating Mysql tables...");
 					String sql = StreamUtils.inputStreamToString(main.getResource("sql/mysql.sql"));
 					for(String line : sql.split(";")) {
-						if(line.length()>1) mysqldb.execute(line.replace("{$accounts$}", Configuration.Entry.DatabaseAccountsTable.toString()).replace("{$regions$}", Configuration.Entry.DatabaseRegionTable.toString()));
+						if(line.length()>1) mysqldb.execute(line.replace("{$loan$}", Configuration.Entry.DatabaseLoanTable.toString()).replace("{$accounts$}", Configuration.Entry.DatabaseAccountsTable.toString()).replace("{$regions$}", Configuration.Entry.DatabaseRegionTable.toString()));
 					}
 				}
 				return true;

@@ -31,6 +31,25 @@ System:
       Withdraw: '40.24'
       # The amount which will be substracted while transferring ; % or Amount
       Transfer: '0.00%'
+   Loan:
+      # Whether to enable Loan
+      Enabled: false
+      # Max Loans per Time
+      Max: 1
+      # Time in Minutes, User has to pay-back
+      Time: 60
+      # Max Amount per Loan
+      Amount: 10000
+      # The default percentage he has to pay additionally
+      DefaultInterest: 1
+      # The interval where his interest will be added (in minutes)
+      DefaultInterestTime: 20
+      # If time is over, get Interest to pay for the Loan
+      forceInterest: true
+      # If time is over, try to get money from user
+      forceMoney: false
+      # If time is over, try to get money from accounts where he's owner
+      forceBank: false
    Interest:
       # Whether to enable interest?
       Enabled: false 

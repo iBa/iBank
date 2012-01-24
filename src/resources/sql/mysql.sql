@@ -13,3 +13,13 @@ CREATE TABLE `{$accounts$}` (
 `onper` TEXT NOT NULL ,
 `offper` TEXT NOT NULL
 );
+CREATE TABLE `{$loan$}` (
+`id` INT NOT NULL AUTO_INCREMENT ,
+`user` TEXT NOT NULL,
+`amount` BIGINT NOT NULL,
+`percentage` INT,
+`interval` DOUBLE,
+`until` INT,
+PRIMARY KEY ( `id` ) 
+);
+
