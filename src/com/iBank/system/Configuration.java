@@ -13,6 +13,7 @@ public class Configuration {
 	public static enum Entry
 	{
 		Enabled("System.Enabled", true),
+		Debug("System.Debug", false),
 		BoundToRegion("System.BoundToRegion", true),
 		StandardBalance("System.StandardBalance", 30),
 		
