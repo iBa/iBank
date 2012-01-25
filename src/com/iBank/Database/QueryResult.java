@@ -101,5 +101,15 @@ public class QueryResult {
 			}
 		}
 	}
+	public int getInteger(String key) {
+		try{
+			return keyvalues.size()>readpointer ? Integer.parseInt(String.valueOf(keyvalues.get(readpointer).get(key))) : null;
+		}catch(Exception e) { System.out.println("[iBank] Error while parsing Integer!"+e); return 0; }
+	}
+	public long getLong(String key) {
+		try{
+			return keyvalues.size()>readpointer ? Long.parseLong(String.valueOf(keyvalues.get(readpointer).get(key))) : null;
+		}catch(Exception e) { System.out.println("[iBank] Error while parsing Long!"+e); return 0; }
+	}
 
 }

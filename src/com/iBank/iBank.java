@@ -242,6 +242,17 @@ public class iBank extends JavaPlugin {
 				}
 			}).start();
 		}
+		//start loan syncer
+		if(Configuration.Entry.Loan.getBoolean()) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					long time = 60L * 1000L;
+					Timer Loan = new Timer();
+					Loan.scheduleAtFixedRate(new BankLoan(), time, time);
+				}
+			}).start();
+		}
 		
 		System.out.println("[iBank] Version "+description.getVersion()+" "+CodeName+" loaded successfully!");
 	}

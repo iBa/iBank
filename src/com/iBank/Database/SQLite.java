@@ -34,6 +34,21 @@ public class SQLite {
 		}
 		return null;
 	}
+	/**
+	 * Returns the id
+	 * @param query The command
+	 * @return
+	 */
+	public int insert(String query) {
+		try{
+			Statement statement = connection.createStatement();
+			statement.execute(query);
+			return statement.getGeneratedKeys().getInt(1);
+			}catch(Exception e) {
+				System.out.println("[iBank] Error in insert "+query+" "+e);
+				return -1;
+			}
+	}
 	public boolean existsTable(String name) {
 		try{
 		ResultSet tables = connection.getMetaData().getTables(null, null, name, null);

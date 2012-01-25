@@ -136,16 +136,31 @@ public class DataSource {
 	 * @param fields The fields
 	 * @param values The values
 	 */
-	public static void insertEntry(String table, String[] fields,  Object[] values) {
+	public static int insertEntry(String table, String[] fields, Object[] values) {
+		return insertEntry(table,fields,values, false);
+	}
+	public static int insertEntry(String table, String[] fields,  Object[] values, boolean returnId) {
 		if(type == Drivers.MYSQL || type == Drivers.SQLite) {
 			String query = SQLBuilder.insert(fields,table, values);
 			if(type == Drivers.MYSQL) {
-				mysqldb.execute(query);
+				if(returnId) {
+					return mysqldb.insert(query);
+				}else{
+					mysqldb.execute(query);
+					return 1;
+				}
 			}else if(type==Drivers.SQLite){
-				db.execute(query);
+				int ret = 0;
+				if(returnId) {
+					ret = db.insert(query);
+				}else{
+					db.execute(query);
+				}
 				db.commit();
+				return ret;
 			}
 		}
+		return -1;
 	}
 
 	/**

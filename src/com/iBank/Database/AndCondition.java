@@ -13,7 +13,7 @@ public class AndCondition extends Condition {
 	 * @param value The value
 	 * @param action What needs to match.
 	 */
-	public AndCondition(String field, String value, Operators action) {
+	public AndCondition(String field, Object value, Operators action) {
 		this.field = field;
 		this.value = value;
 		this.action = action;

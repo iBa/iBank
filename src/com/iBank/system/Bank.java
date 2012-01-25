@@ -10,9 +10,11 @@ import com.iBank.Database.AndCondition;
 import com.iBank.Database.Condition;
 import com.iBank.Database.DataSource;
 import com.iBank.Database.QueryResult;
+import com.iBank.Database.Condition.Operators;
 
 /**
- * The backend for (nearly) all code
+ * The backend for all background code
+ * f.e. getting accounts => API
  * @author steffengy
  *
  */
@@ -190,4 +192,37 @@ public class Bank {
 	public static void removeAccount(String name) {
 		DataSource.deleteEntry(Configuration.Entry.DatabaseAccountsTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL)); 
 	}
+	
+	/**
+	 * Returns a list with all loans
+	 * @return List<Loan>
+	 */
+	public static List<Loan> getLoans() {
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until"},  Configuration.Entry.DatabaseLoanTable.toString());
+		List<Loan> ret = new ArrayList<Loan>();
+		if(!data.found) return ret;
+		boolean c = true;
+		while(c == true) {
+			ret.add(new Loan(data.getString("user"), data.getDouble("interest"), data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id"))); 
+			c = data.nextEntry();
+		}
+		return ret;
+	}
+	/**
+	 * Gets a list with all loans of the user
+	 * @param user The user
+	 * @return
+	 */
+	public static List<Loan> getLoansByAccount(String user) {
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until"},  Configuration.Entry.DatabaseLoanTable.toString(), new AndCondition("user", user, Operators.IDENTICAL));
+		List<Loan> ret = new ArrayList<Loan>();
+		if(!data.found) return ret;
+		boolean c = true;
+		while(c == true) {
+			ret.add(new Loan(data.getString("user"), data.getDouble("interest"), data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id"))); 
+			c = data.nextEntry();
+		}
+		return ret;
+	}
+	
 }
