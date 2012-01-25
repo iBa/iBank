@@ -37,7 +37,7 @@ public class BankRootCommand extends Handler{
 		// Show list of accounts
 		List<String> owner = Bank.getAccountsByOwner(((Player)sender).getName());
 		List<String> user = Bank.getAccountsByUser(((Player)sender).getName());
-		if(owner == null && user == null) {
+		if(owner.size() == 0 && user.size() == 0) {
 			MessageManager.send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.toString());
 			return;
 		}
