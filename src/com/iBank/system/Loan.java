@@ -33,7 +33,7 @@ public class Loan {
 	 */
 	public Loan(String username, double interest, int interval,long time, BigDecimal amount, boolean create) {
 		this(username, interest, interval, time, amount, 0, -1);
-		String timestamp = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime());
+		String timestamp = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() + time);
 		this.id = DataSource.insertEntry(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "user", "amount", "percentage", "until", "interval" } , new Object[] { username, amount, interest, timestamp, interval }, true); 
 	}
 	

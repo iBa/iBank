@@ -28,6 +28,7 @@ import com.iBank.Commands.CommandDeposit;
 import com.iBank.Commands.CommandGive;
 import com.iBank.Commands.CommandHelp;
 import com.iBank.Commands.CommandList;
+import com.iBank.Commands.CommandLoan;
 import com.iBank.Commands.CommandManager;
 import com.iBank.Commands.CommandOpenAccount;
 import com.iBank.Commands.CommandRegion;
@@ -194,6 +195,16 @@ public class iBank extends JavaPlugin {
 	      Commands.setHelp(Configuration.StringEntry.DeleteDescription.getValue());
 	      Commands.setHandler(new CommandDelete());
 	      Commands.setHelpArgs("[Name]");
+	      
+	      if(Configuration.Entry.Loan.getBoolean()) {
+	      
+	    	  Commands.addSubCommand("bank", "loan");
+	    	  Commands.setPermission("iBank.loan");
+	    	  Commands.setHelp(Configuration.StringEntry.LoanDescription.getValue());
+	    	  Commands.setHandler(new CommandLoan());
+	    	  Commands.setHelpArgs("[Amount]");
+	      
+	      }
 	      
 		description = this.getDescription();  
 		  

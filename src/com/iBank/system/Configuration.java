@@ -1,5 +1,6 @@
 package com.iBank.system;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -89,13 +90,19 @@ public class Configuration {
             return (Integer) value;
         }
         /**
-         * @return The value of the Entry as Double (or Integer)
+         * @return The value of the Entry as Double
          */
         public Double getDouble() {
             if(value instanceof Integer)
                 return (double) ((Integer) value).intValue();
 
             return (Double) value;
+        }
+        /**
+         * @return The value of the Entry as BigDecimal
+         */
+        public BigDecimal getBigDecimal() {
+            return new BigDecimal(String.valueOf(value));
         }
         /**
          * @return The value of the Entry as Long (or Integer)
@@ -144,6 +151,7 @@ public class Configuration {
 		TakeDescription("Description.take", "Takes money from an account"),
 		TransferDescription("Description.transfer", "Transfers money"),
 		DeleteDescription("Description.delete", "Deletes an account"),
+		LoanDescription("Description.loan", "Loan money from the bank"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
@@ -156,6 +164,7 @@ public class Configuration {
 		SuccessRegion("Success.region", "Successfully, modified the region $name$"),
 		SuccessAccount("Success.account", "Successfully, modfied the account $name$"),
 		SuccessTransfer("Success.transfer", "Successfully, transfered $amount$ from $name$ to $name2$"),
+		SuccessLoan("Success.loan", "Successfully, loaned $amount$ from $name$"),
 		
 		ErrorAlreadyExists("Error.already_exists", "$name$ does already exists!"),
 		ErrorRegionSelect("Error.region_select", "Please select a region first!"),
@@ -166,6 +175,8 @@ public class Configuration {
 		ErrorNotEnough("Error.not_enough", "You dont have enough money!"),
 		ErrorNoAccess("Error.no_access", "You dont have access to this account!"),
 		ErrorInvalidAm("Error.invalid_amount", "The given amount has to be bigger than 0.10"),
+		ErrorMaxLoan("Error.max_loan", "You can only have $max$ loans!"),
+		ErrorLoanLimit("Error.loan_limit", "You can't loan more than $max$"),
 		
 		GeneralInfo("General.Info", "Info about $type$ $name$:"), 
 		GeneralNoAccounts("General.no_accounts", "No accounts found!"),
