@@ -38,7 +38,7 @@ public class CommandOpenAccount extends Handler {
 					extra = iBank.parseFee(fee, new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
 				}else{
 					String[] costs = fee.split(";");
-					int account = Bank.getAccountsByOwner(((Player)sender).getName()).size() + 1;
+					int account = Bank.getAccountsByOwner(((Player)sender).getName()).size();
 				
 					if(costs.length > account) {
 						extra = iBank.parseFee(costs[account], new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));

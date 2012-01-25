@@ -41,8 +41,8 @@ public class Bank {
 	 */
 	public static List<String> getRegions() {
 		QueryResult data = DataSource.query(new String[]{"name"}, Configuration.Entry.DatabaseRegionTable.toString());
-		if(!data.found) return null;
 		List<String> ret = new ArrayList<String>();
+		if(!data.found) return ret;
 		boolean c = true;
 		while(c == true) {
 			ret.add(data.getString("name"));
@@ -132,8 +132,8 @@ public class Bank {
 	 */
 	public static List<String> getAccountsByUser(String user) {
 		QueryResult data = DataSource.query(new String[]{"name", "users"}, Configuration.Entry.DatabaseAccountsTable.toString());
-		if(!data.found) return null;
 		List<String> ret = new ArrayList<String>();
+		if(!data.found) return ret;
 		boolean c = true;
 		String str = "";
 		List<String> users = null;
@@ -157,8 +157,8 @@ public class Bank {
 	 */
 	public static List<String> getAccountsByOwner(String user) {
 		QueryResult data = DataSource.query(new String[]{"name", "owners"}, Configuration.Entry.DatabaseAccountsTable.toString());
-		if(!data.found) return null;
 		List<String> ret = new ArrayList<String>();
+		if(!data.found) return ret;
 		boolean c = true;
 		String str = "";
 		List<String> users = null;

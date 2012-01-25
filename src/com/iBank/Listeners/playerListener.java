@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Location;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerListener;
 
 import com.iBank.system.Commands;
 import com.iBank.system.Configuration;
@@ -17,11 +18,11 @@ import com.iBank.system.MessageManager;
  * The default player Listener
  * @author steffengy
  */
-public class playerListener extends PlayerListener {
+public class playerListener implements Listener {
 	public HashMap<String, Map.Entry<Location, Location>> LastMarkedPoint = new HashMap<String, Map.Entry<Location,Location>>();
 	
-	@Override
-	public void onPlayerInteract(PlayerInteractEvent event)
+	@EventHandler
+	public void playerInteract(PlayerInteractEvent event)
     {
     		   if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK)
     	    	{

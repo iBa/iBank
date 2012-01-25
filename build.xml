@@ -1,9 +1,9 @@
 <project name="iBank" default="dist" basedir=".">
 <property name="pluginname" value="iBank"/>
 <property name="extension" value="-SNAPSHOT"/>
-<property name="dep_bukkit" location="../craftbukkit-1.0.1-R1.jar"/>
+<property name="dep_bukkit" location="../craftbukkit-1.1-R1.jar"/>
 <property name="dep_vault" location="../Vault.jar"/>
-<property name="version" value="0.1.0"/>
+<property name="version" value="0.2.0"/>
 
 <property name="src" location="src"/>
 <property name="srcfiles" location="src/com"/>

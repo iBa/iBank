@@ -14,8 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -71,7 +70,7 @@ public class iBank extends JavaPlugin {
     private File StringFile = null;
     private static final Logger log = Logger.getLogger("Minecraft");
     public static PluginDescriptionFile description = null;
-    public PlayerListener playerListener = new playerListener();
+    public Listener Listener = new playerListener();
     public static Permission permission = null;
     public static Economy economy = null;
     public static String CodeName = "Gilbert";
@@ -230,7 +229,7 @@ public class iBank extends JavaPlugin {
 			}
 	    
 		//Register events
-		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.Normal, this);
+		getServer().getPluginManager().registerEvents(Listener, this);
 		
 		//start interest syncer
 		if(Configuration.Entry.InterestEnabled.getBoolean()) {
