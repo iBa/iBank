@@ -28,7 +28,7 @@ public class CommandAddRegion extends Handler {
 		
 		if(arguments.length==1) {
 			Entry<Location, Location> raw = ((playerListener)main.Listener).LastMarkedPoint.get(sender.getName());
-			if(raw == null || raw.getKey()==null||raw.getValue()==null){
+			if(raw == null || raw.getKey()==null || raw.getValue()==null){
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorRegionSelect.toString());
 				return;
 			}
