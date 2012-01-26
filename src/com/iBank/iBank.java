@@ -76,11 +76,9 @@ public class iBank extends JavaPlugin {
     public static Economy economy = null;
     public static String CodeName = "Gilbert";
     public static DataSource data = new DataSource();
-    public static File directory = null;
     
 	@Override
 	public void onEnable() {
-		directory = getDataFolder();
 		if(!(getDataFolder().exists())) getDataFolder().mkdir();
 		// Load configuration + strings
 		reloadConfig();
