@@ -9,6 +9,8 @@ Current Features
   
   Loan money
   
+  All fully configurable
+  
 Supported Database Types
 -------
  Mysql
