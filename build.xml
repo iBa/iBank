@@ -39,7 +39,6 @@
                 destdir="${dist}/docs"
                 packagenames="*"
                 classpath="${dep_vault};${dep_bukkit}"
-                maxmemory="10M"
            >
     </javadoc>
   </target>             
