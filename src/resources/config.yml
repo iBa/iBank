@@ -80,3 +80,5 @@ System:
          Region: 'regions'
          # The name of the accounts table (bankaccounts)
          Accounts: 'accounts'
+         # The name of the loan table
+         Loan: 'loan'

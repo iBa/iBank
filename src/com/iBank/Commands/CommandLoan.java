@@ -28,7 +28,7 @@ public class CommandLoan extends Handler {
 			BigDecimal amount = null;
 			String player = ((Player) sender).getName();
 			try{
-				amount = new BigDecimal(arguments[1]);
+				amount = new BigDecimal(arguments[0]);
 			}catch(Exception e) {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [Amount]");
 				return;
@@ -42,10 +42,10 @@ public class CommandLoan extends Handler {
 					MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessLoan.toString().replace("$amount$", amount.toString()));
 				}else{
 					//amount is bigger :(
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorLoanLimit.toString().replace("$max$", Configuration.Entry.LoanAmount.toString()));
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorLoanLimit.toString().replace("$max$", iBank.format(Configuration.Entry.LoanAmount.getBigDecimal())));
 				}
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorMaxLoan.toString().replace("$max$", iBank.format(Configuration.Entry.LoanMax.getBigDecimal())));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorMaxLoan.toString().replace("$max$", Configuration.Entry.LoanMax.getBigDecimal().toString()));
 			}
 		}else{
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());

@@ -17,6 +17,7 @@ Description:
    transfer: 'Transfer money'
    delete: 'Delete an account'
    loan: 'Loan money from the bank'
+   loaninfo: 'Shows info about your/others loans'
 Error:
    already_exists: '$name$ does already exists!'
    not_exist: '$name$ does not exist!'
@@ -28,7 +29,7 @@ Error:
    region_select: 'Please select a region first!'
    invalid_amount: 'The given amount has to be bigger than 0.10'
    max_loan: 'You can only have $max$ loans!'
-   loan_limit: 'You can't loan more than $max$'
+   loan_limit: 'You cant loan more than $max$'
 Success: 
    addregion: 'Successfully, created the region $name$'
    delregion: 'Successfully, deleted the region $name$'
@@ -40,9 +41,12 @@ Success:
    withdraw: 'Successfully, withdrawed $amount$ to $name$'
    give: 'Successfully, gave $amount$ to $name$'
    take: 'Successfully, took $amount$ from $name$'
-   loan: 'Successfully, loaned $amount$ from $name$'
+   loan: 'Successfully, loaned $amount$!'
 General:
    Info: 'Info about $type$ $name$:'
    no_accounts: 'No accounts found!'
+   until: 'until'
+   per: 'per'
+   minutes: 'minutes'
 Short:
    Balance: 'Balance'

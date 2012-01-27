@@ -198,12 +198,16 @@ public class Bank {
 	 * @return List<Loan>
 	 */
 	public static List<Loan> getLoans() {
-		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until"},  Configuration.Entry.DatabaseLoanTable.toString());
+		System.out.println("GET_LOANS");
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.toString());
 		List<Loan> ret = new ArrayList<Loan>();
 		if(!data.found) return ret;
 		boolean c = true;
+		double interest = 0.00;
 		while(c == true) {
-			ret.add(new Loan(data.getString("user"), data.getDouble("interest"), data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id"))); 
+			if(data.hasKey("interest")) interest = data.getDouble("interest");
+			else interest = Configuration.Entry.LoanInterest.getDouble();
+			ret.add(new Loan(data.getString("user"), interest , data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id"))); 
 			c = data.nextEntry();
 		}
 		return ret;
@@ -214,12 +218,15 @@ public class Bank {
 	 * @return
 	 */
 	public static List<Loan> getLoansByAccount(String user) {
-		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until"},  Configuration.Entry.DatabaseLoanTable.toString(), new AndCondition("user", user, Operators.IDENTICAL));
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.toString(), new AndCondition("user", user, Operators.IDENTICAL));
 		List<Loan> ret = new ArrayList<Loan>();
 		if(!data.found) return ret;
 		boolean c = true;
+		double interest = 0.00;
 		while(c == true) {
-			ret.add(new Loan(data.getString("user"), data.getDouble("interest"), data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id"))); 
+			if(data.hasKey("interest")) interest = data.getDouble("interest");
+			else interest = Configuration.Entry.LoanInterest.getDouble();
+			ret.add(new Loan(data.getString("user"), interest, data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id"))); 
 			c = data.nextEntry();
 		}
 		return ret;

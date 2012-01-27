@@ -26,7 +26,7 @@ public class CommandHandler {
 			 //remove first arg from args
 			List<String> argtmp = new ArrayList<String>(Arrays.asList(args));
 			if(argtmp.size()>0) argtmp.remove(0);
-			args = argtmp.toArray(new String[1]);
+			args = argtmp.toArray(new String[0]);
 			if(!Commands.subIsLinked(rootCMD, subCMD)) return false;
 			if(!(sender instanceof Player)) {
 				Commands.getHandler(rootCMD, subCMD).handle(sender, args);

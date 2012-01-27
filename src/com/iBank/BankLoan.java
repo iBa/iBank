@@ -26,11 +26,13 @@ public class BankLoan extends TimerTask {
 			if(a.getLeftTime() <= 0) {
 				//Now he will get some punishment...
 				if(Configuration.Entry.LoanForceInterest.getBoolean()) {
-					/* Force */
+					a.setAmount(a.getAmount().multiply(new BigDecimal((1+(a.getInterest() / 100)))));
 				}
 				if(Configuration.Entry.LoanForceMoney.getBoolean()) {
 					if(iBank.economy.has(a.getUser(), a.getAmount().doubleValue())) {
 						iBank.economy.withdrawPlayer(a.getUser(), a.getAmount().doubleValue());
+						//close  
+						a.remove();
 					}else{
 						a.setAmount(a.getAmount().subtract(new BigDecimal(iBank.economy.getBalance(a.getUser()))));
 						iBank.economy.withdrawPlayer(a.getUser(), iBank.economy.getBalance(a.getUser()));
@@ -44,6 +46,7 @@ public class BankLoan extends TimerTask {
 							//bank account has more
 							tmpaccount.subtractBalance(a.getAmount());
 							a.setAmount(new BigDecimal("0"));
+							a.remove();
 						}else{
 							//bank account has not that much
 							a.setAmount(a.getAmount().subtract(tmpaccount.getBalance()));

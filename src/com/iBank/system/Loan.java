@@ -68,7 +68,7 @@ public class Loan {
 		this.time = tmp.getTime();
 	}
 	/**
-	 * Return the interval in minutes
+	 * Return the interval in seconds
 	 * @return int
 	 */
 	public int getInterval() {
@@ -76,7 +76,7 @@ public class Loan {
 	}
 	/**
 	 * Sets the interval of this loan
-	 * @param minutes
+	 * @param seconds
 	 */
 	public void setInterval(int minutes) {
 		if(id == -1) {
@@ -155,5 +155,11 @@ public class Loan {
 	 */
 	private void throwIdError(String cause) {
 		System.out.println("[iBank] Invalid Id Error in "+cause);
+	}
+	/**
+	 * Deletes the loan from the database
+	 */
+	public void remove() {
+		DataSource.deleteEntry(Configuration.Entry.DatabaseLoanTable.toString(), new AndCondition("id", id, Operators.IDENTICAL));
 	}
 }

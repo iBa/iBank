@@ -29,6 +29,7 @@ import com.iBank.Commands.CommandGive;
 import com.iBank.Commands.CommandHelp;
 import com.iBank.Commands.CommandList;
 import com.iBank.Commands.CommandLoan;
+import com.iBank.Commands.CommandLoanInfo;
 import com.iBank.Commands.CommandManager;
 import com.iBank.Commands.CommandOpenAccount;
 import com.iBank.Commands.CommandRegion;
@@ -202,6 +203,11 @@ public class iBank extends JavaPlugin {
 	    	  Commands.setHandler(new CommandLoan());
 	    	  Commands.setHelpArgs("[Amount]");
 	      
+	    	  Commands.addSubCommand("bank", "loaninfo");
+	    	  Commands.setPermission("iBank.loan");
+	    	  Commands.setHelp(Configuration.StringEntry.LoanInfoDescription.getValue());
+	    	  Commands.setHandler(new CommandLoanInfo());
+	    	  Commands.setHelpArgs("(:Site|Player)");
 	      }
 	      
 		description = this.getDescription();  

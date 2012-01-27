@@ -100,13 +100,20 @@ public class DataSource {
 	 * @return QueryResult
 	 */
 	public static QueryResult query(String[] fields, String table, Condition... condition) {
+		if(Configuration.Entry.Debug.getBoolean())  System.out.println("QUERY_IN");
 		if(type == Drivers.MYSQL || type == Drivers.SQLite) {
 			String query = SQLBuilder.select(fields,table, condition);
 			ResultSet result = null;
-			if(type == Drivers.MYSQL) {
-				result = mysqldb.query(query);
-			}else if(type==Drivers.SQLite){
-				result = db.query(query);
+			try{
+				if(type == Drivers.MYSQL) {
+					result = mysqldb.query(query);
+				}else if(type==Drivers.SQLite){
+					result = db.query(query);
+				}
+			}catch(Exception e) {
+				if(Configuration.Entry.Debug.getBoolean()) {
+					System.out.println("[iBank] Query (maybe?) failed"+e);
+				}
 			}
 			QueryResult retval = new QueryResult();
 			if(result == null) return retval;
@@ -119,12 +126,13 @@ public class DataSource {
 					}
 					first = false;
 					for(String field : fields) {
-						retval.add(field, result.getObject(field));
-						retval.found = true;
+							retval.add(field, result.getObject(field));
+							retval.found = true;
 					}
 				}
 				retval.resetPointer();
 			} catch (Exception e) { System.out.println("[iBank] Error while parsing DB-Query result!"); }
+			if(Configuration.Entry.Debug.getBoolean()) System.out.println("QUERY_OUT");
 			return retval;
 		}
 		System.out.println("[iBank] Uncaught Error!");

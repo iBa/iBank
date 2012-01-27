@@ -152,6 +152,7 @@ public class Configuration {
 		TransferDescription("Description.transfer", "Transfers money"),
 		DeleteDescription("Description.delete", "Deletes an account"),
 		LoanDescription("Description.loan", "Loan money from the bank"),
+		LoanInfoDescription("Description.loaninfo", "Shows info about your/others loans"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
@@ -164,7 +165,7 @@ public class Configuration {
 		SuccessRegion("Success.region", "Successfully, modified the region $name$"),
 		SuccessAccount("Success.account", "Successfully, modfied the account $name$"),
 		SuccessTransfer("Success.transfer", "Successfully, transfered $amount$ from $name$ to $name2$"),
-		SuccessLoan("Success.loan", "Successfully, loaned $amount$ from $name$"),
+		SuccessLoan("Success.loan", "Successfully, loaned $amount$"),
 		
 		ErrorAlreadyExists("Error.already_exists", "$name$ does already exists!"),
 		ErrorRegionSelect("Error.region_select", "Please select a region first!"),
@@ -176,10 +177,13 @@ public class Configuration {
 		ErrorNoAccess("Error.no_access", "You dont have access to this account!"),
 		ErrorInvalidAm("Error.invalid_amount", "The given amount has to be bigger than 0.10"),
 		ErrorMaxLoan("Error.max_loan", "You can only have $max$ loans!"),
-		ErrorLoanLimit("Error.loan_limit", "You can't loan more than $max$"),
+		ErrorLoanLimit("Error.loan_limit", "You cant loan more than $max$"),
 		
 		GeneralInfo("General.Info", "Info about $type$ $name$:"), 
 		GeneralNoAccounts("General.no_accounts", "No accounts found!"),
+		GeneralUntil("General.until", "until"),
+		GeneralPer("General.per", "per"),
+		GeneralMin("General.minutes", "minutes"),
 		PaidFee("General.paid_fee", "You paid $amount$ in fee!");
 		
 		String key;
