@@ -153,6 +153,7 @@ public class Configuration {
 		DeleteDescription("Description.delete", "Deletes an account"),
 		LoanDescription("Description.loan", "Loan money from the bank"),
 		LoanInfoDescription("Description.loaninfo", "Shows info about your/others loans"),
+		CloseDescription("Description.close", "Close an account"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
@@ -166,6 +167,7 @@ public class Configuration {
 		SuccessAccount("Success.account", "Successfully, modfied the account $name$"),
 		SuccessTransfer("Success.transfer", "Successfully, transfered $amount$ from $name$ to $name2$"),
 		SuccessLoan("Success.loan", "Successfully, loaned $amount$"),
+		SuccessClose("Success.close", "Successfully, closed $name$"),
 		
 		ErrorAlreadyExists("Error.already_exists", "$name$ does already exists!"),
 		ErrorRegionSelect("Error.region_select", "Please select a region first!"),
@@ -178,6 +180,7 @@ public class Configuration {
 		ErrorInvalidAm("Error.invalid_amount", "The given amount has to be bigger than 0.10"),
 		ErrorMaxLoan("Error.max_loan", "You can only have $max$ loans!"),
 		ErrorLoanLimit("Error.loan_limit", "You cant loan more than $max$"),
+		ErrorNeedOwner("Error.need_owner", "You need to be an owner of this account!"),
 		
 		GeneralInfo("General.Info", "Info about $type$ $name$:"), 
 		GeneralNoAccounts("General.no_accounts", "No accounts found!"),

@@ -22,6 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.iBank.Commands.BankRootCommand;
 import com.iBank.Commands.CommandAddRegion;
 import com.iBank.Commands.CommandBalance;
+import com.iBank.Commands.CommandClose;
 import com.iBank.Commands.CommandDelRegion;
 import com.iBank.Commands.CommandDelete;
 import com.iBank.Commands.CommandDeposit;
@@ -193,6 +194,12 @@ public class iBank extends JavaPlugin {
 	      Commands.setPermission("iBank.manage");
 	      Commands.setHelp(Configuration.StringEntry.DeleteDescription.getValue());
 	      Commands.setHandler(new CommandDelete());
+	      Commands.setHelpArgs("[Name]");
+	      
+	      Commands.addSubCommand("bank", "close");
+	      Commands.setPermission("iBank.access");
+	      Commands.setHelp(Configuration.StringEntry.CloseDescription.getValue());
+	      Commands.setHandler(new CommandClose());
 	      Commands.setHelpArgs("[Name]");
 	      
 	      if(Configuration.Entry.Loan.getBoolean()) {

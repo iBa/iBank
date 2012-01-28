@@ -111,7 +111,7 @@ public class BankAccount {
 	 * @return Boolean
 	 */
 	public boolean has(BigDecimal amount) {
-		return balance.compareTo(balance) >= 0;
+		return balance.compareTo(amount) >= 0;
 	}
 	/**
 	 * Subtracts a value from this account
@@ -215,5 +215,13 @@ public class BankAccount {
 	 */
 	public String[] getOnlines() {
 		return getOnlines(-1);
+	}
+
+	/**
+	 * Returns the name of the account
+	 * @return String
+	 */
+	public String getName() {
+		return name;
 	}
 }

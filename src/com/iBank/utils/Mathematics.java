@@ -1,5 +1,10 @@
 package com.iBank.utils;
 
+import java.math.BigDecimal;
+
+import com.iBank.system.Configuration;
+import com.iBank.system.MessageManager;
+
 /**
  * Math Utils needed by iBank
  * @author steffengy
@@ -27,5 +32,21 @@ public class Mathematics {
     		return true;
     	}
     	return false;
+    }
+    
+    /**
+     * String -> BigDecimal
+     * @param str
+     * @return
+     */
+    public static BigDecimal parseString(String str) {
+    	BigDecimal todp = null;
+    	try{    			
+    		todp = new BigDecimal(str);
+    		}catch(Exception e) {
+
+    			return todp;
+    		}
+    	return todp;
     }
 }

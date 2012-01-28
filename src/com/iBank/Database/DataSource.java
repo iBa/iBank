@@ -100,7 +100,7 @@ public class DataSource {
 	 * @return QueryResult
 	 */
 	public static QueryResult query(String[] fields, String table, Condition... condition) {
-		if(Configuration.Entry.Debug.getBoolean())  System.out.println("QUERY_IN");
+		//if(Configuration.Entry.Debug.getBoolean())  System.out.println("QUERY_IN");
 		if(type == Drivers.MYSQL || type == Drivers.SQLite) {
 			String query = SQLBuilder.select(fields,table, condition);
 			ResultSet result = null;
@@ -112,7 +112,7 @@ public class DataSource {
 				}
 			}catch(Exception e) {
 				if(Configuration.Entry.Debug.getBoolean()) {
-					System.out.println("[iBank] Query (maybe?) failed"+e);
+					System.out.println("[iBank] Query (maybe?) failed ("+type.toString()+")"+e);
 				}
 			}
 			QueryResult retval = new QueryResult();
@@ -132,7 +132,7 @@ public class DataSource {
 				}
 				retval.resetPointer();
 			} catch (Exception e) { System.out.println("[iBank] Error while parsing DB-Query result!"); }
-			if(Configuration.Entry.Debug.getBoolean()) System.out.println("QUERY_OUT");
+			//if(Configuration.Entry.Debug.getBoolean()) System.out.println("QUERY_OUT");
 			return retval;
 		}
 		System.out.println("[iBank] Uncaught Error!");

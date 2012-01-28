@@ -11,6 +11,7 @@ import com.iBank.system.BankAccount;
 import com.iBank.system.Configuration;
 import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
+import com.iBank.utils.Mathematics;
 
 /**
  *  /bank withdraw <NAME> <AMOUNT>
@@ -19,36 +20,29 @@ import com.iBank.system.MessageManager;
  */
 public class CommandWithdraw extends Handler {
 	public void handle(CommandSender sender, String[] arguments) { 	
+		if(!(sender instanceof Player)) {
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.toString());
+			return;
+		}
+		if(iBank.GetRegionAt(((Player)sender).getLocation()) == "") {
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
+			return;
+		}
+		
 		if(arguments.length == 2) {
-			if(!(sender instanceof Player)) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.toString());
-				return;
-			}
-			if(iBank.GetRegionAt(((Player)sender).getLocation()) == "") {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
-				return;
-			}
 			if(Bank.hasAccount(arguments[0])) {
 				BankAccount account = Bank.getAccount(arguments[0]);
 				if(account.isOwner(((Player)sender).getName()) || account.isUser(((Player)sender).getName())) {
 					BigDecimal todp = null;
-					try{
-					todp = new BigDecimal(arguments[1]);
-					}catch(Exception e) {
+					if((todp = Mathematics.parseString(arguments[1])) == null) {
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [AMOUNT]");
-						return;
-					}
-					if(todp.compareTo(new BigDecimal(0.10)) < 0) {
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.toString());
 						return;
 					}
 					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.toString(), todp);
 					
 					if(account.has(todp.add(fee))) {
-						account.subtractBalance(todp.add(fee));
-						iBank.economy.depositPlayer(((Player)sender).getName(), todp.doubleValue());
-						MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessWithdraw.toString().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
 						if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.toString().replace("$amount$", iBank.format(fee)));
+							doWithdraw(sender, todp.add(fee), account);
 					}else{
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
 					}
@@ -58,8 +52,30 @@ public class CommandWithdraw extends Handler {
 			}else{
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
 			}
-		}else{
+		}else if(arguments.length == 1) {
+			if(Bank.hasAccount(arguments[0])) {
+				BankAccount account = Bank.getAccount(arguments[0]);
+				if(account.isOwner(((Player)sender).getName()) || account.isUser(((Player)sender).getName())) {
+					//Withdraw The MAX
+					BigDecimal amount = account.getBalance();
+					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.toString(), amount);
+					if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.toString().replace("$amount$", iBank.format(fee)));
+					amount = amount.subtract(fee);
+					doWithdraw(sender, amount, account);
+					account.setBalance(new BigDecimal("0.00"), true);
+				}else{
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
+				}
+			}else{
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
+			}
+		} else {
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
 		}
+	}
+	public void doWithdraw(CommandSender sender, BigDecimal todp, BankAccount account) {
+			account.subtractBalance(todp);
+			iBank.economy.depositPlayer(((Player)sender).getName(), todp.doubleValue());
+			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessWithdraw.toString().replace("$name$", account.getName()).replace("$amount$", iBank.format(todp)));
 	}
 }
