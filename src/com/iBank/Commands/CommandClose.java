@@ -19,7 +19,7 @@ public class CommandClose extends Handler {
 		boolean console = false;
 		if(!(sender instanceof Player)) console = true;
 		if(!console) {
-			if(iBank.GetRegionAt(((Player)sender).getLocation()) == "") {
+			if(!iBank.canExecuteCommand(((Player)sender))) {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 				return;
 			}

@@ -25,11 +25,13 @@ public class CommandOpenAccount extends Handler {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.toString());
 				return;
 			}
-			String region = "";
-			if((region = iBank.GetRegionAt(((Player)sender).getLocation())) == "") {
+			if(!iBank.canExecuteCommand(((Player)sender))) {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 				return;
 			}
+			String region = iBank.regionAt(((Player)sender).getLocation());
+			region = region == null ?  " " : region;
+			
 			if(!Bank.hasAccount(arguments[0])) {
 				// fee stuff
 				String fee = Configuration.Entry.FeeCreate.toString();

@@ -382,10 +382,21 @@ public class iBank extends JavaPlugin {
      * Checks if a player can execute this command
      * !NO PERMISSION CHECK!
      * @param l The location of the player
-     * @return String name of region
+     * @param p The player
+     * @return boolean
      */
-    public static String GetRegionAt(Location l) {
-    	if(!Configuration.Entry.BoundToRegion.getBoolean()) return " ";
+    public static boolean canExecuteCommand(Player p) {
+    	if(!Configuration.Entry.BoundToRegion.getBoolean()) return true;
+    	if(hasPermission(p, "iBank.global")) return true;
+    	Location l = p.getLocation();
+    	return regionAt(l) == null ? false : true;
+    }
+    /**
+     * Gets a region at given location 
+     * @param l The location
+     * @return Name of region or null
+     */
+    public static String regionAt(Location l) {
     	double x = l.getX();
     	double y = l.getY();
     	double z = l.getZ();
@@ -399,7 +410,7 @@ public class iBank extends JavaPlugin {
     		       
     		}
     	}
-    	return "";
+    	return null;
     }
     /**
      * Formats an big Integer
