@@ -10,7 +10,7 @@ import com.iBank.system.Bank;
 import com.iBank.system.Configuration;
 import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
-import com.iBank.Listeners.playerListener;
+import com.iBank.Listeners.iBankListener;
 
 public class CommandAddRegion extends Handler {
 
@@ -27,7 +27,7 @@ public class CommandAddRegion extends Handler {
 		}
 		
 		if(arguments.length==1) {
-			Entry<Location, Location> raw = ((playerListener)main.Listener).LastMarkedPoint.get(sender.getName());
+			Entry<Location, Location> raw = ((iBankListener)main.Listener).LastMarkedPoint.get(sender.getName());
 			if(raw == null || raw.getKey()==null || raw.getValue()==null){
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorRegionSelect.toString());
 				return;

@@ -41,7 +41,7 @@ import com.iBank.Commands.CommandUsers;
 import com.iBank.Commands.CommandWithdraw;
 import com.iBank.Database.DataSource;
 import com.iBank.Database.DataSource.Drivers;
-import com.iBank.Listeners.playerListener;
+import com.iBank.Listeners.iBankListener;
 import com.iBank.system.Bank;
 import com.iBank.system.CommandHandler;
 import com.iBank.system.CommandTake;
@@ -76,7 +76,7 @@ public class iBank extends JavaPlugin {
     private File StringFile = null;
     private static final Logger log = Logger.getLogger("Minecraft");
     public static PluginDescriptionFile description = null;
-    public Listener Listener = new playerListener();
+    public Listener Listener = new iBankListener();
     private static Permission permission = null;
     public static Economy economy = null;
     public static String CodeName = "Gilbert";
