@@ -36,6 +36,7 @@ import com.iBank.Commands.CommandOpenAccount;
 import com.iBank.Commands.CommandOwners;
 import com.iBank.Commands.CommandRegion;
 import com.iBank.Commands.CommandTransfer;
+import com.iBank.Commands.CommandUsers;
 import com.iBank.Commands.CommandWithdraw;
 import com.iBank.Database.DataSource;
 import com.iBank.Database.DataSource.Drivers;
@@ -183,6 +184,12 @@ public class iBank extends JavaPlugin {
 	      Commands.setPermission("iBank.access");
 	      Commands.setHelp(Configuration.StringEntry.OwnersDescription.getValue());
 	      Commands.setHandler(new CommandOwners());
+	      Commands.setHelpArgs("[Name]");
+	      
+	      Commands.addSubCommand("bank", "users");
+	      Commands.setPermission("iBank.access");
+	      Commands.setHelp(Configuration.StringEntry.UsersDescription.getValue());
+	      Commands.setHandler(new CommandUsers());
 	      Commands.setHelpArgs("[Name]");
 	      
 	      Commands.addSubCommand("bank", "give");
