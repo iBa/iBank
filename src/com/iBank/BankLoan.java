@@ -16,7 +16,8 @@ public class BankLoan extends TimerTask {
 
 		for(Loan a : Bank.getLoans()) {
 			//If interval is reached, +money
-			if(a.getInterval() == a.getMinutesDone()) {
+			//<= to fix probably not calculated possibilitys which are MAGIC
+			if(a.getInterval() <= a.getMinutesDone()) {
 				a.setAmount(a.getAmount().multiply(new BigDecimal((1+(a.getInterest() / 100)))));
 				a.setMinutesDone(0);
 			}else{

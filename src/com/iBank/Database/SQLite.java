@@ -84,6 +84,6 @@ public class SQLite {
 	public void close() {
 		try {
 			connection.close();
-		} catch (SQLException e) { }
+		} catch (SQLException e) { System.out.println("[iBank] Error on closing (SQLite)!" + e); }
 	}
 }

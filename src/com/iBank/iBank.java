@@ -80,6 +80,8 @@ public class iBank extends JavaPlugin {
     public static Economy economy = null;
     public static String CodeName = "Gilbert";
     public static DataSource data = new DataSource();
+    private Timer Loan = null;
+    private Timer Interest = null;
     
 	@Override
 	public void onEnable() {
@@ -273,7 +275,7 @@ public class iBank extends JavaPlugin {
 				@Override
 				public void run() {
 					 long time = Configuration.Entry.InterestPeriod.getLong() * 60L * 1000L;
-					 Timer Interest = new Timer();
+					 Interest = new Timer();
 	                 Interest.scheduleAtFixedRate(new BankInterest(), time, time);
 				}
 			}).start();
@@ -284,7 +286,7 @@ public class iBank extends JavaPlugin {
 				@Override
 				public void run() {
 					long time = 60L * 1000L;
-					Timer Loan = new Timer();
+					Loan = new Timer();
 					Loan.scheduleAtFixedRate(new BankLoan(), time, time);
 				}
 			}).start();
@@ -296,6 +298,17 @@ public class iBank extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		DataSource.shutdown();
+		//Kill timers
+		if(Interest != null) {
+                Interest.cancel();
+                Interest.purge();
+                Interest = null;
+		}
+		if(Loan != null) {
+				Loan.cancel();
+				Loan.purge();
+				Loan = null;
+		}
 		System.out.println("[iBank] unloaded");
 	}
 
