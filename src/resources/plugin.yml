@@ -1,7 +1,7 @@
 #General
 name: iBank
 main: com.iBank.iBank
-version: 0.2
+version: 0.3
 commands:
      bank:
        description: Manage your money
@@ -11,4 +11,4 @@ depend: [Vault]
 description: Banks for iConomy
 maintainer: steffengy
 authors: [steffengy]
-
+# Add superperms !!
