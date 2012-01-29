@@ -22,7 +22,7 @@ public class CommandHandler {
 		if(Commands.rootIsLinked(rootCMD)) {
 			//Get subcommand 
 			String subCMD = "";
-			if(args.length > 0) subCMD = args[0]==null ? "" :args[0];
+			if(args.length > 0) subCMD = args[0]==null ? "" : args[0].toLowerCase();
 			 //remove first arg from args
 			List<String> argtmp = new ArrayList<String>(Arrays.asList(args));
 			if(argtmp.size()>0) argtmp.remove(0);

@@ -144,11 +144,27 @@ public class BankAccount {
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
+	 * Remove an owner
+	 * @param user The owner as string
+	 */
+	public void removeOwner(String user) {
+		owners.remove(user);
+		DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+	}
+	/**
 	 * Adds an user
 	 * @param user The user
 	 */
 	public void addUser(String user) {
 		users.add(user);
+		DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"users"}, new Object[]{StringUtils.join(users,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+	}
+	/**
+	 * Remove an user
+	 * @param user The user as string
+	 */
+	public void removeUser(String user) {
+		users.remove(user);
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"users"}, new Object[]{StringUtils.join(users,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**

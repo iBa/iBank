@@ -19,8 +19,12 @@ Description:
    loan: 'Loan money from the bank'
    loaninfo: 'Shows info about your/others loans'
    close: 'Close an account'
+   owners: 'Manage the owners of an account'
+   users: 'Manage the users of an account'
 Error:
    already_exists: '$name$ does already exists!'
+   already: '$name$ is already one of the $type$ of this account!'
+   not: '$name$ is not one of the $type$ of this account!'
    not_exist: '$name$ does not exist!'
    not_region: 'You need to be in a bank region!'
    not_enough: 'You dont have enough money!'
@@ -41,6 +45,7 @@ Success:
    delaccount: 'Successfully, deleted the account $name$'
    deposit: 'Successfully, deposited $amount$ to $name$'
    withdraw: 'Successfully, withdrawed $amount$ to $name$'
+   modified: 'Successfully, modified $name$!'
    give: 'Successfully, gave $amount$ to $name$'
    take: 'Successfully, took $amount$ from $name$'
    loan: 'Successfully, loaned $amount$!'
@@ -51,5 +56,7 @@ General:
    until: 'until'
    per: 'per'
    minutes: 'minutes'
+   owners: 'Owners'
+   users: 'Users'
 Short:
    Balance: 'Balance'

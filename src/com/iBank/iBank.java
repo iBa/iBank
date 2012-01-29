@@ -33,6 +33,7 @@ import com.iBank.Commands.CommandLoan;
 import com.iBank.Commands.CommandLoanInfo;
 import com.iBank.Commands.CommandManager;
 import com.iBank.Commands.CommandOpenAccount;
+import com.iBank.Commands.CommandOwners;
 import com.iBank.Commands.CommandRegion;
 import com.iBank.Commands.CommandTransfer;
 import com.iBank.Commands.CommandWithdraw;
@@ -176,6 +177,12 @@ public class iBank extends JavaPlugin {
 	      Commands.setPermission("iBank.manage");
 	      Commands.setHelp(Configuration.StringEntry.AccountDescription.getValue());
 	      Commands.setHandler(new CommandManager());
+	      Commands.setHelpArgs("[Name]");
+	      
+	      Commands.addSubCommand("bank", "owners");
+	      Commands.setPermission("iBank.access");
+	      Commands.setHelp(Configuration.StringEntry.OwnersDescription.getValue());
+	      Commands.setHandler(new CommandOwners());
 	      Commands.setHelpArgs("[Name]");
 	      
 	      Commands.addSubCommand("bank", "give");
