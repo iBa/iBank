@@ -23,7 +23,7 @@ public class CommandBalance extends Handler {
 		// has account
 		if(Bank.hasAccount(arguments[0])) {
 			BankAccount acc = Bank.getAccount(arguments[0]);
-			if(console || (acc.isOwner(((Player)sender).getName()) || acc.isUser(((Player)sender).getName())) || iBank.permission.has(sender, "iBank.balance")) {
+			if(console || (acc.isOwner(((Player)sender).getName()) || acc.isUser(((Player)sender).getName())) || iBank.hasPermission(sender, "iBank.balance")) {
 				String formattedBalance = iBank.economy.format(acc.getBalance().doubleValue());
 				if(!console) {
 					if(iBank.GetRegionAt(((Player)sender).getLocation()) == "") {

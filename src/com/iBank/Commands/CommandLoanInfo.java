@@ -32,7 +32,7 @@ public class CommandLoanInfo extends Handler {
 			if(arguments[0].startsWith(":")) {
 				showLoanInfo(((Player)sender).getName(), sender, Integer.parseInt(arguments[0].substring(1)));
 			}
-			boolean allowed = (!(sender instanceof Player)) || iBank.permission.has(sender, "iBank.loaninfo"); 
+			boolean allowed = (!(sender instanceof Player)) || iBank.hasPermission(sender, "iBank.loaninfo"); 
 			if(allowed){
 				int site = arguments.length > 1 ? Integer.parseInt(arguments[1]) +1 : 0;
 				showLoanInfo(arguments[0], sender, site);

@@ -95,7 +95,7 @@ public class Commands {
 			String subCmd) {
 		try{
 			// alias
-			return iBank.permission.has(player, getPermission(rootCMD, subCmd));
+			return iBank.hasPermission(player, getPermission(rootCMD, subCmd));
 		}catch(Exception e) {
 			return false;
 		}

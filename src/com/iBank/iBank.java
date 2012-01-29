@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -76,7 +77,7 @@ public class iBank extends JavaPlugin {
     private static final Logger log = Logger.getLogger("Minecraft");
     public static PluginDescriptionFile description = null;
     public Listener Listener = new playerListener();
-    public static Permission permission = null;
+    private static Permission permission = null;
     public static Economy economy = null;
     public static String CodeName = "Gilbert";
     public static DataSource data = new DataSource();
@@ -446,5 +447,28 @@ public class iBank extends JavaPlugin {
 			tmp = tmp.add(new BigDecimal(Double.parseDouble(part)));
 		}
 		return tmp;
+	}
+	/**
+	 * Checks if an user has a permission
+	 * @param user The Player
+	 * @param permission The permission
+	 * @return boolean
+	 */
+	public static boolean hasPermission(Player user, String permission) {
+		if(iBank.permission.isEnabled()) {
+			return iBank.permission.has(user, permission);
+		}else{
+			return (user).hasPermission(permission);
+		}
+	}
+	/**
+	 * Checks if a command sender has a permission
+	 * @param user CommandSender 
+	 * @param permission Permission
+	 * @return boolean
+	 */
+	public static boolean hasPermission(CommandSender user, String permission) {
+		if(!(user instanceof Player)) return true;
+		return hasPermission(user, permission);
 	}
 }
