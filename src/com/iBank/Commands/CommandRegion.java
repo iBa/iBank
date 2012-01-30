@@ -2,7 +2,9 @@ package com.iBank.Commands;
 
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import com.iBank.iBank;
 import com.iBank.system.Bank;
 import com.iBank.system.Configuration;
 import com.iBank.system.Handler;
@@ -45,6 +47,10 @@ public class CommandRegion extends Handler {
 		//Saves info
 		if(arguments.length == 3) {
 			if(Bank.hasRegion(arguments[0])) {
+				if(sender instanceof Player && !iBank.hasPermission(sender, "iBank.regions") && !Bank.getRegion(arguments[0]).getOwners().contains(((Player)sender).getName())) {
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
+					return;
+				}
 				if(arguments[1].equalsIgnoreCase("online") || arguments[1].equalsIgnoreCase("on")) {
 					Double percentage = 0.00;
 					try{

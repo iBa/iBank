@@ -136,7 +136,7 @@ public class iBank extends JavaPlugin {
 	      Commands.setHelpArgs("[Name]");
 	      
 	      Commands.addSubCommand("bank", "region");
-	      Commands.setPermission("iBank.regions");
+	      Commands.setPermission("iBank.access");
 	      Commands.setHelp(Configuration.StringEntry.RegionDescription.getValue());
 	      Commands.setHandler(new CommandRegion());
 	      Commands.setHelpArgs("[Name]");	
