@@ -1,11 +1,16 @@
 package com.iBank.system;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import com.iBank.Database.AndCondition;
 import com.iBank.Database.Condition.Operators;
 import com.iBank.Database.DataSource;
+import com.iBank.utils.StringUtils;
 
 /**
  * This class represents a region
@@ -16,6 +21,7 @@ public class Region {
 	private String name;
 	private Location first;
 	private Location second;
+	private List<String> Owners = new ArrayList<String>();
 	private double on = Configuration.Entry.InterestOnPercentage.getDouble();
 	public boolean onDefault = true;
 	private double off = Configuration.Entry.InterestOffPercentage.getDouble();
@@ -32,6 +38,41 @@ public class Region {
 		this.name = name;
 		this.first = first;
 		this.second = second;
+	}
+	/**
+	 * Set owners
+	 * @param str String[]
+	 */
+	public void Owners(String str) {
+		if(str.contains(","))
+			Owners = new ArrayList<String>(Arrays.asList(str.split(",")));
+		else {
+			Owners = new ArrayList<String>();
+			Owners.add(str);
+		}
+	}
+	/**
+	 * Adds an owner
+	 * @param owner The name of the owner
+	 */
+	public void addOwner(String owner) {
+		Owners.add(owner);
+		DataSource.update(Configuration.Entry.DatabaseRegionTable.toString(), new String[]{"owners"}, new Object[]{StringUtils.join(Owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+	}
+	/**
+	 * Removes an owner
+	 * @param owner The name of the owner
+	 */
+	public void removeOwner(String owner) {
+		Owners.remove(owner);
+		DataSource.update(Configuration.Entry.DatabaseRegionTable.toString(), new String[]{"owners"}, new Object[]{StringUtils.join(Owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+	}
+	/**
+	 * Returns a list with the owners
+	 * @return List<String>
+	 */
+	public List<String> getOwners() {
+		return Owners;
 	}
 	/**
 	 * Creates a region

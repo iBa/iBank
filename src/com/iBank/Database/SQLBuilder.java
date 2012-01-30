@@ -101,4 +101,16 @@ public class SQLBuilder {
 	public static String delete(String table, Condition... condition) {
 		return "DELETE FROM "+table+parseConditions(condition);
 	}
+	/**
+	 * Very, Very Simple Alter
+	 * @param table The table
+	 * @param add Add or DROP?
+	 * @param field The field
+	 * @param type The type
+	 * @return
+	 */
+	public static String alter(String table, boolean add, String field, String type) {
+		String tt = add ? "ADD" : "DROP";
+		return "ALTER TABLE `"+table+"` " + tt +  " `"+field+"` "+type;
+	}
 }

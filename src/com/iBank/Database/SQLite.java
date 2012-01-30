@@ -2,17 +2,20 @@ package com.iBank.Database;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Sqlite Implementation
  * @author steffengy
  *
  */
-public class SQLite {
+public class SQLite implements Database {
 	private Connection connection = null;
 	private boolean success = false;
 	public SQLite(File db){
@@ -68,13 +71,32 @@ public class SQLite {
 	 * Executes a command
 	 * @param query
 	 */
-	public void execute(String query) {
+	public boolean execute(String query) {
 		try{
-			Statement statement = connection.createStatement();
-			statement.execute(query); 
-			}catch(Exception e) {
-				System.out.println("[iBank] Error in query "+query);
-			}
+		Statement statement = connection.createStatement();
+		return statement.execute(query);
+		}catch(Exception e) {
+			System.out.println("[iBank] Error in execution "+query+" "+e);
+			return false;
+		}
+	}
+	/**
+	 * Build a list with all columns/fields in a table
+	 * @param table The table
+	 * @return List<String>
+	 */
+	public List<String> listFields(String table) {
+		List<String> ret = new ArrayList<String>();
+		try{
+		DatabaseMetaData mD = connection.getMetaData();
+		ResultSet columns = mD.getColumns(null, null , table, null);
+		while(columns.next()) {
+			ret.add(columns.getString("COLUMN_NAME"));
+		}
+		}catch(Exception e) {
+			System.out.println("[iBank] Error while listing fields of table "+table+" "+e);
+		}
+		return ret;
 	}
 	public void commit() {
 		try {

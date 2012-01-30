@@ -13,6 +13,8 @@ import com.iBank.system.Region;
  *  /bank region <NAME>
  *  /bank region <NAME> online 12  - 12 percentage online
  *  /bank region <NAME> offline 12 - 12 percentage offline 
+ *  /bank region <NAME> add <USERNAME> - Add <USERNAME> as Owner
+ *  /bank region <NAME> del <USERNAME> - Remove <USERNAME> as Owner
  *  (IF created account in that region on+offline) 
  *  Displays info about a region
  * @author steffengy
@@ -30,6 +32,7 @@ public class CommandRegion extends Handler {
 				String offlinP = tmp.offDefault ? " Default ": String.valueOf(tmp.getOffPercentage()) + "%";
 				MessageManager.send(sender, "&w&Online %: &gray&" + onlineP, "");
 				MessageManager.send(sender, "&w&Offline %: &gray&" + offlinP, "");
+				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralOwners.toString()+": &gray&" + tmp.getOwners().toString(), "");
 				Location loc = tmp.getFirstLocation();
 				Location loc2 = tmp.getSecondLocation();
 				MessageManager.send(sender, "&w&Location 1:&gray&"+loc.toString(), "");
@@ -60,6 +63,11 @@ public class CommandRegion extends Handler {
 						return;
 					}
 					Bank.getRegion(arguments[0]).setOffPercentage(percentage, true);
+				}else if(arguments[1].equalsIgnoreCase("add")) {
+					Bank.getRegion(arguments[0]).addOwner(arguments[2]);
+				}else if(arguments[1].equalsIgnoreCase("del")) {
+					if(Bank.getRegion(arguments[0]).getOwners().contains(arguments[2]))
+						Bank.getRegion(arguments[0]).removeOwner(arguments[2]);
 				}else{
 					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[1]);
 					return;

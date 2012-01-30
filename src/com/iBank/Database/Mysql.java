@@ -1,17 +1,20 @@
 package com.iBank.Database;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The class providing access to MYSQL
  * @author steffengy
  *
  */
-public class Mysql {
+public class Mysql implements Database {
 	private boolean success = false;
 	private Connection connection = null;
 	/**
@@ -89,6 +92,25 @@ public class Mysql {
 			return false;
 		}
 	}
+	/**
+	 * Build a list with all columns/fields in a table
+	 * @param table The table
+	 * @return List<String>
+	 */
+	public List<String> listFields(String table) {
+		List<String> ret = new ArrayList<String>();
+		try{
+		DatabaseMetaData mD = connection.getMetaData();
+		ResultSet columns = mD.getColumns(null, null , table, null);
+		while(columns.next()) {
+			ret.add(columns.getString("COLUMN_NAME"));
+		}
+		}catch(Exception e) {
+			System.out.println("[iBank] Error while listing fields of table "+table+" "+e);
+		}
+		return ret;
+	}
+		
 	/**
 	 * Cloes the connection
 	 */

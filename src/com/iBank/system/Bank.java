@@ -26,7 +26,7 @@ public class Bank {
 	 */
 	public static Region getRegion(String name) {
 		// fetch region data
-		QueryResult data = DataSource.query(new String[]{"loc1","loc2","onper","offper"}, Configuration.Entry.DatabaseRegionTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		QueryResult data = DataSource.query(new String[]{"loc1","loc2","onper","offper","owners"}, Configuration.Entry.DatabaseRegionTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
 		if(!data.found) return null;
 		Region ret = new Region(name, data.getString("loc1"), data.getString("loc2"));
 		if(data.getString("onper").length()>0) {
@@ -34,6 +34,9 @@ public class Bank {
 		}
 		if(data.getString("offper").length()>0) {
 			ret.setOffPercentage(Double.parseDouble(data.getString("offper")), false);
+		}
+		if(data.getString("owners").length()>0) {
+			ret.Owners(data.getString("owners"));
 		}
 		return ret;
 	}
@@ -68,7 +71,7 @@ public class Bank {
 	 * @param second Second location
 	 */
 	public static void createRegion(String name, Location first, Location second) {
-		DataSource.insertEntry(Configuration.Entry.DatabaseRegionTable.toString(), new String[]{"name","loc1","loc2","onper","offper"}, new String[]{name, Bank.formLocation(first), Bank.formLocation(second), "", ""});
+		DataSource.insertEntry(Configuration.Entry.DatabaseRegionTable.toString(), new String[]{"name","loc1","loc2","onper","offper", "owners"}, new String[]{name, Bank.formLocation(first), Bank.formLocation(second), "", "", ""});
 	}
 	
 	/**
@@ -198,7 +201,6 @@ public class Bank {
 	 * @return List<Loan>
 	 */
 	public static List<Loan> getLoans() {
-		System.out.println("GET_LOANS");
 		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.toString());
 		List<Loan> ret = new ArrayList<Loan>();
 		if(!data.found) return ret;
