@@ -85,6 +85,14 @@ public class DataSource {
 				System.out.println("[iBank] Updating regions (add owners)");
 				db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseRegionTable.toString(), true, "owners", "TEXT"));
 			}
+			if(!db.listFields(Configuration.Entry.DatabaseAccountsTable.toString()).contains("interval")) {
+				System.out.println("[iBank] Updating accounts (add interval)");
+				db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseAccountsTable.toString(), true, "interval", "VARCHAR(30)"));
+			}
+			if(!db.listFields(Configuration.Entry.DatabaseAccountsTable.toString()).contains("mD")) {
+				System.out.println("[iBank] Updating accounts (add mD)");
+				db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseAccountsTable.toString(), true, "mD", "INT"));
+			}
 		}
 	}
 
@@ -129,8 +137,11 @@ public class DataSource {
 					}
 					first = false;
 					for(String field : fields) {
-							retval.add(field, result.getObject(field));
-							retval.found = true;
+							Object tmp = result.getObject(field);
+							if(tmp != null && !result.wasNull()) {
+								retval.add(field, tmp);
+								retval.found = true;
+							}
 					}
 				}
 				retval.resetPointer();

@@ -97,13 +97,15 @@ public class Bank {
 	 * @return
 	 */
 	public static BankAccount getAccount(String name) {
-		QueryResult data = DataSource.query(new String[]{"balance", "owners", "users", "onper", "offper"}, Configuration.Entry.DatabaseAccountsTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		QueryResult data = DataSource.query(new String[]{"balance", "owners", "users", "onper", "offper", "interval", "mD"}, Configuration.Entry.DatabaseAccountsTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
 		if(!data.found) return null;
 		BankAccount obj = new BankAccount(name, data.getBigInteger("balance"));
 		obj.Users(data.getString("users"));
 		obj.Owners(data.getString("owners"));
 		if(data.hasKey("onper") && data.getString("onper").length() > 0) obj.setOnPercentage(data.getDouble("onper"), false);
 		if(data.hasKey("offper") && data.getString("offper").length()>0) obj.setOffPercentage(data.getDouble("offper"), false);
+		if(data.hasKey("interval")) obj.setInterval(data.getInteger("interval"), false);
+		if(data.hasKey("mD")) obj.setMinutesDone(data.getInteger("mD"), false);
 		return obj;
 	}
 	/**

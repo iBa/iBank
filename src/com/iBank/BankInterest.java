@@ -24,22 +24,32 @@ public class BankInterest extends TimerTask {
 		int debugOnline = 0;
 		int debugOffline = 0;
 		 
+		//loop through accounts
 		for(String i : it)
 		{
 			BankAccount item = Bank.getAccount(i);
-
-			on = new BigDecimal(item.getOnlinePercentage() / 100);
-			off = new BigDecimal(item.getOfflinePercentage() / 100);
+			// >= to prevent cases which are MAGIC
+			// -1 to balance indifference in runtime
+			if(item.getMinutesDone() >= item.getInterval() - 1) {
 			
-			if(item.getOnlines(needed + 1).length >= needed)
-			{
-				debugOnline++;
-				BigDecimal add = item.getBalance().multiply(on);
-				item.addBalance(add);
+				on = new BigDecimal(item.getOnlinePercentage() / 100);
+				off = new BigDecimal(item.getOfflinePercentage() / 100);
+			
+				if(item.getOnlines(needed + 1).length >= needed)
+				{
+					debugOnline++;
+					BigDecimal add = item.getBalance().multiply(on);
+					item.addBalance(add);
+				}else{
+					debugOffline++;
+					BigDecimal add = item.getBalance().multiply(off);
+					item.addBalance(add);
+				}
+				//now we can simply set mD to 0
+				item.setMinutesDone(0, true);
 			}else{
-				debugOffline++;
-				BigDecimal add = item.getBalance().multiply(off);
-				item.addBalance(add);
+				//++mD
+				item.setMinutesDone(item.getMinutesDone() + 1, true);
 			}
 		}
 		if(Configuration.Entry.Debug.getBoolean()) System.out.println("Interest done, Online: "+debugOnline+", Offline:"+debugOffline);

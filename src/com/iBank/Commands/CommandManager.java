@@ -24,6 +24,9 @@ public class CommandManager extends Handler {
 				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralInfo.toString().replace("$type$","Account").replace("$name$", arguments[0]));
 				String onlineP = tmp.onDefault ? " Default " : String.valueOf(tmp.getOnlinePercentage()) + "%";
 				String offlinP = tmp.offDefault ? " Default ": String.valueOf(tmp.getOfflinePercentage()) + "%";
+
+				String intString = !tmp.intervalDefault ? String.valueOf(tmp.getInterval()) : "Default";
+				MessageManager.send(sender, "&w&" + Configuration.StringEntry.GeneralInterval.toString() + ": &gray&" + intString, "");
 				MessageManager.send(sender, "&w&Online %: &gray&" + onlineP, "");
 				MessageManager.send(sender, "&w&Offline %: &gray&" + offlinP, "");
 			}else{
@@ -31,6 +34,7 @@ public class CommandManager extends Handler {
 				return;
 			}
 		// modify percentages and settings
+		// todo add possibility to add interval
 		}else if(arguments.length == 3) {
 			if(Bank.hasAccount(arguments[0])) {
 				if(arguments[1].equalsIgnoreCase("online") || arguments[1].equalsIgnoreCase("on")) {
@@ -51,6 +55,15 @@ public class CommandManager extends Handler {
 						return;
 					}
 					Bank.getAccount(arguments[0]).setOffPercentage(percentage, true);
+				}else if(arguments[1].equalsIgnoreCase("interval")) {				
+					int data  = 0;
+					try{
+						data = Integer.parseInt(arguments[2]);
+					}catch(Exception e) {
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[2]);
+						return;
+					}
+					Bank.getAccount(arguments[0]).setInterval(data, true);
 				}else{
 					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[1]);
 					return;

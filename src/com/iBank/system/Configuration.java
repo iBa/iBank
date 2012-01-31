@@ -156,6 +156,7 @@ public class Configuration {
 		CloseDescription("Description.close", "Close an account"),
 		OwnersDescription("Description.owners", "Manage the owners of an account"),
 		UsersDescription("Description.users", "Manage the users of an account"),
+		PayBackDescription("Description.payback", "payback money you loaned"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
@@ -194,6 +195,7 @@ public class Configuration {
 		GeneralMin("General.minutes", "minutes"),
 		GeneralOwners("General.owners", "Owners"),
 		GeneralUsers("General.users", "Users"),
+		GeneralInterval("General.interval", "Interval"),
 		PaidFee("General.paid_fee", "You paid $amount$ in fee!");
 		
 		String key;

@@ -21,6 +21,7 @@ Description:
    close: 'Close an account'
    owners: 'Manage the owners of an account'
    users: 'Manage the users of an account'
+   payback: 'payback money you loaned'
 Error:
    already_exists: '$name$ does already exists!'
    already: '$name$ is already one of the $type$ of this account!'
@@ -58,5 +59,6 @@ General:
    minutes: 'minutes'
    owners: 'Owners'
    users: 'Users'
+   interval: 'Interval'
 Short:
    Balance: 'Balance'

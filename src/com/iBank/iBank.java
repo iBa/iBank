@@ -35,6 +35,7 @@ import com.iBank.Commands.CommandLoanInfo;
 import com.iBank.Commands.CommandManager;
 import com.iBank.Commands.CommandOpenAccount;
 import com.iBank.Commands.CommandOwners;
+import com.iBank.Commands.CommandPayBack;
 import com.iBank.Commands.CommandRegion;
 import com.iBank.Commands.CommandTransfer;
 import com.iBank.Commands.CommandUsers;
@@ -232,6 +233,12 @@ public class iBank extends JavaPlugin {
 	    	  Commands.setHelp(Configuration.StringEntry.LoanInfoDescription.getValue());
 	    	  Commands.setHandler(new CommandLoanInfo());
 	    	  Commands.setHelpArgs("(:Site|Player)");
+	    	  
+	    	  Commands.addSubCommand("bank", "payback");
+	    	  Commands.setPermission("iBank.loan");
+	    	  Commands.setHelp(Configuration.StringEntry.PayBackDescription.getValue());
+	    	  Commands.setHandler(new CommandPayBack());
+	    	  Commands.setHelpArgs("(id)");
 	      }
 	      
 		description = this.getDescription();  
@@ -275,7 +282,7 @@ public class iBank extends JavaPlugin {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					 long time = Configuration.Entry.InterestPeriod.getLong() * 60L * 1000L;
+					 long time = 60L * 1000L;
 					 Interest = new Timer();
 	                 Interest.scheduleAtFixedRate(new BankInterest(), time, time);
 				}

@@ -26,6 +26,9 @@ public class BankAccount {
 	public boolean offDefault = true;
 	private List<String> owners = new ArrayList<String>();
 	private List<String> users = new ArrayList<String>();
+	private int interval = Configuration.Entry.InterestPeriod.getInteger();
+	public boolean intervalDefault = true;
+	public int mD = 0;
 	
 	public BankAccount(String name, BigDecimal bigInteger) {
 		this.balance = bigInteger;
@@ -239,5 +242,38 @@ public class BankAccount {
 	 */
 	public String getName() {
 		return name;
+	}
+	/**
+	 * Get the interval
+	 * @return int
+	 */
+	public int getInterval() {
+		return this.interval;
+	}
+	/**
+	 * Set the interval
+	 * @param interval The interval
+	 * @param if to write in Storage
+ 	 */
+	public void setInterval(int interval,boolean write) {
+		this.interval = interval;
+		intervalDefault = false;
+		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"interval"}, new Object[]{interval}, new AndCondition("name", name, Operators.IDENTICAL));
+	}
+	/**
+	 * Sets how much "loops" this account already "did"
+	 * @param integer The integer describing the amount
+	 * @param write If to write to db
+	 */
+	public void setMinutesDone(int integer, boolean write) {
+		this.mD = integer;
+		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"mD"}, new Object[]{integer}, new AndCondition("name", name, Operators.IDENTICAL));
+	}
+	/**
+	 * Returns how much "loops" this account already "did"
+	 * @return Integer
+	 */
+	public int getMinutesDone() {
+		return this.mD;
 	}
 }

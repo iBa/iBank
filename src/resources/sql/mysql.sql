@@ -12,7 +12,9 @@ CREATE TABLE `{$accounts$}` (
 `owners` TEXT NOT NULL ,
 `users` TEXT NOT NULL ,
 `onper` VARCHAR(30) NOT NULL ,
-`offper` VARCHAR(30) NOT NULL
+`offper` VARCHAR(30) NOT NULL,
+`interval` VARCHAR(30) NOT NULL,
+`mD` INT(10)
 );
 CREATE TABLE `{$loan$}` (
 `id` INT NOT NULL AUTO_INCREMENT ,
