@@ -51,6 +51,7 @@ Success:
    take: 'Successfully, took $amount$ from $name$'
    loan: 'Successfully, loaned $amount$!'
    close: 'Successfully, closed $name$'
+   login: 'Successfully, logged in to sign bank!'
 General:
    Info: 'Info about $type$ $name$:'
    no_accounts: 'No accounts found!'

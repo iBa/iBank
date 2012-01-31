@@ -3,6 +3,9 @@ System:
    Debug: false
    # If iBank is enabled
    Enabled: true 
+   # If direct/sign banking will be supported
+   # To set this signs , permission iBank.sign will be needed
+   SignSupport: false
    # Regions enabled?
    # If this is set to false, all commands can be executed globally
    # If not, some commands can only be executed in a region

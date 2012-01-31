@@ -14,6 +14,7 @@ public class Configuration {
 	public static enum Entry
 	{
 		Enabled("System.Enabled", true),
+		EnableSign("System.SignSupport", false),
 		Debug("System.Debug", false),
 		BoundToRegion("System.BoundToRegion", true),
 		StandardBalance("System.StandardBalance", 30),
@@ -172,6 +173,7 @@ public class Configuration {
 		SuccessLoan("Success.loan", "Successfully, loaned $amount$"),
 		SuccessClose("Success.close", "Successfully, closed $name$"),
 		SuccessMod("Success.modified", "Successfully, modified $name$!"),
+		SuccessLogin("Success.login", "Successfully, logged in to sign bank!"),
 		
 		ErrorAlreadyExists("Error.already_exists", "$name$ does already exists!"),
 		ErrorRegionSelect("Error.region_select", "Please select a region first!"),

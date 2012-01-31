@@ -3,6 +3,9 @@ package com.iBank;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,6 +87,8 @@ public class iBank extends JavaPlugin {
     public static DataSource data = new DataSource();
     private Timer Loan = null;
     private Timer Interest = null;
+    public static List<String> connected = new ArrayList<String>();
+    public static HashMap<String, String> loggedinto = new HashMap<String, String>();
     
 	@Override
 	public void onEnable() {
@@ -489,5 +494,21 @@ public class iBank extends JavaPlugin {
 	public static boolean hasPermission(CommandSender user, String permission) {
 		if(!(user instanceof Player)) return true;
 		return hasPermission(user, permission);
+	}
+	/**
+	 * Disables all commands of a player, and connects him with 
+	 * the directbank
+	 * @param player
+	 * @param what What to login?
+	 */
+	public static void login(String player, String what) {
+		connected.add(player);
+	}
+	/**
+	 * Debinds a player from directbank
+	 * @param player
+	 */
+	public static void logout(String player) {
+		if(connected.contains(player)) connected.remove(player);
 	}
 }
