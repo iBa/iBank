@@ -118,6 +118,7 @@ public class iBank extends JavaPlugin {
 		  Commands.setPermission("iBank.access");
 		  Commands.setHelp(Configuration.StringEntry.HelpDescription.getValue());
 		  Commands.setHandler(new CommandHelp("bank"));
+		  Commands.setHelpArgs("(site)");
 		  
 		  Commands.addSubCommand("bank", "");
 	      Commands.setPermission("iBank.access");

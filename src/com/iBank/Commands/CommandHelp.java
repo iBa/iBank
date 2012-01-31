@@ -37,14 +37,26 @@ public class CommandHelp extends Handler {
 			return;
 		}
 		
-		MessageManager.send(sender, "iBank "+iBank.description.getVersion()+" ("+iBank.CodeName+")", "");
+		int sites = 1 + (int) Math.ceil(Commands.getCommands("bank").length / 16);
+		int curSite = 0;
+		try{
+			curSite = arguments.length == 0 ? 0 : Integer.parseInt(arguments[0]) -1;
+		}catch(Exception e) { }
+		MessageManager.send(sender, "iBank "+iBank.description.getVersion()+" ("+iBank.CodeName+") ("+(curSite+1)+"/"+sites+")", "");
 		String args = "";
+		int counter = 0;
+		//from = site * 16 
+		//to = site * 16 + 15
 		for(String name : Commands.getCommands("bank"))
 		{
 			if(Commands.isCallable((Player)sender, root , name))
 			{
+				if((curSite * 16) > counter) { counter++; continue; }
+				if(curSite * 16 + 15 < counter) break;
+				
 				args = Commands.getHelpArgs(root, name) != null ? Commands.getHelpArgs(root, name) : "";
 				MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+Commands.getHelp(root, name), "");
+				counter++; 
 			}
 		}
 		
