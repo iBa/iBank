@@ -2,6 +2,8 @@ package com.iBank.utils;
 
 import java.math.BigDecimal;
 
+import org.bukkit.Location;
+
 import com.iBank.system.Configuration;
 import com.iBank.system.MessageManager;
 
@@ -48,5 +50,27 @@ public class Mathematics {
     			return todp;
     		}
     	return todp;
+    }
+    /**
+     * Diffs location a with b
+     * @param a 
+     * @param b
+     * @return int, whole difference
+     */
+    public static int[] diffLoc(Location a, Location b) {
+    	int[] diff = new int[] { 0,0,0 };
+    	if(a.getX() > b.getX()) 
+    		diff[0] = a.getBlockX() - b.getBlockX(); 
+    	else 
+    		diff[0] = b.getBlockX() - a.getBlockX();
+    	if(a.getY() > b.getY()) 
+    		diff[1] += a.getBlockY() - b.getBlockY();
+    	else 
+    		diff[1] += b.getBlockY() - a.getBlockY();
+    	if(a.getZ() > b.getZ()) 
+    		diff[2] += a.getBlockZ() - b.getBlockZ();
+    	else
+    		diff[2] += b.getBlockZ() - a.getBlockZ();
+    	return diff;
     }
 }

@@ -19,9 +19,16 @@ import com.iBank.system.MessageManager;
  */
 public class CommandTransfer extends Handler {
 	public void handle(CommandSender sender, String[] arguments) {
+		handle(sender, arguments, false);
+	}
+	public void handle(CommandSender sender, String[] arguments, boolean check) {
 		boolean console = false;
 		if(!(sender instanceof Player)) console = true;
 		if(arguments.length == 3) {
+			if(!check && !iBank.canExecuteCommand(((Player)sender))) {
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
+				return;
+			}
 			BigDecimal money = null;
 			try{
 				money = new BigDecimal(arguments[2]);

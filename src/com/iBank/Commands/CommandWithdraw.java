@@ -19,12 +19,16 @@ import com.iBank.utils.Mathematics;
  * Can't be run from console
  */
 public class CommandWithdraw extends Handler {
-	public void handle(CommandSender sender, String[] arguments) { 	
+	public void handle(CommandSender sender, String[] arguments) {
+		handle(sender, arguments, false);
+	}
+	
+	public void handle(CommandSender sender, String[] arguments, boolean check) { 	
 		if(!(sender instanceof Player)) {
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.toString());
 			return;
 		}
-		if(!iBank.canExecuteCommand(((Player)sender))) {
+		if(!check && !iBank.canExecuteCommand(((Player)sender))) {
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 			return;
 		}

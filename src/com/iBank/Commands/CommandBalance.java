@@ -17,6 +17,9 @@ import com.iBank.system.MessageManager;
  */
 public class CommandBalance extends Handler {
 	public void handle(CommandSender sender, String[] arguments) {
+		handle(sender, arguments, false);
+	}
+	public void handle(CommandSender sender, String[] arguments, boolean check) {
 	boolean console = false;
 	if(!(sender instanceof Player)) console = true;
 	if(arguments.length == 1) {
@@ -25,7 +28,7 @@ public class CommandBalance extends Handler {
 			BankAccount acc = Bank.getAccount(arguments[0]);
 			if(console || (acc.isOwner(((Player)sender).getName()) || acc.isUser(((Player)sender).getName())) || iBank.hasPermission(sender, "iBank.balance")) {
 				String formattedBalance = iBank.economy.format(acc.getBalance().doubleValue());
-				if(!console) {
+				if(!console && !check) {
 					if(!iBank.canExecuteCommand(((Player)sender))) {
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 						return;
