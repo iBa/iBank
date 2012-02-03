@@ -52,7 +52,10 @@ Success:
    take: 'Successfully, took $amount$ from $name$'
    loan: 'Successfully, loaned $amount$!'
    close: 'Successfully, closed $name$'
+   mod: 'Successfully, modified $name$!'
    login: 'Successfully, logged in to sign bank!'
+   signcreate: 'Successfully, created iBank sign!'
+   logout: 'Sucessfully, logged out from iBank sign bank!'
 General:
    Info: 'Info about $type$ $name$:'
    no_accounts: 'No accounts found!'

@@ -149,7 +149,7 @@ public class iBankListener implements Listener {
 							if(!order.contains(event.getLine(1))) {
 								event.setLine(1, order.get(0));
 							}
-							//@todo send that sign was created 
+							MessageManager.send(event.getPlayer(), "&g&"+Configuration.StringEntry.SuccessSignCreate.getValue());
 						}
 					}
 				}
@@ -159,14 +159,11 @@ public class iBankListener implements Listener {
 		public void playerMoved(PlayerMoveEvent event) {
 			//force player not to move
 			if(iBank.connected.contains(event.getPlayer().getName())) {
-				//@todo send that if he wants to move, he has to logout
-				//check if movement was more than a single block, if yes cancel
-				//prevention of crazy rotating screen *GRR*
+				//Simplified: logout on movement where block difference was bigger than 1
 				int[] diffs = Mathematics.diffLoc(lastpos.get(event.getPlayer().getName()), event.getPlayer().getLocation());
 				if(diffs[0] > 0 || diffs[1] > 0 || diffs[2] > 0) {
 					iBank.logout(event.getPlayer().getName());
-					//@todo stringentry
-					MessageManager.send(event.getPlayer(), "&g& Logged out");
+					MessageManager.send(event.getPlayer(), "&g&"+Configuration.StringEntry.SuccessSignLogout.getValue());
 				}
 			}
 		}
