@@ -158,6 +158,7 @@ public class Configuration {
 		OwnersDescription("Description.owners", "Manage the owners of an account"),
 		UsersDescription("Description.users", "Manage the users of an account"),
 		PayBackDescription("Description.payback", "payback money you loaned"),
+		ReloadDescription("Description.reload", "Reload the configs"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),

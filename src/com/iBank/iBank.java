@@ -40,6 +40,7 @@ import com.iBank.Commands.CommandOpenAccount;
 import com.iBank.Commands.CommandOwners;
 import com.iBank.Commands.CommandPayBack;
 import com.iBank.Commands.CommandRegion;
+import com.iBank.Commands.CommandReload;
 import com.iBank.Commands.CommandTransfer;
 import com.iBank.Commands.CommandUsers;
 import com.iBank.Commands.CommandWithdraw;
@@ -246,6 +247,11 @@ public class iBank extends JavaPlugin {
 	    	  Commands.setHandler(new CommandPayBack());
 	    	  Commands.setHelpArgs("(id)");
 	      }
+	      
+	      Commands.addSubCommand("bank", "reload");
+	      Commands.setPermission("iBank.reload");
+	      Commands.setHelp(Configuration.StringEntry.ReloadDescription.getValue());
+	      Commands.setHandler(new CommandReload());
 	      
 		description = this.getDescription();  
 		  

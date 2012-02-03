@@ -22,6 +22,7 @@ Description:
    owners: 'Manage the owners of an account'
    users: 'Manage the users of an account'
    payback: 'payback money you loaned'
+   reload: 'Reload the configuration'
 Error:
    already_exists: '$name$ does already exists!'
    already: '$name$ is already one of the $type$ of this account!'
