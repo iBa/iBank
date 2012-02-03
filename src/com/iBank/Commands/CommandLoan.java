@@ -20,8 +20,15 @@ import com.iBank.system.MessageManager;
  */
 public class CommandLoan extends Handler {
 	public void handle(CommandSender sender, String[] arguments) {
+		handle(sender, arguments, false);
+	}
+	public void handle(CommandSender sender, String[] arguments, boolean check) {
 		if(!(sender instanceof Player)) {
 			MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.toString());
+			return;
+		}
+		if(!check && !iBank.canExecuteCommand(((Player)sender))) {
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 			return;
 		}
 		if(arguments.length == 1) {

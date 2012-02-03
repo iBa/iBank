@@ -24,6 +24,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import com.iBank.iBank;
 import com.iBank.Commands.CommandBalance;
 import com.iBank.Commands.CommandDeposit;
+import com.iBank.Commands.CommandLoan;
+import com.iBank.Commands.CommandLoanInfo;
 import com.iBank.Commands.CommandTransfer;
 import com.iBank.Commands.CommandWithdraw;
 import com.iBank.system.Commands;
@@ -37,7 +39,7 @@ import com.iBank.utils.Mathematics;
  */
 public class iBankListener implements Listener {
 	public HashMap<String, Map.Entry<Location, Location>> LastMarkedPoint = new HashMap<String, Map.Entry<Location,Location>>();
-	public List<String> order = new ArrayList<String>( Arrays.asList(new String[] { "withdraw", "deposit", "transfer", "balance" }) );
+	public List<String> order = new ArrayList<String>( Arrays.asList(new String[] { "withdraw", "deposit", "transfer", "balance", "loaninfo", "loan" }) );
 	public HashMap<String, Location> lastpos = new HashMap<String, Location>();
 	
 	@EventHandler
@@ -123,6 +125,10 @@ public class iBankListener implements Listener {
 					new CommandBalance().handle(sender, arguments, true);
 				}else if(type == "transfer") {
 					new CommandTransfer().handle(sender, arguments, true);
+				}else if(type == "loaninfo") {
+					new CommandLoanInfo().handle(sender, arguments, true);
+				}else if(type == "loan") {
+					new CommandLoan().handle(sender, arguments, true);
 				}
 				event.setCancelled(true);
 			}
