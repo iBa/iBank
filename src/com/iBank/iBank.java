@@ -240,7 +240,7 @@ public class iBank extends JavaPlugin {
 	    	  Commands.setPermission("iBank.loan");
 	    	  Commands.setHelp(Configuration.StringEntry.LoanInfoDescription.getValue());
 	    	  Commands.setHandler(new CommandLoanInfo());
-	    	  Commands.setHelpArgs("(:Site|Player)");
+	    	  Commands.setHelpArgs("(Site|Player)");
 	    	  
 	    	  Commands.addSubCommand("bank", "loanedit");
 	    	  Commands.setPermission("iBank.loanedit");
