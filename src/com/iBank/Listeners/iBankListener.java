@@ -79,9 +79,13 @@ public class iBankListener implements Listener {
     				 //check if the first line equals [iBank]
     				 if(((CraftSign)event.getClickedBlock().getState()).getLine(0).equalsIgnoreCase("[ibank]")) {
     					 
-    					 iBank.login(event.getPlayer().getName(), ((CraftSign)event.getClickedBlock().getState()).getLine(1));
+    					 iBank.login(event.getPlayer().getName());
     					 lastpos.put(event.getPlayer().getName(), event.getPlayer().getLocation());
-    					 iBank.loggedinto.put(event.getPlayer().getName() , order.get(0));
+    					 if(((CraftSign)event.getClickedBlock().getState()).getLine(1).length() > 1) {
+    						 iBank.loggedinto.put(event.getPlayer().getName(), ((CraftSign)event.getClickedBlock().getState()).getLine(1));
+    					 }else{
+    						 iBank.loggedinto.put(event.getPlayer().getName(), order.get(0));
+    					 }
     					 MessageManager.send(event.getPlayer(), "&g&" + Configuration.StringEntry.SuccessLogin.toString());
     				 }
     			 }
@@ -139,9 +143,7 @@ public class iBankListener implements Listener {
 			/* CHECK_IBANK => CHECK_PERMISSION ! => CANCELLED ! => SUCCESS */
 			if(!event.isCancelled()) {
 				if( event.getBlock().getType() == Material.SIGN || event.getBlock().getType() == Material.WALL_SIGN || event.getBlock().getType() == Material.SIGN_POST) {
-					System.out.println("Block detected!"+event.getLine(0));
 						if(event.getLine(0).equalsIgnoreCase("[ibank]")) {
-							System.out.println("Block detected!");
 						if(!iBank.hasPermission(event.getPlayer() , "iBank.sign")) {
 							MessageManager.send((CommandSender) event.getPlayer(), "&r&Permission denied!");
 							event.setCancelled(true);

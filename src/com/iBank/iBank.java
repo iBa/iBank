@@ -507,7 +507,7 @@ public class iBank extends JavaPlugin {
 	 */
 	public static boolean hasPermission(CommandSender user, String permission) {
 		if(!(user instanceof Player)) return true;
-		return hasPermission(user, permission);
+		return hasPermission((Player)user, permission);
 	}
 	/**
 	 * Disables all commands of a player, and connects him with 
@@ -515,7 +515,7 @@ public class iBank extends JavaPlugin {
 	 * @param player
 	 * @param what What to login?
 	 */
-	public static void login(String player, String what) {
+	public static void login(String player) {
 		connected.add(player);
 	}
 	/**

@@ -36,8 +36,9 @@ public class CommandLoanInfo extends Handler {
 			}
 			showLoanInfo(((Player)sender).getName(), sender, 0);
 		}else if(arguments.length == 1 || arguments.length == 2) {
-			if(arguments[0].startsWith(":")) {
-				showLoanInfo(((Player)sender).getName(), sender, Integer.parseInt(arguments[0].substring(1)));
+			char tmp;
+			if((tmp = arguments[0].charAt(0)) >= '0' && tmp <= '9') {
+				showLoanInfo(((Player)sender).getName(), sender, Integer.parseInt(arguments[0]));
 				return;
 			}
 			boolean allowed = (!(sender instanceof Player)) || iBank.hasPermission(sender, "iBank.loaninfo"); 
