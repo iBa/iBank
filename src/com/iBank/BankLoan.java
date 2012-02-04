@@ -15,13 +15,13 @@ public class BankLoan extends TimerTask {
 		if(Configuration.Entry.Debug.getBoolean()) System.out.println("Loan loaded");
 
 		for(Loan a : Bank.getLoans()) {
+			//moved below, to prevent exceptions , we not want.
+			a.setMinutesDone(a.getMinutesDone() + 1);
 			//If interval is reached, +money
 			//<= to fix probably not calculated possibilitys which are MAGIC
 			if(a.getInterval() <= a.getMinutesDone()) {
 				a.setAmount(a.getAmount().multiply(new BigDecimal((1+(a.getInterest() / 100)))));
 				a.setMinutesDone(0);
-			}else{
-				a.setMinutesDone(a.getMinutesDone() + 1);
 			}
 			//Is time reached?
 			if(a.getLeftTime() <= 0) {

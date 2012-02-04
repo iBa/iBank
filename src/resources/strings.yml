@@ -23,6 +23,7 @@ Description:
    users: 'Manage the users of an account'
    payback: 'payback money you loaned'
    reload: 'Reload the configuration'
+   loanedit: 'Edits a loan'
 Error:
    already_exists: '$name$ does already exists!'
    already: '$name$ is already one of the $type$ of this account!'
@@ -43,6 +44,7 @@ Success:
    delregion: 'Successfully, deleted the region $name$'
    region: 'Successfully, modified the region $name$'
    account: 'Successfully, modfied the account $name$'
+   loanedit: 'Successfully, modified the loan!'
    addaccount: 'Successfully, opened the account $name$'
    delaccount: 'Successfully, deleted the account $name$'
    deposit: 'Successfully, deposited $amount$ to $name$'

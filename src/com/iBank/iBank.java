@@ -34,6 +34,7 @@ import com.iBank.Commands.CommandGive;
 import com.iBank.Commands.CommandHelp;
 import com.iBank.Commands.CommandList;
 import com.iBank.Commands.CommandLoan;
+import com.iBank.Commands.CommandLoanEdit;
 import com.iBank.Commands.CommandLoanInfo;
 import com.iBank.Commands.CommandManager;
 import com.iBank.Commands.CommandOpenAccount;
@@ -241,11 +242,18 @@ public class iBank extends JavaPlugin {
 	    	  Commands.setHandler(new CommandLoanInfo());
 	    	  Commands.setHelpArgs("(:Site|Player)");
 	    	  
+	    	  Commands.addSubCommand("bank", "loanedit");
+	    	  Commands.setPermission("iBank.loanedit");
+	    	  Commands.setHelp(Configuration.StringEntry.LoanEditDescription.getValue());
+	    	  Commands.setHandler(new CommandLoanEdit());
+	    	  Commands.setHelpArgs("[id] (Key) (Value)");
+	    	  
 	    	  Commands.addSubCommand("bank", "payback");
 	    	  Commands.setPermission("iBank.loan");
 	    	  Commands.setHelp(Configuration.StringEntry.PayBackDescription.getValue());
 	    	  Commands.setHandler(new CommandPayBack());
 	    	  Commands.setHelpArgs("(id) [amount]");
+	    	  
 	      }
 	      
 	      Commands.addSubCommand("bank", "reload");

@@ -159,6 +159,7 @@ public class Configuration {
 		UsersDescription("Description.users", "Manage the users of an account"),
 		PayBackDescription("Description.payback", "payback money you loaned"),
 		ReloadDescription("Description.reload", "Reload the configs"),
+		LoanEditDescription("Description.loanedit", "Edits a loan"),
 		
 		SuccessAddRegion("Success.addregion", "Successfully, created the region $name$"),
 		SuccessDelRegion("Success.delregion", "Successfully, deleted the region $name$"),
@@ -178,6 +179,7 @@ public class Configuration {
 		SuccessSignCreate("Success.signcreate", "Successfully, created iBank sign!"),
 		SuccessSignLogout("Success.logout", "Sucessfully, logged out from iBank sign bank!"),
 		SuccessPayback("Success.payback", "Successfully, payed back $amount$!"),
+		SuccessLoanEdit("Success.loanedit", "Successfully, modified the loan!"),
 		
 		ErrorAlreadyExists("Error.already_exists", "$name$ does already exists!"),
 		ErrorRegionSelect("Error.region_select", "Please select a region first!"),

@@ -31,10 +31,10 @@ public class Loan {
 	 * @param amount The amount which he received
 	 * @param boolean If given, loan will be created
 	 */
-	public Loan(String username, double interest, int interval,long time, BigDecimal amount, boolean create) {
+	public Loan(String username, double interest, int interval,int time, BigDecimal amount, boolean create) {
 		this(username, interest, interval, time, amount, 0, -1);
-		String timestamp = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() + time);
-		this.id = DataSource.insertEntry(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "user", "amount", "percentage", "until", "interval", "mD" } , new Object[] { username, amount, interest, timestamp, interval, 0 }, true); 
+		int tmp = (int)(System.currentTimeMillis() / 1000L) + time;
+		this.id = DataSource.insertEntry(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "user", "amount", "percentage", "until", "interval", "mD" } , new Object[] { username, amount, interest, tmp, interval, 0 }, true); 
 	}
 	
 	public Loan(String username, double interest, int interval, long time, BigDecimal amount,int mD, int id) {
@@ -51,7 +51,14 @@ public class Loan {
 	 * Returns how much seconds are left
 	 */
 	public long getLeftTime() {
-		return time - (new Timestamp(System.currentTimeMillis()).getTime()); 
+		return time - System.currentTimeMillis()/1000L; 
+	}
+	/**
+	 * Returns how much minutes are left
+	 * @return int
+	 */
+	public int getLeftMinutes() {
+		return (int) TimeUnit.SECONDS.toMinutes(getLeftTime()); 
 	}
 	/**
 	 * Sets the left time
@@ -63,12 +70,12 @@ public class Loan {
 			throwIdError("SET_LEFT_TIME");
 			return;
 		}
-		Timestamp tmp = new Timestamp(TimeUnit.SECONDS.toMillis(minutes));
-		DataSource.update(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "until" }, new Object[] { tmp.getTime() } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
-		this.time = tmp.getTime();
+		int minTMP = (int)(System.currentTimeMillis() / 100L) + (minutes * 60);
+		DataSource.update(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "until" }, new Object[] { minTMP } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
+		this.time = minTMP;
 	}
 	/**
-	 * Return the interval in seconds
+	 * Return the interval in minutes
 	 * @return int
 	 */
 	public int getInterval() {

@@ -45,7 +45,7 @@ public class CommandLoan extends Handler {
 				//validate amount > max
 				if(Configuration.Entry.LoanAmount.getBigDecimal().compareTo(amount) >= 0) {
 					//all validated (player and account)
-					new Loan(player, Configuration.Entry.LoanInterest.getInteger(), Configuration.Entry.LoanInterestTime.getInteger() * 60 , (60L * Configuration.Entry.LoanTime.getLong()) , amount, true);
+					new Loan(player, Configuration.Entry.LoanInterest.getInteger(), Configuration.Entry.LoanInterestTime.getInteger() , (60 * Configuration.Entry.LoanTime.getInteger()) , amount, true);
 					iBank.economy.depositPlayer(((Player)sender).getName(), amount.doubleValue());
 					MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessLoan.toString().replace("$amount$", amount.toString()));
 				}else{
