@@ -245,7 +245,7 @@ public class iBank extends JavaPlugin {
 	    	  Commands.setPermission("iBank.loan");
 	    	  Commands.setHelp(Configuration.StringEntry.PayBackDescription.getValue());
 	    	  Commands.setHandler(new CommandPayBack());
-	    	  Commands.setHelpArgs("(id)");
+	    	  Commands.setHelpArgs("(id) [amount]");
 	      }
 	      
 	      Commands.addSubCommand("bank", "reload");

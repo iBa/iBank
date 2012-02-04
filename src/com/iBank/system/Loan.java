@@ -34,7 +34,7 @@ public class Loan {
 	public Loan(String username, double interest, int interval,long time, BigDecimal amount, boolean create) {
 		this(username, interest, interval, time, amount, 0, -1);
 		String timestamp = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime() + time);
-		this.id = DataSource.insertEntry(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "user", "amount", "percentage", "until", "interval" } , new Object[] { username, amount, interest, timestamp, interval }, true); 
+		this.id = DataSource.insertEntry(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "user", "amount", "percentage", "until", "interval", "mD" } , new Object[] { username, amount, interest, timestamp, interval, 0 }, true); 
 	}
 	
 	public Loan(String username, double interest, int interval, long time, BigDecimal amount,int mD, int id) {
@@ -161,5 +161,12 @@ public class Loan {
 	 */
 	public void remove() {
 		DataSource.deleteEntry(Configuration.Entry.DatabaseLoanTable.toString(), new AndCondition("id", id, Operators.IDENTICAL));
+	}
+	/**
+	 * Return the id
+	 * @return int id
+	 */
+	public int getId() {
+		return id;
 	}
 }

@@ -74,7 +74,7 @@ public class CommandLoanInfo extends Handler {
 			String[] lang = new String[] { Configuration.StringEntry.GeneralUntil.toString(), Configuration.StringEntry.GeneralPer.toString(), Configuration.StringEntry.GeneralMin.toString() };
 			String date = new SimpleDateFormat("dd.MMM.yy HH:mm:ss").format(new Date(System.currentTimeMillis()+loan.getLeftTime()));
 			String minutes = String.valueOf(loan.getInterval() / 60);
-			MessageManager.send(destination, (i+1)+"."+" "+iBank.format(loan.getAmount())+" "+lang[0]+" "+date+" "+String.valueOf(loan.getInterest()) + "% " + lang[1] + " " + minutes+ " " +lang[2]);
+			MessageManager.send(destination, (i+1)+"."+" id:("+loan.getId()+") "+iBank.format(loan.getAmount())+" "+lang[0]+" "+date+" "+String.valueOf(loan.getInterest()) + "% " + lang[1] + " " + minutes+ " " +lang[2]);
 			i++;
 		}
 	}

@@ -19,8 +19,15 @@ import com.iBank.system.MessageManager;
  */
 public class CommandPayBack extends Handler {
 	public void handle(CommandSender sender, String[] arguments) {
+		handle(sender, arguments, false);
+	}
+	public void handle(CommandSender sender, String[] arguments, boolean check) {
 		if(!(sender instanceof Player)) {
 			MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.toString());
+			return;
+		}
+		if(!check && !iBank.canExecuteCommand(((Player)sender))) {
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 			return;
 		}
 		if(arguments.length == 2) {
@@ -40,29 +47,62 @@ public class CommandPayBack extends Handler {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [AMOUNT]");
 				return;
 			}
+			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) {
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
+				return;
+			}
 			//try to get this loan
-			int i = 0;
-			for(Loan loan : Bank.getLoansByAccount(((Player)sender).getName())) {
-				if(i == arg) {
-					//loan.getAmount() has to be bigger or equal than given (0 or -1)
-					if(!(loan.getAmount().compareTo(todp)<=0)) {
-						//throw error
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString() + "AMOUNT>LOAN");
-						return;
-					}
-					loan.setAmount(loan.getAmount().subtract(todp));
-				    iBank.economy.withdrawPlayer(((Player)sender).getName(), todp.doubleValue());
-					//<= to prevent MAGIC exceptions
-					if(loan.getAmount().compareTo(new BigDecimal("0.00"))<=0) {
-						loan.remove();
-					}
-					break;
+			Loan loan = Bank.getLoanById(arg);
+			if(loan == null) {
+				//notfound
+			}else{
+				//loan.getAmount() has to be bigger or equal than given (0 or -1)
+				if(!(loan.getAmount().compareTo(todp)<=0)) {
+					//throw error
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString() + "AMOUNT>LOAN");
+					return;
 				}
-				
-				i++;
+				loan.setAmount(loan.getAmount().subtract(todp));
+			    iBank.economy.withdrawPlayer(((Player)sender).getName(), todp.doubleValue());
+				//<= to prevent MAGIC exceptions
+				if(loan.getAmount().compareTo(new BigDecimal("0.00"))<=0) {
+					loan.remove();
+				}
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(todp)));
 			}
 		}else if(arguments.length == 1){
-			
+			//loop through all, calculate stuff, etc.
+			//arguments[0] -> BigDecimal
+			BigDecimal todp = new BigDecimal("0.00");
+			try{
+				todp = new BigDecimal(arguments[0]);
+			}catch(Exception e) {
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [AMOUNT]");
+				return;
+			}
+			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) {
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
+				return;
+			}
+			BigDecimal paiedback = new BigDecimal("0.00");
+			for(Loan loan : Bank.getLoansByAccount(((Player)sender).getName())) {
+				//todp > loan => remove loan, todp -= loan
+				if(todp.compareTo(loan.getAmount()) >= 0) {
+					iBank.economy.withdrawPlayer(((Player)sender).getName(), loan.getAmount().doubleValue());
+					paiedback = paiedback.add(loan.getAmount());
+					todp.subtract(loan.getAmount());
+					loan.remove();
+				}
+				//todp < loan => subtract as much as possible, loan -= todp
+				if(todp.compareTo(loan.getAmount()) < 0) {
+					loan.setAmount(loan.getAmount().subtract(todp));
+					paiedback = paiedback.add(todp);
+					iBank.economy.withdrawPlayer(((Player)sender).getName(), todp.doubleValue());
+					//break because no money left
+					break;
+				}
+			}
+			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(paiedback)));
 		}else{
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
 		}

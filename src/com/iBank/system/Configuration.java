@@ -177,6 +177,7 @@ public class Configuration {
 		SuccessLogin("Success.login", "Successfully, logged in to sign bank!"),
 		SuccessSignCreate("Success.signcreate", "Successfully, created iBank sign!"),
 		SuccessSignLogout("Success.logout", "Sucessfully, logged out from iBank sign bank!"),
+		SuccessPayback("Success.payback", "Successfully, payed back $amount$!"),
 		
 		ErrorAlreadyExists("Error.already_exists", "$name$ does already exists!"),
 		ErrorRegionSelect("Error.region_select", "Please select a region first!"),

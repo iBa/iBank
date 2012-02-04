@@ -56,6 +56,7 @@ Success:
    login: 'Successfully, logged in to sign bank!'
    signcreate: 'Successfully, created iBank sign!'
    logout: 'Sucessfully, logged out from iBank sign bank!'
+   payback: 'Successfully, payed back $amount$!'
 General:
    Info: 'Info about $type$ $name$:'
    no_accounts: 'No accounts found!'
