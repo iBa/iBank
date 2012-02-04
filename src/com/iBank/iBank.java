@@ -85,7 +85,7 @@ public class iBank extends JavaPlugin {
     public Listener Listener = new iBankListener();
     private static Permission permission = null;
     public static Economy economy = null;
-    public static String CodeName = "Weezle";
+    public static String CodeName = "TacoFashion";
     public static DataSource data = new DataSource();
     private Timer Loan = null;
     private Timer Interest = null;
