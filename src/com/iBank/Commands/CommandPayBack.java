@@ -55,6 +55,7 @@ public class CommandPayBack extends Handler {
 			Loan loan = Bank.getLoanById(arg);
 			if(loan == null) {
 				//notfound
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name", String.valueOf(arg)));
 			}else{
 				//loan.getAmount() has to be bigger or equal than given (0 or -1)
 				if(!(loan.getAmount().compareTo(todp)<=0)) {
