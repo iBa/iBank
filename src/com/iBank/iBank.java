@@ -12,11 +12,13 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import net.minecraft.server.Item;
 
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -42,6 +44,7 @@ import com.iBank.Commands.CommandOwners;
 import com.iBank.Commands.CommandPayBack;
 import com.iBank.Commands.CommandRegion;
 import com.iBank.Commands.CommandReload;
+import com.iBank.Commands.CommandTake;
 import com.iBank.Commands.CommandTransfer;
 import com.iBank.Commands.CommandUsers;
 import com.iBank.Commands.CommandWithdraw;
@@ -50,7 +53,6 @@ import com.iBank.Database.DataSource.Drivers;
 import com.iBank.Listeners.iBankListener;
 import com.iBank.system.Bank;
 import com.iBank.system.CommandHandler;
-import com.iBank.system.CommandTake;
 import com.iBank.system.Commands;
 import com.iBank.system.Configuration;
 import com.iBank.system.Region;
@@ -76,13 +78,14 @@ import com.iBank.utils.StreamUtils;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class iBank extends JavaPlugin {
-    private YamlConfiguration StringConfig = null;
-    private YamlConfiguration Config = null;
-    private File ConfigFile = null;
-    private File StringFile = null;
+	public static iBank mainInstance = null;
+    private static YamlConfiguration StringConfig = null;
+    private static YamlConfiguration Config = null;
+    private static File ConfigFile = null;
+    private static File StringFile = null;
     private static final Logger log = Logger.getLogger("Minecraft");
     public static PluginDescriptionFile description = null;
-    public Listener Listener = new iBankListener();
+    public static Listener Listener = new iBankListener();
     private static Permission permission = null;
     public static Economy economy = null;
     public static String CodeName = "TacoFashion";
@@ -94,6 +97,8 @@ public class iBank extends JavaPlugin {
     
 	@Override
 	public void onEnable() {
+		//dirty hack :(
+		mainInstance = this;
 		if(!(getDataFolder().exists())) getDataFolder().mkdir();
 		// Load configuration + strings
 		reloadConfig();
@@ -116,150 +121,58 @@ public class iBank extends JavaPlugin {
 		}
 		setupPermissions();
 		
-		//Register Commands
-		Commands.setVarSource(this);
+		//Register HELP
+		//@todo Handle help more efficent!
 	    Commands.addRootCommand("bank");
-	    Commands.setTag("&g&[&w&Bank&g&] ");
-	    
-		  Commands.addSubCommand("bank", "help");
-		  Commands.setPermission("iBank.access");
-		  Commands.setHelp(Configuration.StringEntry.HelpDescription.getValue());
-		  Commands.setHandler(new CommandHelp("bank"));
-		  Commands.setHelpArgs("(site)");
-		  
-		  Commands.addSubCommand("bank", "");
-	      Commands.setPermission("iBank.access");
-	      Commands.setHelp(Configuration.StringEntry.BankDescription.getValue());
-	      Commands.setHandler(new BankRootCommand());
-			
-	      Commands.addSubCommand("bank", "addregion");
-	      Commands.setPermission("iBank.regions");
-	      Commands.setHelp(Configuration.StringEntry.AddRegionDescription.getValue());
-	      Commands.setHandler(new CommandAddRegion());
-	      Commands.setHelpArgs("[Name]");
-	      
-	      Commands.addSubCommand("bank", "delregion");
-	      Commands.setPermission("iBank.regions");
-	      Commands.setHelp(Configuration.StringEntry.DelRegionDescription.getValue());
-	      Commands.setHandler(new CommandDelRegion());
-	      Commands.setHelpArgs("[Name]");
-	      
-	      Commands.addSubCommand("bank", "region");
-	      Commands.setPermission("iBank.access");
-	      Commands.setHelp(Configuration.StringEntry.RegionDescription.getValue());
-	      Commands.setHandler(new CommandRegion());
-	      Commands.setHelpArgs("[Name]");	
-	      
-	      Commands.addSubCommand("bank", "open");
-	      Commands.setPermission("iBank.access");
-	      Commands.setHelp(Configuration.StringEntry.OpenAccountDescription.getValue());
-	      Commands.setHandler(new CommandOpenAccount());
-	      Commands.setHelpArgs("[Name]");
-	      
-	      Commands.addSubCommand("bank", "balance");
-	      Commands.setPermission("iBank.access");
-	      Commands.setHelp(Configuration.StringEntry.BalanceDescription.getValue());
-	      Commands.setHandler(new CommandBalance());
-	      Commands.setHelpArgs("[Name]");
-	      
-	      Commands.addSubCommand("bank", "list");
-	      Commands.setPermission("iBank.list");
-	      Commands.setHelp(Configuration.StringEntry.ListDescription.getValue());
-	      Commands.setHandler(new CommandList());
-	      Commands.setHelpArgs("(Player)");
-	      
-	      Commands.addSubCommand("bank", "deposit");
-	      Commands.setPermission("iBank.access");
-	      Commands.setHelp(Configuration.StringEntry.DepositDescription.getValue());
-	      Commands.setHandler(new CommandDeposit());
-	      Commands.setHelpArgs("[Name] [Amount]");
-	      
-	      Commands.addSubCommand("bank", "withdraw");
-	      Commands.setPermission("iBank.access");
-	      Commands.setHelp(Configuration.StringEntry.WithdrawDescription.getValue());
-	      Commands.setHandler(new CommandWithdraw());
-	      Commands.setHelpArgs("[Name] [Amount]");
-	      
-	      Commands.addSubCommand("bank", "transfer");
-	      Commands.setPermission("iBank.access");
-	      Commands.setHelp(Configuration.StringEntry.TransferDescription.getValue());
-	      Commands.setHandler(new CommandTransfer());
-	      Commands.setHelpArgs("[Src] [Dest] [Amount]");
-	      
-	      Commands.addSubCommand("bank", "account");
-	      Commands.setPermission("iBank.manage");
-	      Commands.setHelp(Configuration.StringEntry.AccountDescription.getValue());
-	      Commands.setHandler(new CommandManager());
-	      Commands.setHelpArgs("[Name]");
-	      
-	      Commands.addSubCommand("bank", "owners");
-	      Commands.setPermission("iBank.access");
-	      Commands.setHelp(Configuration.StringEntry.OwnersDescription.getValue());
-	      Commands.setHandler(new CommandOwners());
-	      Commands.setHelpArgs("[Name]");
-	      
-	      Commands.addSubCommand("bank", "users");
-	      Commands.setPermission("iBank.access");
-	      Commands.setHelp(Configuration.StringEntry.UsersDescription.getValue());
-	      Commands.setHandler(new CommandUsers());
-	      Commands.setHelpArgs("[Name]");
-	      
-	      Commands.addSubCommand("bank", "give");
-	      Commands.setPermission("iBank.manage");
-	      Commands.setHelp(Configuration.StringEntry.GiveDescription.getValue());
-	      Commands.setHandler(new CommandGive());
-	      Commands.setHelpArgs("[Player] [Amount]");
-	      
-	      Commands.addSubCommand("bank", "take");
-	      Commands.setPermission("iBank.manage");
-	      Commands.setHelp(Configuration.StringEntry.TakeDescription.getValue());
-	      Commands.setHandler(new CommandTake());
-	      Commands.setHelpArgs("[Player] [Amount]");
-	      
-	      Commands.addSubCommand("bank", "delete");
-	      Commands.setPermission("iBank.manage");
-	      Commands.setHelp(Configuration.StringEntry.DeleteDescription.getValue());
-	      Commands.setHandler(new CommandDelete());
-	      Commands.setHelpArgs("[Name]");
-	      
-	      Commands.addSubCommand("bank", "close");
-	      Commands.setPermission("iBank.access");
-	      Commands.setHelp(Configuration.StringEntry.CloseDescription.getValue());
-	      Commands.setHandler(new CommandClose());
-	      Commands.setHelpArgs("[Name]");
-	      
+	    Commands.setTag("&g&[&w&Bank&g&] "); 
+	    Commands.setHelp("bank", "help", Configuration.StringEntry.BankDescription.getValue());
+	    Commands.setHelp("bank", "addregion", Configuration.StringEntry.AddRegionDescription.getValue());
+	    Commands.setHelp("bank", "delregion", Configuration.StringEntry.DelRegionDescription.getValue());
+	    Commands.setHelp("bank", "region", Configuration.StringEntry.RegionDescription.getValue()); 
+	    Commands.setHelp("bank", "open", Configuration.StringEntry.OpenAccountDescription.getValue());
+	    Commands.setHelp("bank", "balance", Configuration.StringEntry.BalanceDescription.getValue());
+	    Commands.setHelp("bank", "list", Configuration.StringEntry.ListDescription.getValue());
+	    Commands.setHelp("bank", "deposit", Configuration.StringEntry.DepositDescription.getValue());
+	    Commands.setHelp("bank", "withdraw", Configuration.StringEntry.WithdrawDescription.getValue());
+	    Commands.setHelp("bank", "transfer", Configuration.StringEntry.TransferDescription.getValue());
+	    Commands.setHelp("bank", "account", Configuration.StringEntry.AccountDescription.getValue());
+	    Commands.setHelp("bank", "owners", Configuration.StringEntry.OwnersDescription.getValue());
+	    Commands.setHelp("bank", "users", Configuration.StringEntry.UsersDescription.getValue());
+	    Commands.setHelp("bank", "give", Configuration.StringEntry.GiveDescription.getValue());
+	    Commands.setHelp("bank", "take", Configuration.StringEntry.TakeDescription.getValue());
+	    Commands.setHelp("bank", "delete", Configuration.StringEntry.DeleteDescription.getValue());
+	    Commands.setHelp("bank", "close", Configuration.StringEntry.CloseDescription.getValue());
+	    //register commands
+	    CommandHandler.register(new CommandHelp("bank"));
+	    CommandHandler.register(new CommandAddRegion());
+	    CommandHandler.register(new CommandDelRegion());
+	    CommandHandler.register(new CommandRegion());
+	    CommandHandler.register(new CommandOpenAccount());
+	    CommandHandler.register(new CommandBalance());
+	    CommandHandler.register(new CommandList());
+	    CommandHandler.register(new CommandDeposit());
+	    CommandHandler.register(new CommandWithdraw());
+	    CommandHandler.register(new CommandTransfer());
+	    CommandHandler.register(new CommandManager());
+	    CommandHandler.register(new CommandOwners());
+	    CommandHandler.register(new CommandUsers());
+	    CommandHandler.register(new CommandGive());
+	    CommandHandler.register(new CommandTake());
+	    CommandHandler.register(new CommandDelete());
+	    CommandHandler.register(new CommandClose());
+	    //register loan help
 	      if(Configuration.Entry.Loan.getBoolean()) {
-	      
-	    	  Commands.addSubCommand("bank", "loan");
-	    	  Commands.setPermission("iBank.loan");
-	    	  Commands.setHelp(Configuration.StringEntry.LoanDescription.getValue());
-	    	  Commands.setHandler(new CommandLoan());
-	    	  Commands.setHelpArgs("[Amount]");
-	      
-	    	  Commands.addSubCommand("bank", "loaninfo");
-	    	  Commands.setPermission("iBank.loan");
-	    	  Commands.setHelp(Configuration.StringEntry.LoanInfoDescription.getValue());
-	    	  Commands.setHandler(new CommandLoanInfo());
-	    	  Commands.setHelpArgs("(Site|Player)");
-	    	  
-	    	  Commands.addSubCommand("bank", "loanedit");
-	    	  Commands.setPermission("iBank.loanedit");
-	    	  Commands.setHelp(Configuration.StringEntry.LoanEditDescription.getValue());
-	    	  Commands.setHandler(new CommandLoanEdit());
-	    	  Commands.setHelpArgs("[id] (Key) (Value)");
-	    	  
-	    	  Commands.addSubCommand("bank", "payback");
-	    	  Commands.setPermission("iBank.loan");
-	    	  Commands.setHelp(Configuration.StringEntry.PayBackDescription.getValue());
-	    	  Commands.setHandler(new CommandPayBack());
-	    	  Commands.setHelpArgs("(id) [amount]");
-	    	  
+	    	  Commands.setHelp("bank", "loan", Configuration.StringEntry.LoanDescription.getValue());
+	    	  Commands.setHelp("bank", "loaninfo", Configuration.StringEntry.LoanInfoDescription.getValue());
+	    	  Commands.setHelp("bank", "loanedit", Configuration.StringEntry.LoanEditDescription.getValue());
+	    	  Commands.setHelp("bank", "payback", Configuration.StringEntry.PayBackDescription.getValue());
+	    	  CommandHandler.register(new CommandLoan());
+	    	  CommandHandler.register(new CommandLoanInfo());
+	    	  CommandHandler.register(new CommandLoanEdit());
+	    	  CommandHandler.register(new CommandPayBack());
 	      }
 	      
-	      Commands.addSubCommand("bank", "reload");
-	      Commands.setPermission("iBank.reload");
-	      Commands.setHelp(Configuration.StringEntry.ReloadDescription.getValue());
-	      Commands.setHandler(new CommandReload());
+	      Commands.setHelp("bank", "reload", Configuration.StringEntry.ReloadDescription.getValue());
 	      
 		description = this.getDescription();  
 		  
@@ -319,7 +232,6 @@ public class iBank extends JavaPlugin {
 				}
 			}).start();
 		}
-		
 		System.out.println("[iBank] Version "+description.getVersion()+" "+CodeName+" loaded successfully!");
 	}
 	
@@ -401,8 +313,8 @@ public class iBank extends JavaPlugin {
         return (economy != null);
     }
     
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { 
-    	return CommandHandler.parse(cmd.getName(), args, sender);	
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { 	
+    	return CommandHandler.handle(sender, cmd.getName(), args);
     }
     
     /**

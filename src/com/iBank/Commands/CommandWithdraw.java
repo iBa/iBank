@@ -8,8 +8,9 @@ import org.bukkit.entity.Player;
 import com.iBank.iBank;
 import com.iBank.system.Bank;
 import com.iBank.system.BankAccount;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
 import com.iBank.utils.Mathematics;
 
@@ -18,7 +19,14 @@ import com.iBank.utils.Mathematics;
  * @author steffengy
  * Can't be run from console
  */
-public class CommandWithdraw extends Handler {
+@CommandInfo(
+		arguments = { "Name", "Amount" }, 
+		help = "", 
+		permission = "iBank.access",
+		root = "bank", 
+		sub = "withdraw"
+)
+public class CommandWithdraw implements Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		handle(sender, arguments, false);
 	}

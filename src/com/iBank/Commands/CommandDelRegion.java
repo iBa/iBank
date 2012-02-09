@@ -3,8 +3,9 @@ package com.iBank.Commands;
 import org.bukkit.command.CommandSender;
 
 import com.iBank.system.Bank;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
 
 /**
@@ -12,7 +13,14 @@ import com.iBank.system.MessageManager;
  * @author steffengy
  *
  */
-public class CommandDelRegion extends Handler {
+@CommandInfo(
+		arguments = { "Name" }, 
+		help = "", 
+		permission = "iBank.regions", 
+		root = "bank", 
+		sub = "delregion"
+)
+public class CommandDelRegion implements Command {
 	@Override
 	public void handle(CommandSender sender, String[] arguments) {
 		if(arguments.length == 1) {

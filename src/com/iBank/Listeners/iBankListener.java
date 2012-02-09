@@ -28,7 +28,7 @@ import com.iBank.Commands.CommandLoan;
 import com.iBank.Commands.CommandLoanInfo;
 import com.iBank.Commands.CommandTransfer;
 import com.iBank.Commands.CommandWithdraw;
-import com.iBank.system.Commands;
+import com.iBank.system.CommandHandler;
 import com.iBank.system.Configuration;
 import com.iBank.system.MessageManager;
 import com.iBank.utils.Mathematics;
@@ -50,7 +50,7 @@ public class iBankListener implements Listener {
     	    	{
     	    	   if(event.getPlayer().getItemInHand().getTypeId() == Configuration.Entry.SelectionTool.getInteger())
     	    	   {
-    	    		   if(Commands.isCallable(event.getPlayer(), "bank", "addregion"))
+    	    		   if(CommandHandler.isCallable(event.getPlayer(), "bank", "addregion"))
     	    			if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
     	    			   //1st
     	    			   if(!LastMarkedPoint.containsKey(event.getPlayer().getName())) {

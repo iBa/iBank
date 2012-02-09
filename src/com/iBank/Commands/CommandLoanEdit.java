@@ -5,8 +5,9 @@ import java.math.BigDecimal;
 import org.bukkit.command.CommandSender;
 
 import com.iBank.system.Bank;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.Loan;
 import com.iBank.system.MessageManager;
 
@@ -17,7 +18,14 @@ import com.iBank.system.MessageManager;
  * @author steffengy
  *
  */
-public class CommandLoanEdit extends Handler {
+@CommandInfo(
+		arguments = { "Name", "(Key)", "(Val)" }, 
+		help = "", 
+		permission = "iBank.loanedit",
+		root = "bank", 
+		sub = "loanedit"
+)
+public class CommandLoanEdit implements Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		if(arguments.length == 3) {
 			int id = 0;

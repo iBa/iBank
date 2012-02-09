@@ -7,8 +7,9 @@ import org.bukkit.entity.Player;
 
 import com.iBank.iBank;
 import com.iBank.system.Bank;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
 import com.iBank.system.Region;
 
@@ -18,7 +19,14 @@ import com.iBank.system.Region;
  * [1] Can't be run from console
  * @todo Add parameter for other owners
  */
-public class CommandOpenAccount extends Handler {
+@CommandInfo(
+		arguments = { "Name" }, 
+		help = "", 
+		permission = "iBank.access", 
+		root = "bank", 
+		sub = "open"
+)
+public class CommandOpenAccount implements Command {
 	public void handle(CommandSender sender, String[] arguments) { 
 		if(arguments.length == 1) {
 			if(!(sender instanceof Player)) {

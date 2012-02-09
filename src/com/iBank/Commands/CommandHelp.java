@@ -4,8 +4,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.iBank.iBank;
+import com.iBank.system.Command;
+import com.iBank.system.CommandHandler;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Commands;
-import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
 
 /**
@@ -13,7 +15,13 @@ import com.iBank.system.MessageManager;
  * @author steffengy
  *
  */
-public class CommandHelp extends Handler {
+@CommandInfo(arguments = { "" }, 
+  help = "", 
+  permission = "iBank.access", 
+  root = "bank", 
+  sub = "help"
+)
+public class CommandHelp implements Command {
 	protected String root = "";
 	/**
 	 * Constructor
@@ -29,15 +37,15 @@ public class CommandHelp extends Handler {
 		if(!(sender instanceof Player)) {
 			MessageManager.send(sender, "iBank "+iBank.description.getVersion()+" ("+iBank.CodeName+")");
 			String args = "";
-			for(String name : Commands.getCommands("bank"))
+			for(String name : CommandHandler.getCommands("bank"))
 			{
-					args = Commands.getHelpArgs(root, name) != null ? Commands.getHelpArgs(root, name) : "";
+					args = CommandHandler.getArgInfo(root, name);
 					MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+Commands.getHelp(root, name));
 			}
 			return;
 		}
 		
-		int sites = 1 + (int) Math.ceil(Commands.getCommands("bank").length / 16);
+		int sites = 1 + (int) Math.ceil(CommandHandler.getCommands("bank").size() / 16);
 		int curSite = 0;
 		try{
 			curSite = arguments.length == 0 ? 0 : Integer.parseInt(arguments[0]) -1;
@@ -47,14 +55,14 @@ public class CommandHelp extends Handler {
 		int counter = 0;
 		//from = site * 16 
 		//to = site * 16 + 15
-		for(String name : Commands.getCommands("bank"))
+		for(String name : CommandHandler.getCommands("bank"))
 		{
-			if(Commands.isCallable((Player)sender, root , name))
+			if(CommandHandler.isCallable((Player)sender, root , name))
 			{
 				if((curSite * 16) > counter) { counter++; continue; }
 				if(curSite * 16 + 15 < counter) break;
 				
-				args = Commands.getHelpArgs(root, name) != null ? Commands.getHelpArgs(root, name) : "";
+				args = CommandHandler.getArgInfo(root, name) != null ? CommandHandler.getArgInfo(root, name) : "";
 				MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+Commands.getHelp(root, name), "");
 				counter++; 
 			}

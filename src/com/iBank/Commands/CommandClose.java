@@ -5,8 +5,9 @@ import org.bukkit.entity.Player;
 
 import com.iBank.iBank;
 import com.iBank.system.Bank;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
 
 /**
@@ -14,7 +15,14 @@ import com.iBank.system.MessageManager;
  * @author steffengy
  * @needs_owner true
  */
-public class CommandClose extends Handler {
+@CommandInfo(
+		arguments = { "Name" }, 
+		help = "", 
+		permission = "iBank.access",
+		root = "bank", 
+		sub = "close"
+)
+public class CommandClose implements Command {
 	public void handle(CommandSender sender, String[] arguments) { 	
 		boolean console = false;
 		if(!(sender instanceof Player)) console = true;

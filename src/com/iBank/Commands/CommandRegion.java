@@ -6,8 +6,9 @@ import org.bukkit.entity.Player;
 
 import com.iBank.iBank;
 import com.iBank.system.Bank;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
 import com.iBank.system.Region;
 
@@ -22,7 +23,13 @@ import com.iBank.system.Region;
  * @author steffengy
  *
  */
-public class CommandRegion extends Handler {
+@CommandInfo(
+		arguments = { "Name" }, 
+		help = "", 
+		permission = "iBank.access", 
+		root = "bank", 
+		sub = "region")
+public class CommandRegion implements Command {
 	@Override
 	public void handle(CommandSender sender, String[] arguments) {
 		if(arguments.length == 1) {

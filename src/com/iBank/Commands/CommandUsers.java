@@ -6,11 +6,19 @@ import org.bukkit.entity.Player;
 
 import com.iBank.system.Bank;
 import com.iBank.system.BankAccount;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
 
-public class CommandUsers extends Handler {
+@CommandInfo(
+		arguments = { "Name", "Acc-Key", "Value" }, 
+		help = "", 
+		permission = "iBank.access",
+		root = "bank", 
+		sub = "users"
+)
+public class CommandUsers implements Command {
 	public void handle(CommandSender sender, String[] arguments) { 
 		boolean console = false;
 		if(!(sender instanceof Player)) {

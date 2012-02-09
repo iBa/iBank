@@ -1,10 +1,17 @@
-package com.iBank.system;
+package com.iBank.Commands;
 
 import java.math.BigDecimal;
 
 import org.bukkit.command.CommandSender;
 
 import com.iBank.iBank;
+import com.iBank.system.Bank;
+import com.iBank.system.BankAccount;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
+import com.iBank.system.Configuration;
+import com.iBank.system.MessageManager;
+import com.iBank.system.Configuration.StringEntry;
 
 /**
  *  /bank take <ACCOUNT> <MONEY> - Take money from account
@@ -12,7 +19,14 @@ import com.iBank.iBank;
  * @author steffengy
  *
  */
-public class CommandTake extends Handler {
+@CommandInfo(
+		arguments = { "Account", "Money" }, 
+		help = "", 
+		permission = "iBank.manage",
+		root = "bank", 
+		sub = "take"
+)
+public class CommandTake implements Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		if(arguments.length == 2) {
 			if(Bank.hasAccount(arguments[0])) {

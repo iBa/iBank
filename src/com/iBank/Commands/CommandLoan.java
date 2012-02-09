@@ -7,8 +7,9 @@ import org.bukkit.entity.Player;
 
 import com.iBank.iBank;
 import com.iBank.system.Bank;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.Loan;
 import com.iBank.system.MessageManager;
 
@@ -18,7 +19,14 @@ import com.iBank.system.MessageManager;
  * @author steffengy
  *
  */
-public class CommandLoan extends Handler {
+@CommandInfo(
+		arguments = { "Amount" }, 
+		help = "", 
+		permission = "iBank.loan",
+		root = "bank", 
+		sub = "loan"
+)
+public class CommandLoan implements Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		handle(sender, arguments, false);
 	}

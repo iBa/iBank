@@ -6,13 +6,23 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.iBank.iBank;
 import com.iBank.system.Bank;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
 import com.iBank.Listeners.iBankListener;
 
-public class CommandAddRegion extends Handler {
+@CommandInfo(
+		arguments = { "Name" }, 
+		help = "", 
+		permission = "iBank.regions", 
+		root = "bank", 
+		sub = "addregion"
+)
+
+public class CommandAddRegion implements Command {
 
 	/**
 	 * Adds an region
@@ -27,7 +37,7 @@ public class CommandAddRegion extends Handler {
 		}
 		
 		if(arguments.length==1) {
-			Entry<Location, Location> raw = ((iBankListener)main.Listener).LastMarkedPoint.get(sender.getName());
+			Entry<Location, Location> raw = ((iBankListener)iBank.Listener).LastMarkedPoint.get(sender.getName());
 			if(raw == null || raw.getKey()==null || raw.getValue()==null){
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorRegionSelect.toString());
 				return;

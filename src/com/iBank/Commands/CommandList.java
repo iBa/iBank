@@ -8,8 +8,9 @@ import org.bukkit.entity.Player;
 
 import com.iBank.iBank;
 import com.iBank.system.Bank;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
 import com.iBank.utils.StringUtils;
 
@@ -20,7 +21,14 @@ import com.iBank.utils.StringUtils;
  * @author steffengy
  *
  */
-public class CommandList extends Handler {
+@CommandInfo(
+		arguments = { "(Name)" }, 
+		help = "", 
+		permission = "iBank.list", 
+		root = "bank", 
+		sub = "list"
+)
+public class CommandList implements Command {
 	
 	public void handle(CommandSender sender, String[] arguments) {
 		if((sender instanceof Player) && !iBank.canExecuteCommand(((Player)sender))) {

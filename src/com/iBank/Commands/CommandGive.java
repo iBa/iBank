@@ -7,8 +7,9 @@ import org.bukkit.command.CommandSender;
 import com.iBank.iBank;
 import com.iBank.system.Bank;
 import com.iBank.system.BankAccount;
+import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.Handler;
 import com.iBank.system.MessageManager;
 
 /**
@@ -16,7 +17,14 @@ import com.iBank.system.MessageManager;
  * @author steffengy
  *
  */
-public class CommandGive extends Handler {
+@CommandInfo(
+		arguments = { "Account", "Amount" }, 
+		help = "", 
+		permission = "iBank.manage",
+		root = "bank", 
+		sub = "give"
+)
+public class CommandGive implements Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		if(arguments.length == 2) {
 			if(Bank.hasAccount(arguments[0])) {
