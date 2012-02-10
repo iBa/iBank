@@ -11,7 +11,6 @@ import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
 import com.iBank.system.MessageManager;
-import com.iBank.system.Configuration.StringEntry;
 
 /**
  *  /bank take <ACCOUNT> <MONEY> - Take money from account
@@ -56,5 +55,8 @@ public class CommandTake implements Command {
 		}else{
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
 		}
+	}
+	public String getHelp() {
+		return Configuration.StringEntry.TakeDescription.getValue();
 	}
 }

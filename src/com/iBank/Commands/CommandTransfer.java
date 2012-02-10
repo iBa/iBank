@@ -76,4 +76,7 @@ public class CommandTransfer implements Command {
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
 		}
 	}
+	public String getHelp() {
+		return Configuration.StringEntry.TransferDescription.getValue();
+	}
 }

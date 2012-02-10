@@ -119,4 +119,19 @@ public class CommandHandler {
 		}
 		return ret;
 	}
+	/**
+	 * Returns the help entry from this command
+	 * @param root The root command
+	 * @param name The subcommand
+	 * @return
+	 */
+	public static String getHelp(String root, String name) {
+		if(!cmds.containsKey(root) || !info.containsKey(root)) {
+			return "";
+		 }
+		if(!cmds.get(root).containsKey(name) || !info.get(root).containsKey(name)) {
+		    return "";
+	    }
+		return cmds.get(root).get(name).getHelp();
+	}
 }

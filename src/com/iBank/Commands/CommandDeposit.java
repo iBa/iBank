@@ -72,4 +72,7 @@ public class CommandDeposit implements Command {
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
 		}
 	}
+	public String getHelp() {
+		return Configuration.StringEntry.DepositDescription.getValue();
+	}
 }

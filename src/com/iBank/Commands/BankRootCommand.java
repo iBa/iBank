@@ -47,5 +47,7 @@ public class BankRootCommand implements Command {
 		MessageManager.send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
 		MessageManager.send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");
 	}
-	
+	public String getHelp() {
+		return Configuration.StringEntry.BankDescription.getValue();
+	}
 }

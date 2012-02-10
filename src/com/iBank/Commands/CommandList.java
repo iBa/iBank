@@ -56,4 +56,7 @@ public class CommandList implements Command {
 		MessageManager.send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
 		MessageManager.send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");
 	}
+	public String getHelp() {
+		return Configuration.StringEntry.ListDescription.getValue();
+	}
 }

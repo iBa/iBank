@@ -1,7 +1,6 @@
 package com.iBank.system;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 
 import com.iBank.Database.AndCondition;

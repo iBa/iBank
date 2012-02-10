@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 
 import org.bukkit.Location;
 
-import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
-
 /**
  * Math Utils needed by iBank
  * @author steffengy

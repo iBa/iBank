@@ -244,12 +244,10 @@ public class Bank {
 		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.toString(), new AndCondition("id", id, Operators.IDENTICAL));
 		if(!data.found) return null;
 		Loan ret = null;
-		boolean c = true;
 		double interest = 0.00;
 			if(data.hasKey("interest")) interest = data.getDouble("interest");
 			else interest = Configuration.Entry.LoanInterest.getDouble();
 			ret = new Loan(data.getString("user"), interest, data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id")); 
-			c = data.nextEntry();
 		return ret;
 	}
 	

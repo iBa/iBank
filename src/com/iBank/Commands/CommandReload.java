@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import com.iBank.iBank;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
+import com.iBank.system.Configuration;
 
 /**
  *   /bank reload - Call reload function in iBank
@@ -21,5 +22,8 @@ import com.iBank.system.CommandInfo;
 public class CommandReload implements Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		iBank.mainInstance.reloadConfig();
+	}
+	public String getHelp() {
+		return Configuration.StringEntry.ReloadDescription.getValue();
 	}
 }

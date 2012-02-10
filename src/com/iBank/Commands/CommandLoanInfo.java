@@ -87,4 +87,7 @@ public class CommandLoanInfo implements Command {
 			i++;
 		}
 	}
+	public String getHelp() {
+		return Configuration.StringEntry.LoanInfoDescription.getValue();
+	}
 }

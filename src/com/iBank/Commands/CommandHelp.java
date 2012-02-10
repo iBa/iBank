@@ -7,7 +7,7 @@ import com.iBank.iBank;
 import com.iBank.system.Command;
 import com.iBank.system.CommandHandler;
 import com.iBank.system.CommandInfo;
-import com.iBank.system.Commands;
+import com.iBank.system.Configuration;
 import com.iBank.system.MessageManager;
 
 /**
@@ -40,7 +40,7 @@ public class CommandHelp implements Command {
 			for(String name : CommandHandler.getCommands("bank"))
 			{
 					args = CommandHandler.getArgInfo(root, name);
-					MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+Commands.getHelp(root, name));
+					MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+CommandHandler.getHelp(root, name));
 			}
 			return;
 		}
@@ -63,10 +63,13 @@ public class CommandHelp implements Command {
 				if(curSite * 16 + 15 < counter) break;
 				
 				args = CommandHandler.getArgInfo(root, name) != null ? CommandHandler.getArgInfo(root, name) : "";
-				MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+Commands.getHelp(root, name), "");
+				MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+CommandHandler.getHelp(root, name), "");
 				counter++; 
 			}
 		}
 		
+	}
+	public String getHelp() {
+		return Configuration.StringEntry.HelpDescription.getValue();
 	}
 }

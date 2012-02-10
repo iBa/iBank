@@ -90,4 +90,7 @@ public class CommandWithdraw implements Command {
 			iBank.economy.depositPlayer(((Player)sender).getName(), todp.doubleValue());
 			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessWithdraw.toString().replace("$name$", account.getName()).replace("$amount$", iBank.format(todp)));
 	}
+	public String getHelp() {
+		return Configuration.StringEntry.WithdrawDescription.getValue();
+	}
 }

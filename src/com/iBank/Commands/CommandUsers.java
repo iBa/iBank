@@ -76,4 +76,7 @@ public class CommandUsers implements Command {
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
 		}
 	}
+	public String getHelp() {
+		return Configuration.StringEntry.UsersDescription.getValue();
+	}
 }

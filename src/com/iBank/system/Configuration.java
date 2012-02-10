@@ -117,8 +117,9 @@ public class Configuration {
         /*
          * @return The value of the Entry as List
          */
-        public List<String> getStringList() {
-            return (List<String>) value;
+        @SuppressWarnings("unchecked")
+		public List<String> getStringList() {
+        		return (List<String>) value;
         }
         /*
          * Sets the value of this Entry
