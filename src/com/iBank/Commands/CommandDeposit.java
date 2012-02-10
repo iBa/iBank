@@ -2,10 +2,13 @@ package com.iBank.Commands;
 
 import java.math.BigDecimal;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.iBank.iBank;
+import com.iBank.Event.iBankEvent;
+import com.iBank.Event.iEvent;
 import com.iBank.system.Bank;
 import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
@@ -42,6 +45,10 @@ public class CommandDeposit implements Command {
 			if(Bank.hasAccount(arguments[0])) {
 				BigDecimal todp = null;
 				BankAccount account = Bank.getAccount(arguments[0]);
+				if(!account.isOwner(((Player)sender).getName()) && !account.isUser(((Player)sender).getName())) {
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
+					return;
+				}
 				try{
 				todp = new BigDecimal(arguments[1]);
 				}catch(Exception e) {
@@ -56,11 +63,25 @@ public class CommandDeposit implements Command {
 				//double needed = 0.00;
 				BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeDeposit.toString(), todp);
 				if(iBank.economy.has(((Player)sender).getName(), todp.doubleValue() + fee.doubleValue())) {
+					//iBank - call Event
+					iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_DEPOSIT, new Object[] { arguments[0], todp, fee, true } );
+					Bukkit.getServer().getPluginManager().callEvent(event);
+					if(event.isCancelled()) {
+						return;
+					}
+					//iBank - end
 					iBank.economy.withdrawPlayer(((Player)sender).getName(), todp.doubleValue() + fee.doubleValue());
 					account.addBalance(todp);
 					MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessDeposit.toString().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
 					if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.toString().replace("$amount$", iBank.format(fee)));
 				}else{
+					//iBank - call Event
+					iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_DEPOSIT, new Object[] { arguments[0], todp, fee, false } );
+					Bukkit.getServer().getPluginManager().callEvent(event);
+					if(event.isCancelled()) {
+						return;
+					}
+					//iBank - end
 					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
 					return;
 				}

@@ -2,10 +2,13 @@ package com.iBank.Commands;
 
 import java.math.BigDecimal;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.iBank.iBank;
+import com.iBank.Event.iBankEvent;
+import com.iBank.Event.iEvent;
 import com.iBank.system.Bank;
 import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
@@ -64,10 +67,23 @@ public class CommandTransfer implements Command {
 			}
 			BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeTransfer.toString(), money);
 			if(!src.has(money.add(fee))) {
+				//iBank - call Event
+				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_TRANSFER, new Object[] { arguments[0], arguments[1], money, BigDecimal.ZERO, false } );
+				Bukkit.getServer().getPluginManager().callEvent(event);
+				if(event.isCancelled()) {
+					return;
+				}
+				//iBank - end
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
 				return;
 			}
-			
+			//iBank - call Event
+			iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_TRANSFER, new Object[] { arguments[0], arguments[1], money, fee, false } );
+			Bukkit.getServer().getPluginManager().callEvent(event);
+			if(event.isCancelled()) {
+				return;
+			}
+			//iBank - end
 			src.subtractBalance(money.add(fee));
 			dest.addBalance(money);
 			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessTransfer.toString().replace("$name$", arguments[0]).replace("$name2$", arguments[1]).replace("$amount$", iBank.format(money)));

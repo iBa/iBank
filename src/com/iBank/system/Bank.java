@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import com.iBank.Database.AndCondition;
@@ -11,6 +12,8 @@ import com.iBank.Database.Condition;
 import com.iBank.Database.DataSource;
 import com.iBank.Database.QueryResult;
 import com.iBank.Database.Condition.Operators;
+import com.iBank.Event.iBankEvent;
+import com.iBank.Event.iEvent;
 
 /**
  * The backend for all background code
@@ -71,6 +74,13 @@ public class Bank {
 	 * @param second Second location
 	 */
 	public static void createRegion(String name, Location first, Location second) {
+		//iBank - call Event
+		iBankEvent event = new iBankEvent(iEvent.Types.REGION_CREATE, new Object[] { name, first, second } );
+		Bukkit.getServer().getPluginManager().callEvent(event);
+		if(event.isCancelled()) {
+			return;
+		}
+		//iBank - end
 		DataSource.insertEntry(Configuration.Entry.DatabaseRegionTable.toString(), new String[]{"name","loc1","loc2","onper","offper", "owners"}, new String[]{name, Bank.formLocation(first), Bank.formLocation(second), "", "", ""});
 	}
 	
@@ -79,6 +89,13 @@ public class Bank {
 	 * @param name Name of the region 
 	 */
 	public static void removeRegion(String name) {
+		//iBank - call Event
+				iBankEvent event = new iBankEvent(iEvent.Types.REGION_DELETE, name );
+				Bukkit.getServer().getPluginManager().callEvent(event);
+				if(event.isCancelled()) {
+					return;
+				}
+		//iBank - end
 		DataSource.deleteEntry(Configuration.Entry.DatabaseRegionTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
 	}
 	
@@ -188,6 +205,13 @@ public class Bank {
 	 * @param name2 The name of the owner
 	 */
 	public static void createAccount(String name, String name2) {
+		//iBank - Call event
+		iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_CREATE, new String[] { name, name2 });
+		Bukkit.getServer().getPluginManager().callEvent(event);
+		if(event.isCancelled()) {
+			return;
+		}
+		//iBank - end
 		DataSource.insertEntry(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"name","balance","owners","users","onper","offper"}, new Object[] {name, Configuration.Entry.StandardBalance.getInteger(), name2, "", "", ""});
 	}
 	/**
@@ -195,6 +219,13 @@ public class Bank {
 	 * @param name The name of the account
 	 */
 	public static void removeAccount(String name) {
+		//iBank - call Event
+				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_DELETE, name );
+				Bukkit.getServer().getPluginManager().callEvent(event);
+				if(event.isCancelled()) {
+					return;
+				}
+		//iBank - end
 		DataSource.deleteEntry(Configuration.Entry.DatabaseAccountsTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL)); 
 	}
 	

@@ -2,10 +2,13 @@ package com.iBank.Commands;
 
 import java.math.BigDecimal;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.iBank.iBank;
+import com.iBank.Event.iBankEvent;
+import com.iBank.Event.iEvent;
 import com.iBank.system.Bank;
 import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
@@ -54,6 +57,13 @@ public class CommandWithdraw implements Command {
 					
 					if(account.has(todp.add(fee))) {
 						if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.toString().replace("$amount$", iBank.format(fee)));
+							//iBank - call Event
+							iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_WITHDRAW, new Object[] { arguments[0], todp, fee, true } );
+							Bukkit.getServer().getPluginManager().callEvent(event);
+							if(event.isCancelled()) {
+								return;
+							}
+							//iBank - end
 							doWithdraw(sender, todp.add(fee), account);
 					}else{
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
@@ -73,6 +83,13 @@ public class CommandWithdraw implements Command {
 					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.toString(), amount);
 					if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.toString().replace("$amount$", iBank.format(fee)));
 					amount = amount.subtract(fee);
+					//iBank - call Event
+					iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_WITHDRAW, new Object[] { arguments[0], amount, fee, true } );
+					Bukkit.getServer().getPluginManager().callEvent(event);
+					if(event.isCancelled()) {
+						return;
+					}
+					//iBank - end
 					doWithdraw(sender, amount, account);
 					account.setBalance(new BigDecimal("0.00"), true);
 				}else{
