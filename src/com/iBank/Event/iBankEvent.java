@@ -11,6 +11,7 @@ import com.iBank.Event.iEvent.Types;
  * @author steffengy
  *
  */
+@SuppressWarnings("serial")
 public class iBankEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	 	private Types data;
