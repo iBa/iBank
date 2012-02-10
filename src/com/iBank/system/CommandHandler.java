@@ -25,8 +25,8 @@ public class CommandHandler {
 	 * @param a The command
 	 */
 	public static void register(Command a) {
-		if(a.getClass().isAnnotationPresent(CommandInfo.class)) {
-			CommandInfo tmp = a.getClass().getAnnotation(CommandInfo.class);
+			CommandInfo tmp = null;
+			if((tmp = a.getClass().getAnnotation(CommandInfo.class)) instanceof CommandInfo) {
 			if(!cmds.containsKey(tmp.root())) {
 				cmds.put(tmp.root(), new HashMap<String, Command>());
 			}
@@ -36,7 +36,7 @@ public class CommandHandler {
 			cmds.get(tmp.root()).put(tmp.sub(), a);
 			info.get(tmp.root()).put(tmp.sub(), tmp);
 		}else{
-			System.out.println("[iMagic] Error while enabling Command!");
+			System.out.println("[iBank] Error while enabling Command!");
 		}
 	}
 	/**

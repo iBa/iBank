@@ -45,7 +45,7 @@ public class CommandHelp implements Command {
 			return;
 		}
 		
-		int sites = 1 + (int) Math.ceil(CommandHandler.getCommands("bank").size() / 16);
+		int sites = 1 + (int) Math.ceil(CommandHandler.getCommands("bank").size() / 9);
 		int curSite = 0;
 		try{
 			curSite = arguments.length == 0 ? 0 : Integer.parseInt(arguments[0]) -1;
@@ -53,14 +53,14 @@ public class CommandHelp implements Command {
 		MessageManager.send(sender, "iBank "+iBank.description.getVersion()+" ("+iBank.CodeName+") ("+(curSite+1)+"/"+sites+")", "");
 		String args = "";
 		int counter = 0;
-		//from = site * 16 
-		//to = site * 16 + 15
+		//from = site * 12 
+		//to = site * 12 + 12
 		for(String name : CommandHandler.getCommands("bank"))
 		{
 			if(CommandHandler.isCallable((Player)sender, root , name))
 			{
-				if((curSite * 16) > counter) { counter++; continue; }
-				if(curSite * 16 + 15 < counter) break;
+				if((curSite * 12) > counter) { counter++; continue; }
+				if(curSite * 12 + 12 < counter) break;
 				
 				args = CommandHandler.getArgInfo(root, name) != null ? CommandHandler.getArgInfo(root, name) : "";
 				MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+CommandHandler.getHelp(root, name), "");
