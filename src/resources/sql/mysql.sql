@@ -4,7 +4,7 @@ CREATE TABLE `{$regions$}` (
 `loc2` VARCHAR(1000) NOT NULL ,
 `onper` VARCHAR(30) NOT NULL ,
 `offper` VARCHAR(30) NOT NULL,
-`owners` TEXT NOT NULL,
+`owners` TEXT NOT NULL
 );
 CREATE TABLE `{$accounts$}` (
 `name` VARCHAR(50) NOT NULL ,
