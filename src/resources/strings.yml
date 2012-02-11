@@ -24,6 +24,7 @@ Description:
    payback: 'payback money you loaned'
    reload: 'Reload the configuration'
    loanedit: 'Edits a loan'
+   rename: 'Rename an account'
 Error:
    already_exists: '$name$ does already exists!'
    already: '$name$ is already one of the $type$ of this account!'
@@ -59,6 +60,7 @@ Success:
    signcreate: 'Successfully, created iBank sign!'
    logout: 'Sucessfully, logged out from iBank sign bank!'
    payback: 'Successfully, payed back $amount$!'
+   rename: 'Successfully, renamed $a$ to $b$'
 General:
    Info: 'Info about $type$ $name$:'
    no_accounts: 'No accounts found!'

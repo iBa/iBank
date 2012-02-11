@@ -41,6 +41,7 @@ import com.iBank.Commands.CommandOpenAccount;
 import com.iBank.Commands.CommandOwners;
 import com.iBank.Commands.CommandPayBack;
 import com.iBank.Commands.CommandRegion;
+import com.iBank.Commands.CommandRename;
 import com.iBank.Commands.CommandTake;
 import com.iBank.Commands.CommandTransfer;
 import com.iBank.Commands.CommandUsers;
@@ -136,6 +137,7 @@ public class iBank extends JavaPlugin {
 	    CommandHandler.register(new CommandTake());
 	    CommandHandler.register(new CommandDelete());
 	    CommandHandler.register(new CommandClose());
+	    CommandHandler.register(new CommandRename());
 	    //register loan help
 	      if(Configuration.Entry.Loan.getBoolean()) {
 	    	  CommandHandler.register(new CommandLoan());

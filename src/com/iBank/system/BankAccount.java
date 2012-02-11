@@ -276,4 +276,12 @@ public class BankAccount {
 	public int getMinutesDone() {
 		return this.mD;
 	}
+	/**
+	 * Updates an field in this account to value
+	 * @param string
+	 * @param string2
+	 */
+	public void Update(String key, String value) {
+		DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{ key }, new Object[]{ value }, new AndCondition("name", name, Operators.IDENTICAL));
+	}
 }
