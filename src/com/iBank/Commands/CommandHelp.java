@@ -16,7 +16,6 @@ import com.iBank.system.MessageManager;
  *
  */
 @CommandInfo(arguments = { "" }, 
-  help = "", 
   permission = "iBank.access", 
   root = "bank", 
   sub = "help"

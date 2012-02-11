@@ -23,7 +23,6 @@ import com.iBank.utils.StringUtils;
  */
 @CommandInfo(
 		arguments = { "(Name)" }, 
-		help = "", 
 		permission = "iBank.list", 
 		root = "bank", 
 		sub = "list"

@@ -22,8 +22,7 @@ import com.iBank.system.MessageManager;
  *
  */
 @CommandInfo(
-		arguments = { "SRC", "DEST", "AMOUNT" }, 
-		help = "", 
+		arguments = { "SRC", "DEST", "AMOUNT" },  
 		permission = "iBank.access",
 		root = "bank", 
 		sub = "transfer"

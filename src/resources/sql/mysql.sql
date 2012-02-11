@@ -25,5 +25,5 @@ CREATE TABLE `{$loan$}` (
 `until` INT,
 `mD` INT,
 PRIMARY KEY ( `id` ) 
-);
+)
 

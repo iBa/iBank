@@ -19,8 +19,7 @@ import com.iBank.system.MessageManager;
  *
  */
 @CommandInfo(
-		arguments = { "Name", "(Key)", "(Val)" }, 
-		help = "", 
+		arguments = { "Name", "(Key)", "(Val)" },  
 		permission = "iBank.loanedit",
 		root = "bank", 
 		sub = "loanedit"

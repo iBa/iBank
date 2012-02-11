@@ -23,7 +23,6 @@ import com.iBank.system.MessageManager;
  */
 @CommandInfo(
 		arguments = { "Player" }, 
-		help = "", 
 		permission = "iBank.access",
 		root = "bank", 
 		sub = "loaninfo"

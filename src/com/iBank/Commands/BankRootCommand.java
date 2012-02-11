@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.iBank.iBank;
 import com.iBank.system.Bank;
 import com.iBank.system.Command;
+import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
 import com.iBank.system.MessageManager;
 import com.iBank.utils.StringUtils;
@@ -18,6 +19,12 @@ import com.iBank.utils.StringUtils;
  * @author steffengy
  * Can't be run from console
  */
+@CommandInfo(
+		arguments = { "" }, 
+		permission = "iBank.access", 
+		root = "bank", 
+		sub = ""
+)
 public class BankRootCommand implements Command {
 
 	/**

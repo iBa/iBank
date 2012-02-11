@@ -14,7 +14,6 @@ import com.iBank.system.Configuration;
  */
 @CommandInfo(
 		arguments = { }, 
-		help = "", 
 		permission = "iBank.reload",
 		root = "bank", 
 		sub = "reload"

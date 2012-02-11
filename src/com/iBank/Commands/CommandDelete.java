@@ -14,8 +14,7 @@ import com.iBank.system.MessageManager;
  *
  */
 @CommandInfo(
-		arguments = { "Name" }, 
-		help = "", 
+		arguments = { "Name" },  
 		permission = "iBank.manage",
 		root = "bank", 
 		sub = "delete"

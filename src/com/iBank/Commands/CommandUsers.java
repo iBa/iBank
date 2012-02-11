@@ -13,7 +13,6 @@ import com.iBank.system.MessageManager;
 
 @CommandInfo(
 		arguments = { "Name", "Acc-Key", "Value" }, 
-		help = "", 
 		permission = "iBank.access",
 		root = "bank", 
 		sub = "users"

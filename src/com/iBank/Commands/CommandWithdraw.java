@@ -24,7 +24,6 @@ import com.iBank.utils.Mathematics;
  */
 @CommandInfo(
 		arguments = { "Name", "Amount" }, 
-		help = "", 
 		permission = "iBank.access",
 		root = "bank", 
 		sub = "withdraw"

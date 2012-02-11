@@ -16,6 +16,5 @@ public @interface CommandInfo {
 	String permission();
 	String root();
 	String sub();
-	String help();
 	String[] arguments();
 }

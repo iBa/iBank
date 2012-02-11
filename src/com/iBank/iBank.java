@@ -23,6 +23,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.iBank.Commands.BankRootCommand;
 import com.iBank.Commands.CommandAddRegion;
 import com.iBank.Commands.CommandBalance;
 import com.iBank.Commands.CommandClose;
@@ -117,6 +118,7 @@ public class iBank extends JavaPlugin {
 		setupPermissions();
 		
 	    //register commands
+		CommandHandler.register(new BankRootCommand());
 	    CommandHandler.register(new CommandHelp("bank"));
 	    CommandHandler.register(new CommandAddRegion());
 	    CommandHandler.register(new CommandDelRegion());

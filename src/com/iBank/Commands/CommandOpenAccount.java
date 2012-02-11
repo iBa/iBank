@@ -21,7 +21,6 @@ import com.iBank.system.Region;
  */
 @CommandInfo(
 		arguments = { "Name" }, 
-		help = "", 
 		permission = "iBank.access", 
 		root = "bank", 
 		sub = "open"
