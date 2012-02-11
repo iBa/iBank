@@ -35,6 +35,10 @@ public class iEvent {
 		 */
 		ACCOUNT_TAKE,
 		/**
+		 * Called when a user wants to know the balance of his account
+		 */
+		ACCOUNT_BALANCE,
+		/**
 		 * Called when a region was created
 		 */
 		REGION_CREATE,

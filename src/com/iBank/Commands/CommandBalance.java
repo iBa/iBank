@@ -1,9 +1,12 @@
 package com.iBank.Commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.iBank.iBank;
+import com.iBank.Event.iBankEvent;
+import com.iBank.Event.iEvent;
 import com.iBank.system.Bank;
 import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
@@ -32,11 +35,25 @@ public class CommandBalance implements Command {
 	if(arguments.length == 1) {
 		// has account
 		if(Bank.hasAccount(arguments[0])) {
+			//iBank - call Event
+			iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_BALANCE, new Object[] { arguments[0], false} );
+			Bukkit.getServer().getPluginManager().callEvent(event);
+			if(event.isCancelled()) {
+				return;
+			}
+			//iBank - end
 			BankAccount acc = Bank.getAccount(arguments[0]);
 			if(console || (acc.isOwner(((Player)sender).getName()) || acc.isUser(((Player)sender).getName())) || iBank.hasPermission(sender, "iBank.balance")) {
 				String formattedBalance = iBank.economy.format(acc.getBalance().doubleValue());
 				if(!console && !check) {
 					if(!iBank.canExecuteCommand(((Player)sender))) {
+						//iBank - call Event
+						event = new iBankEvent(iEvent.Types.ACCOUNT_BALANCE, new Object[] { arguments[0], true} );
+						Bukkit.getServer().getPluginManager().callEvent(event);
+						if(event.isCancelled()) {
+							return;
+						}
+						//iBank - end
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
 						return;
 					}
