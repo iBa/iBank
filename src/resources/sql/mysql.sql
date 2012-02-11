@@ -13,7 +13,7 @@ CREATE TABLE `{$accounts$}` (
 `users` TEXT NOT NULL ,
 `onper` VARCHAR(30) NOT NULL ,
 `offper` VARCHAR(30) NOT NULL,
-`interval` VARCHAR(30) NOT NULL,
+`interval` VARCHAR(30),
 `mD` INT(10)
 );
 CREATE TABLE `{$loan$}` (

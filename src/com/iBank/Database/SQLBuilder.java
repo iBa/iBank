@@ -17,7 +17,7 @@ public class SQLBuilder {
 	public static String select(String[] fields, String table, Condition... condition) {
 		String sqlcode = "SELECT ";
 		for(int c = 0;c < fields.length ; c++) {
-			sqlcode += fields[c];
+			sqlcode += "`" + fields[c] + "`";
 			if(fields.length-1 != c) sqlcode += ",";
 		}
 		sqlcode += " FROM "+table;
@@ -38,9 +38,9 @@ public class SQLBuilder {
 			if(a instanceof AndCondition) {
 				operator = ((AndCondition)a).action.getChar();
 				if(a.value instanceof Integer || a.value instanceof Float || a.value instanceof Double)
-					condstring+= a.field + operator + a.value;
+					condstring+= "`" + a.field + "`" + operator + a.value;
 				else
-					condstring+= a.field + operator + "'" + a.value + "'";
+					condstring+= "`" + a.field + "`" + operator + "'" + a.value + "'";
 				if(c==condition.length-2) condstring += " AND ";
 				else if(c<condition.length-2) condstring += ", ";
 				c++;
@@ -60,7 +60,7 @@ public class SQLBuilder {
 		int c = 0;
 		if(fields.length != values.length) { System.out.println("[iBank] Insert in "+table+" failed! LENGTH_ERROR!"); return ""; }
 		for(c = 0;c<fields.length;c++) {
-			sqlcode += fields[c];
+			sqlcode += "`" + fields[c] + "`";
 			if(c!=fields.length-1) sqlcode+=",";
 		}
 		sqlcode += ") VALUES (";
@@ -85,9 +85,9 @@ public class SQLBuilder {
 		//parse vals + keys
 		for(int c = 0; c < fields.length ; c++) {
 			if(values[c] instanceof Integer || values[c] instanceof Float || values[c] instanceof Double)
-				sqlcode += fields[c]+"="+values[c];
+				sqlcode += "`" + fields[c] + "`" +"="+values[c];
 			else
-				sqlcode += fields[c]+"='"+values[c]+"'";
+				sqlcode += "`" + fields[c] + "`" +"='"+values[c]+"'";
 			if(c!=fields.length-1) sqlcode+=",";
 		}
 		return sqlcode + parseConditions(conds);
