@@ -27,6 +27,14 @@ public class iEvent {
 		 */
 		ACCOUNT_TRANSFER,
 		/**
+		 * Called when a user gets money via give command
+		 */
+		ACCOUNT_GIVE,
+		/**
+		 * Called when a user loses money via take command
+		 */
+		ACCOUNT_TAKE,
+		/**
 		 * Called when a region was created
 		 */
 		REGION_CREATE,

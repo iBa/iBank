@@ -2,9 +2,12 @@ package com.iBank.Commands;
 
 import java.math.BigDecimal;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import com.iBank.iBank;
+import com.iBank.Event.iBankEvent;
+import com.iBank.Event.iEvent;
 import com.iBank.system.Bank;
 import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
@@ -40,6 +43,13 @@ public class CommandGive implements Command {
 					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.toString());
 					return;
 				}
+				//iBank - call Event
+				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_GIVE, new Object[] { arguments[0], todp} );
+				Bukkit.getServer().getPluginManager().callEvent(event);
+				if(event.isCancelled()) {
+					return;
+				}
+				//iBank - end
 				// and save to account
 				account.addBalance(todp);
 				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessGive.toString().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
