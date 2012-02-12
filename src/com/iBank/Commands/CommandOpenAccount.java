@@ -1,6 +1,7 @@
 package com.iBank.Commands;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -54,6 +55,12 @@ public class CommandOpenAccount implements Command {
 					}else{
 						extra = iBank.parseFee(costs[costs.length - 1], new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
 					}
+				}
+				List<String> tmp = Bank.getAccountsByOwner(((Player)sender).getName());
+				//skip if max is higher/equal to precision
+				if(Configuration.Entry.MaxAccountsPerUser.getInteger() != -1 && tmp.size() < Configuration.Entry.MaxAccountsPerUser.getInteger()) {
+					MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.toString());
+					return;
 				}
 				if(!iBank.economy.has(((Player)sender).getName(), extra.doubleValue())) {
 					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());

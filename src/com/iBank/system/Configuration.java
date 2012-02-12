@@ -18,6 +18,7 @@ public class Configuration {
 		Debug("System.Debug", false),
 		BoundToRegion("System.BoundToRegion", true),
 		StandardBalance("System.StandardBalance", 30),
+		MaxAccountsPerUser("System.MaxAccountsPerUser", -1),
 		
 		InterestEnabled("System.Interest.Enabled", false),
 		InterestOnPercentage("System.Interest.Percentages.Online", 1.00),
@@ -198,6 +199,7 @@ public class Configuration {
 		ErrorNeedOwner("Error.need_owner", "You need to be an owner of this account!"),
 		ErrorAlready("Error.already", "$name$ is already one of the $type$ of this account!"),
 		ErrorNot("Error.not", "$name$ is not one of the $type$ of this account!"),
+		ErrorMaxAcc("Error.max_acc", "You can only have $max$ accounts!"),
 		
 		GeneralInfo("General.Info", "Info about $type$ $name$:"), 
 		GeneralNoAccounts("General.no_accounts", "No accounts found!"),

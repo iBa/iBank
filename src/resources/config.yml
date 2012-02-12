@@ -17,6 +17,9 @@ System:
    # Left-click second position
    # 280 , itemid, => Stick
    SelectionTool: 280
+   # Describes the max accounts a user can create
+   # -1 = unlimited
+   MaxAccountsPerUser: -1
    Fee:
       # The Fee for creating an account
       # In this case the first account is free
