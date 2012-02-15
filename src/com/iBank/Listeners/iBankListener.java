@@ -10,7 +10,7 @@ import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.block.CraftSign;
+import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -77,12 +77,12 @@ public class iBankListener implements Listener {
     			 /* SIGN_CHECKS */
     			 if(event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.SIGN_POST || event.getClickedBlock().getType() == Material.WALL_SIGN) {
     				 //check if the first line equals [iBank]
-    				 if(((CraftSign)event.getClickedBlock().getState()).getLine(0).equalsIgnoreCase("[ibank]")) {
+    				 if(((Sign)event.getClickedBlock().getState()).getLine(0).equalsIgnoreCase("[ibank]")) {
     					 
     					 iBank.login(event.getPlayer().getName());
     					 lastpos.put(event.getPlayer().getName(), event.getPlayer().getLocation());
-    					 if(((CraftSign)event.getClickedBlock().getState()).getLine(1).length() > 1) {
-    						 iBank.loggedinto.put(event.getPlayer().getName(), ((CraftSign)event.getClickedBlock().getState()).getLine(1));
+    					 if(((Sign)event.getClickedBlock().getState()).getLine(1).length() > 1) {
+    						 iBank.loggedinto.put(event.getPlayer().getName(), ((Sign)event.getClickedBlock().getState()).getLine(1));
     					 }else{
     						 iBank.loggedinto.put(event.getPlayer().getName(), order.get(0));
     					 }
@@ -93,15 +93,15 @@ public class iBankListener implements Listener {
     		 /* CHANGE_SIGN_TYPE */
     		 if(event.getAction() == Action.RIGHT_CLICK_BLOCK && Configuration.Entry.EnableSign.getBoolean()) {
     			 if(event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.SIGN_POST || event.getClickedBlock().getType() == Material.WALL_SIGN) {
-    				 if(((CraftSign)event.getClickedBlock().getState()).getLine(0).equalsIgnoreCase("[ibank]")) {
+    				 if(((Sign)event.getClickedBlock().getState()).getLine(0).equalsIgnoreCase("[ibank]")) {
     					 int newindex = 0;
     					 try{
-    						 newindex = order.indexOf(((CraftSign)event.getClickedBlock().getState()).getLine(1)) + 1;
+    						 newindex = order.indexOf(((Sign)event.getClickedBlock().getState()).getLine(1)) + 1;
     					 }catch(Exception e) { }
     					 newindex = newindex >= order.size() ? 0 : newindex;
-    					 ((CraftSign)event.getClickedBlock().getState()).setLine(1, order.get(newindex));
+    					 ((Sign)event.getClickedBlock().getState()).setLine(1, order.get(newindex));
     					 iBank.loggedinto.put(event.getPlayer().getName() , order.get(newindex));
-    					 ((CraftSign)event.getClickedBlock().getState()).update();
+    					 ((Sign)event.getClickedBlock().getState()).update();
     				 }
     			 }
     		 }
