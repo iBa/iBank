@@ -20,6 +20,10 @@ System:
    # Describes the max accounts a user can create
    # -1 = unlimited
    MaxAccountsPerUser: -1
+   # Allow users to buy regions (if activated, users with permission get it for free)
+   AllowBuyRegions: false
+   # The price
+   RegionsPrice: 12000
    Fee:
       # The Fee for creating an account
       # In this case the first account is free

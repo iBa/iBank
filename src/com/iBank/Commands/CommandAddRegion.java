@@ -16,7 +16,7 @@ import com.iBank.Listeners.iBankListener;
 
 @CommandInfo(
 		arguments = { "Name" }, 
-		permission = "iBank.regions", 
+		permission = "iBank.access", 
 		root = "bank", 
 		sub = "addregion"
 )
@@ -42,6 +42,20 @@ public class CommandAddRegion implements Command {
 				return;
 			}
 			if(!Bank.hasRegion(arguments[0])) {
+				if(!iBank.hasPermission(sender, "iBank.regions") && !Configuration.Entry.AllowBuyRegion.getBoolean()) {
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.toString());
+					return;
+				}
+				if(Configuration.Entry.AllowBuyRegion.getBoolean() && !iBank.hasPermission(sender, "iBank.regions")) {
+					if(!iBank.economy.has(((Player)sender).getName(), Configuration.Entry.RegionsPrice.getDouble())) {
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
+						return;
+					}else{
+						//cashout
+						iBank.economy.withdrawPlayer(((Player)sender).getName(), Configuration.Entry.RegionsPrice.getDouble());
+						MessageManager.send(sender, "[iBank] Balance - " + String.valueOf(Configuration.Entry.RegionsPrice.getBoolean()));
+					}
+				}
 				Bank.createRegion(arguments[0], raw.getKey(), raw.getValue());
 				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAddRegion.toString().replace("$name$", arguments[0]));
 			}else{

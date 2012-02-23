@@ -47,6 +47,9 @@ public class Configuration {
 		LoanInterest("System.Loan.DefaultInterest", 1),
 		LoanForceBank("System.Loan.forceBank", false),
 		
+		AllowBuyRegion("System.AllowBuyRegions", false),
+		RegionsPrice("System.RegionsPrice", 12000),
+		
 		FeeCreate("System.Fee.Create", "0.00%;1.00%;2.00%"),
 		FeeDeposit("System.Fee.Deposit", "0.00%"),
 		FeeWithdraw("System.Fee.Withdraw", "0.00%"),
