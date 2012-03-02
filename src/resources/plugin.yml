@@ -1,7 +1,7 @@
 #General
 name: iBank
 main: com.iBank.iBank
-version: 0.3
+version: 0.4
 commands:
      bank:
        description: Manage your money
