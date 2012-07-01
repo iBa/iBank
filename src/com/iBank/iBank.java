@@ -115,6 +115,7 @@ public class iBank extends JavaPlugin {
 		{
 			log.log(Level.SEVERE, String.format("[%s] - Disabled due to no Vault/economy dependency found!", getDescription().getName()));
 		    getServer().getPluginManager().disablePlugin(this);
+		    return;
 		}
 		setupPermissions();
 		

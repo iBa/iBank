@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.iBank</groupId>
 	<artifactId>iBank</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.5.1-SNAPSHOT</version>
 	<name>iBank</name>
 	<description>Bank plugin for bukkit using vault.</description>
 	<url>http://dev.bukkit.org/server-mods/iBank/</url>
@@ -26,16 +26,15 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.1-R5-SNAPSHOT</version>
+			<version>1.2.5-R4.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
-            <version>1.28</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../Vault.jar</systemPath>
+            <version>1.2.16</version>
+            <scope>compile</scope>
         </dependency>
 	</dependencies>
 	<build>

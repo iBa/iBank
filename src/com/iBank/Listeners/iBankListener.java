@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -93,15 +94,18 @@ public class iBankListener implements Listener {
     		 /* CHANGE_SIGN_TYPE */
     		 if(event.getAction() == Action.RIGHT_CLICK_BLOCK && Configuration.Entry.EnableSign.getBoolean()) {
     			 if(event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.SIGN_POST || event.getClickedBlock().getType() == Material.WALL_SIGN) {
-    				 if(((Sign)event.getClickedBlock().getState()).getLine(0).equalsIgnoreCase("[ibank]")) {
+    				 Sign state = (Sign) event.getClickedBlock().getState();
+    				 if(state.getLine(0).equalsIgnoreCase("[ibank]")) {
     					 int newindex = 0;
     					 try{
-    						 newindex = order.indexOf(((Sign)event.getClickedBlock().getState()).getLine(1)) + 1;
+    						 newindex = order.indexOf(state.getLine(1)) + 1;
     					 }catch(Exception e) { }
+
     					 newindex = newindex >= order.size() ? 0 : newindex;
-    					 ((Sign)event.getClickedBlock().getState()).setLine(1, order.get(newindex));
+    					 
+    					 state.setLine(1, order.get(newindex));
     					 iBank.loggedinto.put(event.getPlayer().getName() , order.get(newindex));
-    					 ((Sign)event.getClickedBlock().getState()).update();
+    					 state.update(true);
     				 }
     			 }
     		 }
