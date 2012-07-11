@@ -43,7 +43,9 @@ public class BankAccount {
 			owners = new ArrayList<String>(Arrays.asList(str.split(",")));
 		else {
 			owners = new ArrayList<String>();
-			owners.add(str);
+			/* Prevent stupid behavior -.- */
+			if(str.length() > 0)
+			    owners.add(str);
 		}
 		
 	}
@@ -56,7 +58,9 @@ public class BankAccount {
 			users = new ArrayList<String>(Arrays.asList(str.split(",")));
 		else {
 			users = new ArrayList<String>();
-			users.add(str);
+			/* Prevent even more stupid behavior -.- */
+			if(str.length() > 0)
+			    users.add(str);
 		}
 	}
 	/**
@@ -210,8 +214,8 @@ public class BankAccount {
 		int c = 0;
 		for(String p : owners) {
 			if(Bukkit.getServer().getPlayer(p) != null) 
-				if(limit == -1 || c > limit) {
-					b.add(p); 
+				if(limit == -1 || c < limit) {
+				    if(!b.contains(p)) b.add(p); 
 					c++;
 				}else{
 					break;
@@ -219,14 +223,14 @@ public class BankAccount {
 		}
 		for(String p : users) {
 			if(Bukkit.getServer().getPlayer(p) != null)
-				if(limit == -1 || c > limit) {
-					b.add(p);
+				if(limit == -1 || c < limit) {
+					if(!b.contains(p)) b.add(p);
 					c++;
 				}else{
 					break;
 				}
 		}
-		return b.toArray(new String[1]);
+		return b.toArray(new String[0]);
 	}
 	/**
 	 * Returns a string array with all users online without limit

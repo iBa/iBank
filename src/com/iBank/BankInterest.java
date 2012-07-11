@@ -34,13 +34,15 @@ public class BankInterest extends TimerTask {
 			
 				on = new BigDecimal(item.getOnlinePercentage() / 100);
 				off = new BigDecimal(item.getOfflinePercentage() / 100);
-			
+				System.out.println("D1 {'on': [" + on.toString() + "],'off': [" + off.toString() + "]}");
 				if(item.getOnlines(needed + 1).length >= needed)
 				{
+				    System.out.println("Item " + item.getName() + " resolves needed requirements!");
 					debugOnline++;
 					BigDecimal add = item.getBalance().multiply(on);
 					item.addBalance(add);
 				}else{
+				    System.out.println("Item " + item.getName() + " doesn't resolve needed requirements!");
 					debugOffline++;
 					BigDecimal add = item.getBalance().multiply(off);
 					item.addBalance(add);
