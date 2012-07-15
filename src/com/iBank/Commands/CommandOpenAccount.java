@@ -58,8 +58,8 @@ public class CommandOpenAccount implements Command {
 				}
 				List<String> tmp = Bank.getAccountsByOwner(((Player)sender).getName());
 				//skip if max is higher/equal to precision
-				if(Configuration.Entry.MaxAccountsPerUser.getInteger() != -1 && tmp.size() < Configuration.Entry.MaxAccountsPerUser.getInteger()) {
-					MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.toString());
+				if(Configuration.Entry.MaxAccountsPerUser.getInteger() != -1 && tmp.size() >= Configuration.Entry.MaxAccountsPerUser.getInteger()) {
+					MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.toString().replace("$max$", Configuration.Entry.MaxAccountsPerUser.toString()));
 					return;
 				}
 				if(!iBank.economy.has(((Player)sender).getName(), extra.doubleValue())) {
