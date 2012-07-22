@@ -12,8 +12,8 @@
   </properties>
 	<scm>
 		<url>https://github.com/iBa/iBank</url>
-		<connection>scm:git:git://github.com:iBa/iBank.git</connection>
-		<developerConnection>scm:git:git@github.com:iBa/iBank.git</developerConnection>
+		<connection>scm:git:https://github.com/iBa/iBank.git</connection>
+		<developerConnection>scm:git:https://github.com/iBa/iBank.git</developerConnection>
 	</scm>
 	<ciManagement>
 		<system>jenkins</system>
