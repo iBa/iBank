@@ -122,7 +122,8 @@
                 </execution>
             </executions>
             <configuration>
-                <filesToInclude>src/*</filesToInclude>
+                <file>src/resources/plugin.yml</file>
+                <outputFile>src/resources/plugin.yml</outputFile>
                 <replacements>
                     <replacement>
                         <token>@buildnumber@</token>
