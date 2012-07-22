@@ -8,7 +8,7 @@
 	<description>Bank plugin for bukkit using vault.</description>
 	<url>http://dev.bukkit.org/server-mods/iBank/</url>
   <properties>
-      <version.file>src/com/iBank/iBank.java</version.file>
+      <version.snap>true</version>
   </properties>
 	<scm>
 		<url>https://github.com/iBa/iBank</url>
@@ -131,14 +131,20 @@
                 <file>src/resources/plugin.yml</file>
                 <outputFile>bin/resources/plugin.yml</outputFile>
                 <replacements>
-                    <replacement>
-                        <token>@buildnumber@</token>
-                        <value>${buildNumber}</value>
-                    </replacement>
-                    <replacement>
-                        <token>@pomversion@</token>
-                        <value>${project.version}</value>
-                    </replacement>
+                    <if>
+                      <equals true="${version.snap}">
+                        <then>
+                          <replacement>
+                            <token>@pomversion@</token>
+                            <value>${buildNumber}</value>
+                          </replacement>
+                        </then>
+                        <else>
+                          <replacement>
+                            <token>@pomversion@</token>
+                            <value>${project.version}</value>
+                          </replacement>
+                        </else>
                 </replacements>                        
             </configuration>
         </plugin>
