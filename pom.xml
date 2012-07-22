@@ -9,6 +9,7 @@
 	<url>http://dev.bukkit.org/server-mods/iBank/</url>
   <properties>
       <version.snap>true</version.snap>
+      <version.codename>LionKing</version.codename>
   </properties>
 	<scm>
 		<url>https://github.com/iBa/iBank</url>
@@ -142,6 +143,10 @@
                           <replacement>
                             <token>@snap@</token>
                             <value>${version.snap}</value>
+                          </replacement>
+                          <replacement>
+                              <token>@codename</token>
+                              <value>{version.codename}</value>
                           </replacement>
                 </replacements>                        
             </configuration>

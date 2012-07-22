@@ -86,7 +86,6 @@ public class iBank extends JavaPlugin {
     public static Listener Listener = new iBankListener();
     private static Permission permission = null;
     public static Economy economy = null;
-    public static String CodeName = "LionKing";
     public static DataSource data = new DataSource();
     private Timer Loan = null;
     private Timer Interest = null;
@@ -206,7 +205,7 @@ public class iBank extends JavaPlugin {
 				}
 			}).start();
 		}
-		System.out.println("[iBank] Version "+description.getVersion()+" "+CodeName+" loaded successfully!");
+		System.out.println("[iBank] Version " + description.getVersion() + " loaded successfully!");
 	}
 	
 	@Override
