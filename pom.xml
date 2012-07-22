@@ -132,7 +132,7 @@
                 <outputFile>bin/resources/plugin.yml</outputFile>
                 <replacements>
                     <if>
-                      <equals true="${version.snap}">
+                      <equals true="${version.snap}" />
                         <then>
                           <replacement>
                             <token>@pomversion@</token>
