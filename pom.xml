@@ -145,8 +145,8 @@
                             <value>${version.snap}</value>
                           </replacement>
                           <replacement>
-                              <token>@codename</token>
-                              <value>{version.codename}</value>
+                              <token>@codename@</token>
+                              <value>${version.codename}</value>
                           </replacement>
                 </replacements>                        
             </configuration>
