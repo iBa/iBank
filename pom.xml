@@ -135,9 +135,13 @@
                             <token>@pomversion@</token>
                             <value>${project.version}</value>
                           </replacement>
-                          <replacement if="${version.snap}">
-                            <token>@pomversion@</token>
-                            <value>${buildNumber}</value>
+                          <replacement>
+                              <token>@build@</token>
+                              <value>${buildNumber}</token>
+                          </replacement>
+                          <replacement>
+                            <token>@snap@</token>
+                            <value>${version.snap}</value>
                           </replacement>
                 </replacements>                        
             </configuration>
