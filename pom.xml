@@ -122,8 +122,8 @@
                 </execution>
             </executions>
             <configuration>
-                <file>src/*</file>
-                <outputFile>src/*</outputFile>
+                <file>src/</file>
+                <outputFile>src/</outputFile>
                 <replacements>
                     <replacement>
                         <token>@buildnumber@</token>
