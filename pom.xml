@@ -47,8 +47,12 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>${project.basedir}/src/resources</directory>
+				<directory>${project.basedir}/bin/resources</directory>
 			</resource>
+      <resource>
+        <directory>$(project.basedir)/src/resources</directory>
+        <exclude>plugin.yml</exclude>
+      </resource>
 		</resources>
 		<plugins>
 			<plugin>
@@ -123,7 +127,7 @@
             </executions>
             <configuration>
                 <file>src/resources/plugin.yml</file>
-                <outputFile>src/resources/plugin.yml</outputFile>
+                <outputFile>bin/resources/plugin.yml</outputFile>
                 <replacements>
                     <replacement>
                         <token>@buildnumber@</token>
