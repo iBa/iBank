@@ -51,7 +51,9 @@
 			</resource>
       <resource>
         <directory>$(project.basedir)/src/resources</directory>
-        <exclude>plugin.yml</exclude>
+        <excludes>
+            <exclude>plugin.yml</exclude>
+        </excludes>
       </resource>
 		</resources>
 		<plugins>
