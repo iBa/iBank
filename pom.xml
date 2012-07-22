@@ -7,6 +7,9 @@
 	<name>iBank</name>
 	<description>Bank plugin for bukkit using vault.</description>
 	<url>http://dev.bukkit.org/server-mods/iBank/</url>
+  <properties>
+      <version.file>src/com/iBank/iBank.java</version.file>
+  </properties>
 	<scm>
 		<url>https://github.com/iBa/iBank</url>
 		<connection>scm:git:git://github.com:iBa/iBank.git</connection>
@@ -89,6 +92,50 @@
 					</execution>
 				</executions>
 			</plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <doCheck>true</doCheck>
+          <doUpdate>true</doUpdate>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+            <artifactId>maven-replacer-plugin</artifactId>
+            <version>1.4.0</version>
+            <executions>                
+                <execution>
+                    <phase>process-sources</phase>
+                    <goals>
+                        <goal>replace</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <file>${version.file}</file>
+                <outputFile>${version.file}</outputFile>
+                <replacements>
+                    <replacement>
+                        <token>@buildnumber@</token>
+                        <value>${buildNumber}</value>
+                    </replacement>
+                    <replacement>
+                        <token>@pomversion@</token>
+                        <value>${project.version}</value>
+                    </replacement>
+                </replacements>                        
+            </configuration>
+        </plugin>
 		</plugins>
 	</build>
 </project>
