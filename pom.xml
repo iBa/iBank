@@ -8,7 +8,7 @@
 	<description>Bank plugin for bukkit using vault.</description>
 	<url>http://dev.bukkit.org/server-mods/iBank/</url>
   <properties>
-      <version.snap>true</version>
+      <version.snap>true</version.snap>
   </properties>
 	<scm>
 		<url>https://github.com/iBa/iBank</url>
