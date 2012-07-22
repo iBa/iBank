@@ -137,7 +137,7 @@
                           </replacement>
                           <replacement>
                               <token>@build@</token>
-                              <value>${buildNumber}</token>
+                              <value>${buildNumber}</value>
                           </replacement>
                           <replacement>
                             <token>@snap@</token>
