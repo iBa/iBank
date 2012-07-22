@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.iBank</groupId>
 	<artifactId>iBank</artifactId>
-	<version>0.5.2-SNAPSHOT</version>
+	<version>0.5.2</version>
 	<name>iBank</name>
 	<description>Bank plugin for bukkit using vault.</description>
 	<url>http://dev.bukkit.org/server-mods/iBank/</url>
@@ -122,8 +122,8 @@
                 </execution>
             </executions>
             <configuration>
-                <file>${version.file}</file>
-                <outputFile>${version.file}</outputFile>
+                <file>src/*</file>
+                <outputFile>src/*</outputFile>
                 <replacements>
                     <replacement>
                         <token>@buildnumber@</token>
