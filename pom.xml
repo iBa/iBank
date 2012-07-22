@@ -131,21 +131,14 @@
                 <file>src/resources/plugin.yml</file>
                 <outputFile>bin/resources/plugin.yml</outputFile>
                 <replacements>
-                    <if>
-                      <equals true="${version.snap}" />
-                        <then>
-                          <replacement>
-                            <token>@pomversion@</token>
-                            <value>${buildNumber}</value>
-                          </replacement>
-                        </then>
-                        <else>
                           <replacement>
                             <token>@pomversion@</token>
                             <value>${project.version}</value>
                           </replacement>
-                        </else>
-                    </if>
+                          <replacement if="${version.snap}">
+                            <token>@pomversion@</token>
+                            <value>${buildNumber}</value>
+                          </replacement>
                 </replacements>                        
             </configuration>
         </plugin>
