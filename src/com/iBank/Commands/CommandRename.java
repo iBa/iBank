@@ -37,17 +37,17 @@ public class CommandRename implements Command {
 				}
 				//Already there?
 				if(Bank.hasAccount(arguments[1])) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.toString().replace("$name$", "Account "+arguments[1]+" "));
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.getValue().replace("$name$", "Account "+arguments[1]+" "));
 					return;
 				}
 				//Rename simply
 				account.Update("name", arguments[1]);
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessRename.toString().replace("$a$", arguments[0]).replace("$b$", arguments[1]));
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessRename.getValue().replace("$a$", arguments[0]).replace("$b$", arguments[1]));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 

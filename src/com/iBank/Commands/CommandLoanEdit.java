@@ -31,12 +31,12 @@ public class CommandLoanEdit implements Command {
 			try{
 				id = Integer.parseInt(arguments[0]);
 			}catch(Exception e) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [Id]");
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Id]");
 				return;
 			}
 			Loan loan = null;
 			if((loan = Bank.getLoanById(id)) == null) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name", String.valueOf(id)));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name", String.valueOf(id)));
 				return;
 			}
 			// Validated
@@ -49,7 +49,7 @@ public class CommandLoanEdit implements Command {
 				try{
 					param = Integer.parseInt(arguments[2]);
 				}catch(Exception e) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [Value]");
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 					return;
 				}
 				if(!(param>0)) param = Configuration.Entry.LoanInterestTime.getInteger();
@@ -64,7 +64,7 @@ public class CommandLoanEdit implements Command {
 				try{
 					param = Double.parseDouble(arguments[2]);
 				}catch(Exception e) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [Value]");
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 					return;
 				}
 				loan.setInterest(param);
@@ -83,7 +83,7 @@ public class CommandLoanEdit implements Command {
 				try{
 					param = new BigDecimal(arguments[2]);
 				}catch(Exception e) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [Value]");
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 					return;
 				}
 				if(mode == "normal") 
@@ -108,7 +108,7 @@ public class CommandLoanEdit implements Command {
 			else if(arguments[1].equalsIgnoreCase("until")) {
 				String param = arguments[2];
 				if(!(param.length() > 2)) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [Value]");
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 					return;
 				}
 				int leftMinutes = 0;
@@ -136,7 +136,7 @@ public class CommandLoanEdit implements Command {
 							leftMinutes += Integer.parseInt(cache) * 60;
 							flush = true;
 						}else{
-							MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [Value]");
+							MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 							return;
 						}
 					}
@@ -147,13 +147,13 @@ public class CommandLoanEdit implements Command {
 					loan.setLeftTime(loan.getLeftMinutes() - leftMinutes > 0 ? loan.getLeftMinutes() - leftMinutes  : 0);
 				}
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [Value]");
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 				return;
 			}
 			//success
-			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessLoanEdit.toString());
+			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessLoanEdit.getValue());
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
  	}
 	public String getHelp() {

@@ -20,7 +20,7 @@ public class MessageManager {
 		sender.sendMessage(parse(Tag) + " " + message);
 	}
 	public static void send(CommandSender sender, String message) {
-		send(sender, message, Configuration.StringEntry.BankTag.toString());
+		send(sender, message, Configuration.StringEntry.BankTag.getValue());
 	}
 	public static String parse(String message) {
 		message = message.replace("&g&",ChatColor.GREEN.toString()).replace("&b&",ChatColor.BLACK.toString()).replace("&w&", ChatColor.WHITE.toString());

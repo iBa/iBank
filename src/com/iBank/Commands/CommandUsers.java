@@ -24,14 +24,14 @@ public class CommandUsers implements Command {
 			console = true;
 		}
 		if(arguments.length == 0) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 			return;
 		}
 		if(Bank.hasAccount(arguments[0])) {
 		if(arguments.length == 1) {
-				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralInfo.toString().replace("$type$","Account").replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralInfo.getValue().replace("$type$","Account").replace("$name$", arguments[0]));
 				String users = Bank.getAccount(arguments[0]).getUsers().toString();
-				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralUsers.toString()+" : "+users);
+				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralUsers.getValue()+" : "+users);
 			}else if(arguments.length == 3) {
 				BankAccount tmp = Bank.getAccount(arguments[0]);
 				
@@ -45,10 +45,10 @@ public class CommandUsers implements Command {
 							if(Bukkit.getOfflinePlayer(arguments[2]) != null) {
 								tmp.addUser(arguments[2]);
 							}else{
-								MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[2]));
+								MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[2]));
 							}
 						} else {
-							MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorAlready.getValue().replace("$name$", arguments[0]).replace("$type$", Configuration.StringEntry.GeneralUsers.toString()));
+							MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorAlready.getValue().replace("$name$", arguments[0]).replace("$type$", Configuration.StringEntry.GeneralUsers.getValue()));
 							return;
 						}
 							MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessMod.getValue().replace("$name$", arguments[0]));
@@ -58,21 +58,21 @@ public class CommandUsers implements Command {
 						if(Bukkit.getOfflinePlayer(arguments[2]) != null) {
 							tmp.removeUser(arguments[2]);
 						}else{
-							MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[2]));
+							MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[2]));
 						}
 					} else {
-						MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorNot.getValue().replace("$name$", arguments[2]).replace("$type$", Configuration.StringEntry.GeneralUsers.toString()));
+						MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorNot.getValue().replace("$name$", arguments[2]).replace("$type$", Configuration.StringEntry.GeneralUsers.getValue()));
 						return;
 					}
 					MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessMod.getValue().replace("$name$", arguments[0]));
 				}else{
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 				}
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 		}
 	}
 	public String getHelp() {

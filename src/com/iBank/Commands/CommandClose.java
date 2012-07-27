@@ -27,7 +27,7 @@ public class CommandClose implements Command {
 		if(!(sender instanceof Player)) console = true;
 		if(!console) {
 			if(!iBank.canExecuteCommand(((Player)sender))) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 				return;
 			}
 		}
@@ -40,15 +40,15 @@ public class CommandClose implements Command {
 					new CommandWithdraw().handle(sender, new String[] { arguments[0] } );
 					// Close account
 					Bank.removeAccount(arguments[0]);
-					MessageManager.send(sender, "&g&" + Configuration.StringEntry.SuccessClose.toString().replace("$name$", arguments[0]));
+					MessageManager.send(sender, "&g&" + Configuration.StringEntry.SuccessClose.getValue().replace("$name$", arguments[0]));
 				}else{
-					MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorNeedOwner.toString());
+					MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorNeedOwner.getValue());
 				}
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

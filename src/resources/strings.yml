@@ -41,6 +41,7 @@ Error:
    max_loan: 'You can only have $max$ loans!'
    max_acc: 'You can only have $max$ accounts'
    loan_limit: 'You cant loan more than $max$'
+   not_enough_bank: 'The bank does not have enough money!'
 Success: 
    addregion: 'Successfully, created the region $name$'
    delregion: 'Successfully, deleted the region $name$'

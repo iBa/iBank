@@ -28,16 +28,16 @@ public class CommandManager implements Command {
 		if(arguments.length == 1) {
 			if(Bank.hasAccount(arguments[0])) {
 				BankAccount tmp = Bank.getAccount(arguments[0]);
-				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralInfo.toString().replace("$type$","Account").replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralInfo.getValue().replace("$type$","Account").replace("$name$", arguments[0]));
 				String onlineP = tmp.onDefault ? " Default " : String.valueOf(tmp.getOnlinePercentage()) + "%";
 				String offlinP = tmp.offDefault ? " Default ": String.valueOf(tmp.getOfflinePercentage()) + "%";
 
 				String intString = !tmp.intervalDefault ? String.valueOf(tmp.getInterval()) : "Default";
-				MessageManager.send(sender, "&w&" + Configuration.StringEntry.GeneralInterval.toString() + ": &gray&" + intString, "");
+				MessageManager.send(sender, "&w&" + Configuration.StringEntry.GeneralInterval.getValue() + ": &gray&" + intString, "");
 				MessageManager.send(sender, "&w&Online %: &gray&" + onlineP, "");
 				MessageManager.send(sender, "&w&Offline %: &gray&" + offlinP, "");
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", "Account "+arguments[0]+" "));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Account "+arguments[0]+" "));
 				return;
 			}
 		// modify percentages and settings
@@ -75,9 +75,9 @@ public class CommandManager implements Command {
 					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[1]);
 					return;
 				}
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAccount.toString().replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAccount.getValue().replace("$name$", arguments[0]));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", "Account "+arguments[0]+" "));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Account "+arguments[0]+" "));
 				return;
 			}
 		} else {

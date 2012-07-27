@@ -24,12 +24,12 @@ public class CommandDelete implements Command {
 		if(arguments.length == 1) {
 			if(Bank.hasAccount(arguments[0])) {
 				Bank.removeAccount(arguments[0]);
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessDelAccount.toString().replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessDelAccount.getValue().replace("$name$", arguments[0]));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

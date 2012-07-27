@@ -22,6 +22,20 @@ System:
    MaxAccountsPerUser: -1
    # Allow users to buy regions (if activated, users with permission get it for free)
    AllowBuyRegions: false
+   # Realistic Mode
+   # Allows to specify an account which will act as bank account
+   # All money which is loaned or payed back from a loan will come (or end) on this account
+   # If negative amounts are supported, they will be allowed (unless the specified maximum is reached (if specified))
+   # If not, loans won't be possible until the bank got enough money on this account
+   RealisticMode:
+      # Whether to enable this account
+      Enabled:  false
+      # Whether to use negative amounts if possible
+      negative: true
+      # Maximal negative amounts (use 0 for infinite) (DONT GIVE NEGATIVE AMOUNTS, if you gave 10000 iBank won't allow amounts below -10000)   -9999 > -10000 > -10001  
+      maxNegative: 10000 
+      # The name of the bank account (the account to be used by iBank)
+      account: bank
    # The price
    RegionsPrice: 12000
    Fee:

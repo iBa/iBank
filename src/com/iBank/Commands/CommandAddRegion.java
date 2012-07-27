@@ -31,24 +31,24 @@ public class CommandAddRegion implements Command {
 	@Override
 	public void handle(CommandSender sender, String[] arguments) {
 		if(!(sender instanceof Player)) {
-			MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.toString());
+			MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
 			return;
 		}
 		
 		if(arguments.length==1) {
 			Entry<Location, Location> raw = ((iBankListener)iBank.Listener).LastMarkedPoint.get(sender.getName());
 			if(raw == null || raw.getKey()==null || raw.getValue()==null){
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorRegionSelect.toString());
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorRegionSelect.getValue());
 				return;
 			}
 			if(!Bank.hasRegion(arguments[0])) {
 				if(!iBank.hasPermission(sender, "iBank.regions") && !Configuration.Entry.AllowBuyRegion.getBoolean()) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.toString());
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 					return;
 				}
 				if(Configuration.Entry.AllowBuyRegion.getBoolean() && !iBank.hasPermission(sender, "iBank.regions")) {
 					if(!iBank.economy.has(((Player)sender).getName(), Configuration.Entry.RegionsPrice.getDouble())) {
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 						return;
 					}else{
 						//cashout
@@ -57,13 +57,13 @@ public class CommandAddRegion implements Command {
 					}
 				}
 				Bank.createRegion(arguments[0], raw.getKey(), raw.getValue());
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAddRegion.toString().replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAddRegion.getValue().replace("$name$", arguments[0]));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.toString().replace("$name$", "Region "+arguments[0]+" "));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.getValue().replace("$name$", "Region "+arguments[0]+" "));
 				return;
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

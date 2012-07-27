@@ -30,11 +30,11 @@ public class CommandPayBack implements Command {
 	}
 	public void handle(CommandSender sender, String[] arguments, boolean check) {
 		if(!(sender instanceof Player)) {
-			MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.toString());
+			MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
 			return;
 		}
 		if(!check && !iBank.canExecuteCommand(((Player)sender))) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		if(arguments.length == 2) {
@@ -43,7 +43,7 @@ public class CommandPayBack implements Command {
 			try{
 				arg = Integer.parseInt(arguments[0]);
 			}catch(Exception e) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [ID]");
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [ID]");
 				return;
 			}
 			//arguments[1] -> BigDecimal
@@ -51,23 +51,23 @@ public class CommandPayBack implements Command {
 			try{
 				todp = new BigDecimal(arguments[1]);
 			}catch(Exception e) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [AMOUNT]");
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
 			}
 			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
 			//try to get this loan
 			Loan loan = Bank.getLoanById(arg);
 			if(loan == null) {
 				//notfound
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name", String.valueOf(arg)));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name", String.valueOf(arg)));
 			}else{
 				//loan.getAmount() has to be bigger or equal than given (0 or -1)
 				if(!(loan.getAmount().compareTo(todp)<=0)) {
 					//throw error
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString() + "AMOUNT>LOAN");
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue() + "AMOUNT>LOAN");
 					return;
 				}
 				loan.setAmount(loan.getAmount().subtract(todp));
@@ -75,6 +75,10 @@ public class CommandPayBack implements Command {
 				//<= to prevent MAGIC exceptions
 				if(loan.getAmount().compareTo(new BigDecimal("0.00"))<=0) {
 					loan.remove();
+				}
+				if(Configuration.Entry.RealisticMode.getBoolean())
+				{
+				    iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.toString(), todp.doubleValue());
 				}
 				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(todp)));
 			}
@@ -85,11 +89,11 @@ public class CommandPayBack implements Command {
 			try{
 				todp = new BigDecimal(arguments[0]);
 			}catch(Exception e) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [AMOUNT]");
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
 			}
 			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
 			BigDecimal paiedback = new BigDecimal("0.00");
@@ -112,7 +116,7 @@ public class CommandPayBack implements Command {
 			}
 			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(paiedback)));
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

@@ -54,7 +54,7 @@ public class CommandBalance implements Command {
 							return;
 						}
 						//iBank - end
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 						return;
 					}
 				}
@@ -63,7 +63,7 @@ public class CommandBalance implements Command {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 		}
 	}
    }

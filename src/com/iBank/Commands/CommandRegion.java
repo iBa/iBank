@@ -35,18 +35,18 @@ public class CommandRegion implements Command {
 			//Display info
 			if(Bank.hasRegion(arguments[0])) {
 				Region tmp = Bank.getRegion(arguments[0]);
-				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralInfo.toString().replace("$type$","Region").replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralInfo.getValue().replace("$type$","Region").replace("$name$", arguments[0]));
 				String onlineP = tmp.onDefault ? " Default " : String.valueOf(tmp.getOnPercentage()) + "%";
 				String offlinP = tmp.offDefault ? " Default ": String.valueOf(tmp.getOffPercentage()) + "%";
 				MessageManager.send(sender, "&w&Online %: &gray&" + onlineP, "");
 				MessageManager.send(sender, "&w&Offline %: &gray&" + offlinP, "");
-				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralOwners.toString()+": &gray&" + tmp.getOwners().toString(), "");
+				MessageManager.send(sender, "&w&"+Configuration.StringEntry.GeneralOwners.getValue()+": &gray&" + tmp.getOwners().toString(), "");
 				Location loc = tmp.getFirstLocation();
 				Location loc2 = tmp.getSecondLocation();
 				MessageManager.send(sender, "&w&Location 1:&gray&"+loc.toString(), "");
 				MessageManager.send(sender, "&w&Location 2:&gray&"+loc2.toString(), "");
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", "Region "+arguments[0]+" "));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Region "+arguments[0]+" "));
 				return;
 			}
 		} else
@@ -62,7 +62,7 @@ public class CommandRegion implements Command {
 					try{
 						percentage = Double.parseDouble(arguments[2]);
 					}catch(Exception e) {
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[2]);
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[2]);
 						return;
 					}
 					Bank.getRegion(arguments[0]).setOnPercentage(percentage, true);
@@ -71,7 +71,7 @@ public class CommandRegion implements Command {
 					try{
 						percentage = Double.parseDouble(arguments[2]);
 					}catch(Exception e) {
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[2]);
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[2]);
 						return;
 					}
 					Bank.getRegion(arguments[0]).setOffPercentage(percentage, true);
@@ -81,16 +81,16 @@ public class CommandRegion implements Command {
 					if(Bank.getRegion(arguments[0]).getOwners().contains(arguments[2]))
 						Bank.getRegion(arguments[0]).removeOwner(arguments[2]);
 				}else{
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[1]);
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[1]);
 					return;
 				}
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessRegion.toString().replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessRegion.getValue().replace("$name$", arguments[0]));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", "Region "+arguments[0]+" "));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Region "+arguments[0]+" "));
 				return;
 			}
 		} else {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

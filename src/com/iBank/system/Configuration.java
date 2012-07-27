@@ -53,7 +53,12 @@ public class Configuration {
 		FeeCreate("System.Fee.Create", "0.00%;1.00%;2.00%"),
 		FeeDeposit("System.Fee.Deposit", "0.00%"),
 		FeeWithdraw("System.Fee.Withdraw", "0.00%"),
-		FeeTransfer("System.Fee.Transfer", "0.00%");
+		FeeTransfer("System.Fee.Transfer", "0.00%"),
+		
+		RealisticMode("System.RealisticMode.Enabled", false),
+		RealisticNegative("System.RealisticMode.negative", true),
+		RealisticMaxNeg("System.RealisticMode.maxNegative", 10000),
+		RealisticAccount("System.RealisticMode.account", "bank");
 		
 		String key;
 		Object value;
@@ -203,6 +208,7 @@ public class Configuration {
 		ErrorAlready("Error.already", "$name$ is already one of the $type$ of this account!"),
 		ErrorNot("Error.not", "$name$ is not one of the $type$ of this account!"),
 		ErrorMaxAcc("Error.max_acc", "You can only have $max$ accounts!"),
+		ErrorNotEnoughBank("Error.not_enough_bank", "The bank does not have enough money!"),
 		
 		GeneralInfo("General.Info", "Info about $type$ $name$:"), 
 		GeneralNoAccounts("General.no_accounts", "No accounts found!"),
@@ -246,8 +252,13 @@ public class Configuration {
         	this.value = value;
         }
         @Override
-        public String toString() {
-        	return String.valueOf(value);
+        /*
+         * @DEPRECATED(non-Javadoc)
+         * @see java.lang.Enum#toString()
+         */
+        public String toString()
+        {
+            return "[DEPRECATED-PLEASE_REPORT_THIS!!] " + this.value;
         }
 	}
     /**

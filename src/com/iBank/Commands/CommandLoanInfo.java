@@ -33,12 +33,12 @@ public class CommandLoanInfo implements Command {
 	}
 	public void handle(CommandSender sender, String[] arguments, boolean check) {
 		if(!check && !iBank.canExecuteCommand(((Player)sender))) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		if(arguments.length == 0) {
 			if(!(sender instanceof Player)) {
-				MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.toString());
+				MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
 				return;
 			}
 			showLoanInfo(((Player)sender).getName(), sender, 0);
@@ -74,12 +74,12 @@ public class CommandLoanInfo implements Command {
 		int sites = (int)Math.ceil(((double)allLoans.size() / 10));
 		site = site > sites ? sites : site;
 		
-		MessageManager.send(destination, "&y&" + Configuration.StringEntry.GeneralInfo.toString().replace("$type$", "Player").replace("$name$", user));
+		MessageManager.send(destination, "&y&" + Configuration.StringEntry.GeneralInfo.getValue().replace("$type$", "Player").replace("$name$", user));
 		int i = 0;
 		for(Loan loan : allLoans) {
 			if(i < (site * 10)) { i++; continue; }
 			if(i > (site * 10)) break;
-			String[] lang = new String[] { Configuration.StringEntry.GeneralUntil.toString(), Configuration.StringEntry.GeneralPer.toString(), Configuration.StringEntry.GeneralMin.toString() };
+			String[] lang = new String[] { Configuration.StringEntry.GeneralUntil.getValue(), Configuration.StringEntry.GeneralPer.getValue(), Configuration.StringEntry.GeneralMin.getValue() };
 			String date = new SimpleDateFormat("dd.MMM.yy HH:mm:ss").format(new Date(System.currentTimeMillis()+(loan.getLeftTime() * 1000)));
 			String minutes = String.valueOf(loan.getInterval());
 			MessageManager.send(destination, (i+1)+"."+" id:("+loan.getId()+") "+iBank.format(loan.getAmount())+" "+lang[0]+" "+date+" "+String.valueOf(loan.getInterest()) + "% " + lang[1] + " " + minutes+ " " +lang[2], "");

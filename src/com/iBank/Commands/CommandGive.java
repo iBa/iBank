@@ -36,11 +36,11 @@ public class CommandGive implements Command {
 				try{
 				todp = new BigDecimal(arguments[1]);
 				}catch(Exception e) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [AMOUNT]");
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 					return;
 				}
 				if(todp.compareTo(new BigDecimal(0.10)) < 0) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.toString());
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.getValue());
 					return;
 				}
 				//iBank - call Event
@@ -52,12 +52,12 @@ public class CommandGive implements Command {
 				//iBank - end
 				// and save to account
 				account.addBalance(todp);
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessGive.toString().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessGive.getValue().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

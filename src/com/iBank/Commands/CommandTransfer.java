@@ -36,26 +36,26 @@ public class CommandTransfer implements Command {
 		if(!(sender instanceof Player)) console = true;
 		if(arguments.length == 3) {
 			if(!check && !iBank.canExecuteCommand(((Player)sender))) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 				return;
 			}
 			BigDecimal money = null;
 			try{
 				money = new BigDecimal(arguments[2]);
 			}catch(Exception e) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" [AMOUNT]");
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
 			}
 			if(money.compareTo(new BigDecimal(0.10)) < 0) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.toString());
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.getValue());
 				return;
 			}
 			if(!Bank.hasAccount(arguments[0])) {	
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 				return;
 			}
 			if(!Bank.hasAccount(arguments[1])) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", arguments[1]));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[1]));
 				return;
 			}
 			BankAccount src = Bank.getAccount(arguments[0]);
@@ -73,7 +73,7 @@ public class CommandTransfer implements Command {
 					return;
 				}
 				//iBank - end
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.toString());
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
 			//iBank - call Event
@@ -85,10 +85,10 @@ public class CommandTransfer implements Command {
 			//iBank - end
 			src.subtractBalance(money.add(fee));
 			dest.addBalance(money);
-			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessTransfer.toString().replace("$name$", arguments[0]).replace("$name2$", arguments[1]).replace("$amount$", iBank.format(money)));
-			if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.toString().replace("$amount$", iBank.format(fee)));
+			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessTransfer.getValue().replace("$name$", arguments[0]).replace("$name2$", arguments[1]).replace("$amount$", iBank.format(money)));
+			if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

@@ -26,13 +26,13 @@ public class CommandDelRegion implements Command {
 			//delete region
 			if(Bank.hasRegion(arguments[0])) {
 				Bank.removeRegion(arguments[0]);
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessDelRegion.toString().replace("$name$", arguments[0]));
+				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessDelRegion.getValue().replace("$name$", arguments[0]));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.toString().replace("$name$", "Region "+arguments[0]+" "));
+				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Region "+arguments[0]+" "));
 			}
 			return;
 		}
-		MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+		MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 	}
 	public String getHelp() {
 		return Configuration.StringEntry.DelRegionDescription.getValue();
