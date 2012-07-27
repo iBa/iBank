@@ -34,7 +34,7 @@ public class CommandHelp implements Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		//Display possible help for this command
 		if(!(sender instanceof Player)) {
-			MessageManager.send(sender, "iBank "+iBank.description.getVersion()+" ("+iBank.CodeName+")");
+			MessageManager.send(sender, "iBank "+iBank.description.getVersion());
 			String args = "";
 			for(String name : CommandHandler.getCommands("bank"))
 			{
@@ -49,7 +49,7 @@ public class CommandHelp implements Command {
 		try{
 			curSite = arguments.length == 0 ? 0 : Integer.parseInt(arguments[0]) -1;
 		}catch(Exception e) { }
-		MessageManager.send(sender, "iBank "+iBank.description.getVersion()+" ("+iBank.CodeName+") ("+(curSite+1)+"/"+sites+")", "");
+		MessageManager.send(sender, "iBank "+iBank.description.getVersion()+" ("+(curSite+1)+"/"+sites+")", "");
 		String args = "";
 		int counter = 0;
 		//from = site * 12 
