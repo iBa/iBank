@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.iBank.iBank;
+/*
 import com.iBank.Commands.CommandBalance;
 import com.iBank.Commands.CommandDeposit;
 import com.iBank.Commands.CommandLoan;
@@ -29,6 +30,7 @@ import com.iBank.Commands.CommandLoanInfo;
 import com.iBank.Commands.CommandTransfer;
 import com.iBank.Commands.CommandWithdraw;
 import com.iBank.system.CommandHandler;
+*/
 import com.iBank.system.Configuration;
 import com.iBank.system.MessageManager;
 import com.iBank.utils.Mathematics;
@@ -50,7 +52,7 @@ public class iBankListener implements Listener {
     	    	{
     	    	   if(event.getPlayer().getItemInHand().getTypeId() == Configuration.Entry.SelectionTool.getInteger())
     	    	   {
-    	    		   if(CommandHandler.isCallable(event.getPlayer(), "bank", "addregion"))
+    	    		   //if(CommandHandler.isCallable(event.getPlayer(), "bank", "addregion"))
     	    			if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
     	    			   //1st
     	    			   if(!LastMarkedPoint.containsKey(event.getPlayer().getName())) {
@@ -123,7 +125,7 @@ public class iBankListener implements Listener {
 				//validate type
 				String type = iBank.loggedinto.get(event.getPlayer().getName());
 				CommandSender sender = (CommandSender) event.getPlayer();
-				
+				/*
 				if(type == "withdraw") {
 					new CommandWithdraw().handle(sender, arguments, true);
 				}else if(type == "deposit") {
@@ -137,6 +139,7 @@ public class iBankListener implements Listener {
 				}else if(type == "loan") {
 					new CommandLoan().handle(sender, arguments, true);
 				}
+				*/
 				event.setCancelled(true);
 			}
 		}
