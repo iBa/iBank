@@ -14,7 +14,6 @@ import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 import com.iBank.utils.Mathematics;
 
 /**
@@ -28,18 +27,18 @@ import com.iBank.utils.Mathematics;
 		root = "bank", 
 		sub = "withdraw"
 )
-public class CommandWithdraw implements Command {
+public class CommandWithdraw extends Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		handle(sender, arguments, false);
 	}
 	
 	public void handle(CommandSender sender, String[] arguments, boolean check) { 	
 		if(!(sender instanceof Player)) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
 			return;
 		}
 		if(!check && !iBank.canExecuteCommand(((Player)sender))) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		
@@ -49,13 +48,13 @@ public class CommandWithdraw implements Command {
 				if(account.isOwner(((Player)sender).getName()) || account.isUser(((Player)sender).getName())) {
 					BigDecimal todp = null;
 					if((todp = Mathematics.parseString(arguments[1])) == null) {
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
+						send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 						return;
 					}
 					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.getValue(), todp);
 					
 					if(account.has(todp.add(fee))) {
-						if(fee.compareTo(BigDecimal.ZERO)>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
+						if(fee.compareTo(BigDecimal.ZERO)>0) send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
 							//iBank - call Event
 							iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_WITHDRAW, new Object[] { arguments[0], todp, fee, true } );
 							Bukkit.getServer().getPluginManager().callEvent(event);
@@ -65,13 +64,13 @@ public class CommandWithdraw implements Command {
 							//iBank - end
 							doWithdraw(sender, todp.add(fee), account);
 					}else{
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
+						send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 					}
 				}else{
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
+					send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				}
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 		}else if(arguments.length == 1) {
 			if(Bank.hasAccount(arguments[0])) {
@@ -80,7 +79,7 @@ public class CommandWithdraw implements Command {
 					//Withdraw The MAX
 					BigDecimal amount = account.getBalance();
 					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.getValue(), amount);
-					if(fee.compareTo(BigDecimal.ZERO)>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
+					if(fee.compareTo(BigDecimal.ZERO)>0) send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
 					amount = amount.subtract(fee);
 					//iBank - call Event
 					iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_WITHDRAW, new Object[] { arguments[0], amount, fee, true } );
@@ -92,19 +91,19 @@ public class CommandWithdraw implements Command {
 					doWithdraw(sender, amount, account);
 					account.setBalance(BigDecimal.ZERO, true);
 				}else{
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
+					send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				}
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 		} else {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public void doWithdraw(CommandSender sender, BigDecimal todp, BankAccount account) {
 			account.subtractBalance(todp);
 			iBank.economy.depositPlayer(((Player)sender).getName(), todp.doubleValue());
-			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessWithdraw.getValue().replace("$name$", account.getName()).replace("$amount$", iBank.format(todp)));
+			send(sender, "&g&"+Configuration.StringEntry.SuccessWithdraw.getValue().replace("$name$", account.getName()).replace("$amount$", iBank.format(todp)));
 	}
 	public String getHelp() {
 		return Configuration.StringEntry.WithdrawDescription.getValue();

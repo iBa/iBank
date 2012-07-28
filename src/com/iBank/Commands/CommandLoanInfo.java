@@ -13,7 +13,6 @@ import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
 import com.iBank.system.Loan;
-import com.iBank.system.MessageManager;
 
 /**
  *  /bank loaninfo <PLAYER> - loan info of others
@@ -27,18 +26,18 @@ import com.iBank.system.MessageManager;
 		root = "bank", 
 		sub = "loaninfo"
 )
-public class CommandLoanInfo implements Command {
+public class CommandLoanInfo extends Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		handle(sender, arguments, false);
 	}
 	public void handle(CommandSender sender, String[] arguments, boolean check) {
 		if(!check && !iBank.canExecuteCommand(((Player)sender))) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		if(arguments.length == 0) {
 			if(!(sender instanceof Player)) {
-				MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
+				send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
 				return;
 			}
 			showLoanInfo(((Player)sender).getName(), sender, 0);
@@ -53,10 +52,10 @@ public class CommandLoanInfo implements Command {
 				int site = arguments.length > 1 ? Integer.parseInt(arguments[1]) +1 : 0;
 				showLoanInfo(arguments[0], sender, site);
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	/**
@@ -74,7 +73,7 @@ public class CommandLoanInfo implements Command {
 		int sites = (int)Math.ceil(((double)allLoans.size() / 10));
 		site = site > sites ? sites : site;
 		
-		MessageManager.send(destination, "&y&" + Configuration.StringEntry.GeneralInfo.getValue().replace("$type$", "Player").replace("$name$", user));
+		send(destination, "&y&" + Configuration.StringEntry.GeneralInfo.getValue().replace("$type$", "Player").replace("$name$", user));
 		int i = 0;
 		for(Loan loan : allLoans) {
 			if(i < (site * 10)) { i++; continue; }
@@ -82,7 +81,7 @@ public class CommandLoanInfo implements Command {
 			String[] lang = new String[] { Configuration.StringEntry.GeneralUntil.getValue(), Configuration.StringEntry.GeneralPer.getValue(), Configuration.StringEntry.GeneralMin.getValue() };
 			String date = new SimpleDateFormat("dd.MMM.yy HH:mm:ss").format(new Date(System.currentTimeMillis()+(loan.getLeftTime() * 1000)));
 			String minutes = String.valueOf(loan.getInterval());
-			MessageManager.send(destination, (i+1)+"."+" id:("+loan.getId()+") "+iBank.format(loan.getAmount())+" "+lang[0]+" "+date+" "+String.valueOf(loan.getInterest()) + "% " + lang[1] + " " + minutes+ " " +lang[2], "");
+			send(destination, (i+1)+"."+" id:("+loan.getId()+") "+iBank.format(loan.getAmount())+" "+lang[0]+" "+date+" "+String.valueOf(loan.getInterest()) + "% " + lang[1] + " " + minutes+ " " +lang[2], "");
 			i++;
 		}
 	}

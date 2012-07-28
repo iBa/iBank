@@ -8,7 +8,6 @@ import com.iBank.system.Bank;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 
 /**
  *  /bank close <ACCOUNT> - Close the account
@@ -21,13 +20,13 @@ import com.iBank.system.MessageManager;
 		root = "bank", 
 		sub = "close"
 )
-public class CommandClose implements Command {
+public class CommandClose extends Command {
 	public void handle(CommandSender sender, String[] arguments) { 	
 		boolean console = false;
 		if(!(sender instanceof Player)) console = true;
 		if(!console) {
 			if(!iBank.canExecuteCommand(((Player)sender))) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 				return;
 			}
 		}
@@ -40,15 +39,15 @@ public class CommandClose implements Command {
 					new CommandWithdraw().handle(sender, new String[] { arguments[0] } );
 					// Close account
 					Bank.removeAccount(arguments[0]);
-					MessageManager.send(sender, "&g&" + Configuration.StringEntry.SuccessClose.getValue().replace("$name$", arguments[0]));
+					send(sender, "&g&" + Configuration.StringEntry.SuccessClose.getValue().replace("$name$", arguments[0]));
 				}else{
-					MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorNeedOwner.getValue());
+					send(sender, "&r&" + Configuration.StringEntry.ErrorNeedOwner.getValue());
 				}
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

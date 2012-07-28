@@ -11,7 +11,6 @@ import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
 import com.iBank.system.Loan;
-import com.iBank.system.MessageManager;
 
 /**
  *  /bank payback (ID) [AMOUNT]
@@ -24,17 +23,17 @@ import com.iBank.system.MessageManager;
 		root = "bank", 
 		sub = "payback"
 )
-public class CommandPayBack implements Command {
+public class CommandPayBack extends Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		handle(sender, arguments, false);
 	}
 	public void handle(CommandSender sender, String[] arguments, boolean check) {
 		if(!(sender instanceof Player)) {
-			MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
+			send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
 			return;
 		}
 		if(!check && !iBank.canExecuteCommand(((Player)sender))) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		if(arguments.length == 2) {
@@ -43,7 +42,7 @@ public class CommandPayBack implements Command {
 			try{
 				arg = Integer.parseInt(arguments[0]);
 			}catch(Exception e) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [ID]");
+				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [ID]");
 				return;
 			}
 			//arguments[1] -> BigDecimal
@@ -51,23 +50,23 @@ public class CommandPayBack implements Command {
 			try{
 				todp = new BigDecimal(arguments[1]);
 			}catch(Exception e) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
+				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
 			}
 			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
 			//try to get this loan
 			Loan loan = Bank.getLoanById(arg);
 			if(loan == null) {
 				//notfound
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name", String.valueOf(arg)));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name", String.valueOf(arg)));
 			}else{
 				//loan.getAmount() has to be bigger or equal than given (0 or -1)
 				if(!(loan.getAmount().compareTo(todp)<=0)) {
 					//throw error
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue() + "AMOUNT>LOAN");
+					send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue() + "AMOUNT>LOAN");
 					return;
 				}
 				loan.setAmount(loan.getAmount().subtract(todp));
@@ -88,7 +87,7 @@ public class CommandPayBack implements Command {
 				        iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), todp.doubleValue());
 				    }
 				}
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(todp)));
+				send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(todp)));
 			}
 		}else if(arguments.length == 1){
 			//loop through all, calculate stuff, etc.
@@ -97,11 +96,11 @@ public class CommandPayBack implements Command {
 			try{
 				todp = new BigDecimal(arguments[0]);
 			}catch(Exception e) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
+				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
 			}
 			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
 			BigDecimal paiedback = BigDecimal.ZERO;
@@ -126,9 +125,9 @@ public class CommandPayBack implements Command {
             {
                 iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), todp.doubleValue());
             }
-			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(paiedback)));
+			send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(paiedback)));
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

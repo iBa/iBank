@@ -9,7 +9,6 @@ import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 
 /**
  *  /bank rename A B - Rename account A to b
@@ -22,7 +21,7 @@ import com.iBank.system.MessageManager;
 		root = "bank", 
 		sub = "rename"
 )
-public class CommandRename implements Command {
+public class CommandRename extends Command {
 
 	@Override
 	public void handle(CommandSender sender, String[] arguments) {
@@ -32,22 +31,22 @@ public class CommandRename implements Command {
 				BankAccount account = Bank.getAccount(arguments[0]);
 				//Permission check / etc
 				if(!hasPerm && !account.isOwner(((Player)sender).getName())) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
+					send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 					return;
 				}
 				//Already there?
 				if(Bank.hasAccount(arguments[1])) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.getValue().replace("$name$", "Account "+arguments[1]+" "));
+					send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.getValue().replace("$name$", "Account "+arguments[1]+" "));
 					return;
 				}
 				//Rename simply
 				account.Update("name", arguments[1]);
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessRename.getValue().replace("$a$", arguments[0]).replace("$b$", arguments[1]));
+				send(sender, "&g&"+Configuration.StringEntry.SuccessRename.getValue().replace("$a$", arguments[0]).replace("$b$", arguments[1]));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 

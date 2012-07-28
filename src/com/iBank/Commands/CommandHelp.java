@@ -8,7 +8,6 @@ import com.iBank.system.Command;
 import com.iBank.system.CommandHandler;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 
 /**
  * /bank or /bank help
@@ -20,7 +19,7 @@ import com.iBank.system.MessageManager;
   root = "bank", 
   sub = "help"
 )
-public class CommandHelp implements Command {
+public class CommandHelp extends Command {
 	protected String root = "";
 	/**
 	 * Constructor
@@ -34,12 +33,12 @@ public class CommandHelp implements Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		//Display possible help for this command
 		if(!(sender instanceof Player)) {
-			MessageManager.send(sender, "iBank "+iBank.description.getVersion());
+			send(sender, "iBank "+iBank.description.getVersion());
 			String args = "";
 			for(String name : CommandHandler.getCommands("bank"))
 			{
 					args = CommandHandler.getArgInfo(root, name);
-					MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+CommandHandler.getHelp(root, name));
+					send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+CommandHandler.getHelp(root, name));
 			}
 			return;
 		}
@@ -49,7 +48,7 @@ public class CommandHelp implements Command {
 		try{
 			curSite = arguments.length == 0 ? 0 : Integer.parseInt(arguments[0]) -1;
 		}catch(Exception e) { }
-		MessageManager.send(sender, "iBank "+iBank.description.getVersion()+" ("+(curSite+1)+"/"+sites+")", "");
+		send(sender, "iBank "+iBank.description.getVersion()+" ("+(curSite+1)+"/"+sites+")", "");
 		String args = "";
 		int counter = 0;
 		//from = site * 12 
@@ -62,7 +61,7 @@ public class CommandHelp implements Command {
 				if(curSite * 12 + 12 < counter) break;
 				
 				args = CommandHandler.getArgInfo(root, name) != null ? CommandHandler.getArgInfo(root, name) : "";
-				MessageManager.send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+CommandHandler.getHelp(root, name), "");
+				send(sender, " /"+root+" "+name+" &gray&"+args+" &gold&-&y& "+CommandHandler.getHelp(root, name), "");
 				counter++; 
 			}
 		}

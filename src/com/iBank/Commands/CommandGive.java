@@ -13,7 +13,6 @@ import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 
 /**
  *  /bank give <ACCOUNT> <AMOUNT>
@@ -26,7 +25,7 @@ import com.iBank.system.MessageManager;
 		root = "bank", 
 		sub = "give"
 )
-public class CommandGive implements Command {
+public class CommandGive extends Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		if(arguments.length == 2) {
 			if(Bank.hasAccount(arguments[0])) {
@@ -36,11 +35,11 @@ public class CommandGive implements Command {
 				try{
 				todp = new BigDecimal(arguments[1]);
 				}catch(Exception e) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
+					send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 					return;
 				}
 				if(todp.compareTo(new BigDecimal(0.10)) < 0) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.getValue());
+					send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.getValue());
 					return;
 				}
 				//iBank - call Event
@@ -52,12 +51,12 @@ public class CommandGive implements Command {
 				//iBank - end
 				// and save to account
 				account.addBalance(todp);
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessGive.getValue().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
+				send(sender, "&g&"+Configuration.StringEntry.SuccessGive.getValue().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

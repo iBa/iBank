@@ -11,7 +11,6 @@ import com.iBank.system.Bank;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 import com.iBank.system.Region;
 
 /**
@@ -26,15 +25,15 @@ import com.iBank.system.Region;
 		root = "bank", 
 		sub = "open"
 )
-public class CommandOpenAccount implements Command {
+public class CommandOpenAccount extends Command {
 	public void handle(CommandSender sender, String[] arguments) { 
 		if(arguments.length == 1) {
 			if(!(sender instanceof Player)) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
 				return;
 			}
 			if(!iBank.canExecuteCommand(((Player)sender))) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 				return;
 			}
 			String region = iBank.regionAt(((Player)sender).getLocation());
@@ -59,11 +58,11 @@ public class CommandOpenAccount implements Command {
 				List<String> tmp = Bank.getAccountsByOwner(((Player)sender).getName());
 				//skip if max is higher/equal to precision
 				if(Configuration.Entry.MaxAccountsPerUser.getInteger() != -1 && tmp.size() >= Configuration.Entry.MaxAccountsPerUser.getInteger()) {
-					MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.getValue().replace("$max$", Configuration.Entry.MaxAccountsPerUser.getValue()));
+					send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.getValue().replace("$max$", Configuration.Entry.MaxAccountsPerUser.getValue()));
 					return;
 				}
 				if(!iBank.economy.has(((Player)sender).getName(), extra.doubleValue())) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
+					send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 					return;
 				}
 				iBank.economy.withdrawPlayer(((Player)sender).getName(), extra.doubleValue());
@@ -74,13 +73,13 @@ public class CommandOpenAccount implements Command {
 					if(!reg.onDefault) Bank.getAccount(arguments[0]).setOnPercentage(reg.getOnPercentage(), true);
 					if(!reg.offDefault) Bank.getAccount(arguments[0]).setOffPercentage(reg.getOffPercentage(), true);
 				}
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAddAccount.getValue().replace("$name$", "Account "+arguments[0]+" "));
-				if(extra.compareTo(BigDecimal.ZERO)>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(extra)));
+				send(sender, "&g&"+Configuration.StringEntry.SuccessAddAccount.getValue().replace("$name$", "Account "+arguments[0]+" "));
+				if(extra.compareTo(BigDecimal.ZERO)>0) send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(extra)));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.getValue().replace("$name$", "Account "+arguments[0]+" "));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.getValue().replace("$name$", "Account "+arguments[0]+" "));
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

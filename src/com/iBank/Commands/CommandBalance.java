@@ -12,7 +12,6 @@ import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 
 /**
  *  /bank balance [NAME]
@@ -25,7 +24,7 @@ import com.iBank.system.MessageManager;
 		root = "bank", 
 		sub = "balance"
 )
-public class CommandBalance implements Command {
+public class CommandBalance extends Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		handle(sender, arguments, false);
 	}
@@ -54,16 +53,16 @@ public class CommandBalance implements Command {
 							return;
 						}
 						//iBank - end
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+						send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 						return;
 					}
 				}
-				MessageManager.send(sender, "&dg&"+Configuration.StringEntry.BalanceShort.getValue()+" &gray&"+arguments[0]+" &w&: "+formattedBalance);
+				send(sender, "&dg&"+Configuration.StringEntry.BalanceShort.getValue()+" &gray&"+arguments[0]+" &w&: "+formattedBalance);
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
+			send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 		}
 	}
    }

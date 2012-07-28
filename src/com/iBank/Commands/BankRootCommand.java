@@ -11,7 +11,6 @@ import com.iBank.system.Bank;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 import com.iBank.utils.StringUtils;
 
 /**
@@ -25,7 +24,7 @@ import com.iBank.utils.StringUtils;
 		root = "bank", 
 		sub = ""
 )
-public class BankRootCommand implements Command {
+public class BankRootCommand extends Command {
 
 	/**
 	 *  Shows if in bank region if enabled
@@ -34,25 +33,25 @@ public class BankRootCommand implements Command {
 	@Override
 	public void handle(CommandSender sender, String[] arguments) {
 		if(!(sender instanceof Player)) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
 			return;
 		}
 		if(!iBank.canExecuteCommand(((Player)sender))) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		// Show list of accounts
 		List<String> owner = Bank.getAccountsByOwner(((Player)sender).getName());
 		List<String> user = Bank.getAccountsByUser(((Player)sender).getName());
 		if(owner.size() == 0 && user.size() == 0) {
-			MessageManager.send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
+			send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
 			return;
 		}
-		MessageManager.send(sender, "&blue&Owner &y&User");
+		send(sender, "&blue&Owner &y&User");
 		owner = owner == null ? new ArrayList<String>() : owner;
 		user = user == null ? new ArrayList<String>() : user;
-		MessageManager.send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
-		MessageManager.send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");
+		send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
+		send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");
 	}
 	public String getHelp() {
 		return Configuration.StringEntry.BankDescription.getValue();

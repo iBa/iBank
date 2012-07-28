@@ -11,7 +11,6 @@ import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
 import com.iBank.system.Loan;
-import com.iBank.system.MessageManager;
 
 /**
  *  /bank loan <AMOUNT>
@@ -25,17 +24,17 @@ import com.iBank.system.MessageManager;
 		root = "bank", 
 		sub = "loan"
 )
-public class CommandLoan implements Command {
+public class CommandLoan extends Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		handle(sender, arguments, false);
 	}
 	public void handle(CommandSender sender, String[] arguments, boolean check) {
 		if(!(sender instanceof Player)) {
-			MessageManager.send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
+			send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
 			return;
 		}
 		if(!check && !iBank.canExecuteCommand(((Player)sender))) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		if(arguments.length == 1) {
@@ -44,7 +43,7 @@ public class CommandLoan implements Command {
 			try{
 				amount = new BigDecimal(arguments[0]);
 			}catch(Exception e) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Amount]");
+				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Amount]");
 				return;
 			}
 			//check max count of loans
@@ -59,7 +58,7 @@ public class CommandLoan implements Command {
 				        {
 				            if(!Configuration.Entry.RealisticNegative.getBoolean())
 				            {
-				                MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+				                send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
                                 return;
 				            }
 				            com.iBank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
@@ -67,7 +66,7 @@ public class CommandLoan implements Command {
 				            //Can be either equal to the max*-1 or it needs to be bigger
                             if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
                             {
-                                MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+                                send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
                                 return;
                             }
                             tmp.subtractBalance(amount);
@@ -78,14 +77,14 @@ public class CommandLoan implements Command {
 				            {
 				                if(!Configuration.Entry.RealisticNegative.getBoolean())
 				                {
-				                    MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+				                    send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
 				                    return;
 				                }
 				                BigDecimal newAmount = new BigDecimal(iBank.economy.getBalance(Configuration.Entry.RealisticAccount.getValue())).subtract(amount);
 				                //Can be either equal to the max*-1 or it needs to be bigger
 				                if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
 				                {
-				                    MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+				                    send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
 				                    return;
 				                }
 				            }
@@ -96,16 +95,16 @@ public class CommandLoan implements Command {
 					//all validated (player and account)
 					new Loan(player, Configuration.Entry.LoanInterest.getInteger(), Configuration.Entry.LoanInterestTime.getInteger() , (60 * Configuration.Entry.LoanTime.getInteger()) , amount, true);
 					iBank.economy.depositPlayer(((Player)sender).getName(), amount.doubleValue());
-					MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessLoan.getValue().replace("$amount$", amount.toString()));
+					send(sender, "&g&"+Configuration.StringEntry.SuccessLoan.getValue().replace("$amount$", amount.toString()));
 				}else{
 					//amount is bigger :(
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorLoanLimit.getValue().replace("$max$", iBank.format(Configuration.Entry.LoanAmount.getBigDecimal())));
+					send(sender, "&r&"+Configuration.StringEntry.ErrorLoanLimit.getValue().replace("$max$", iBank.format(Configuration.Entry.LoanAmount.getBigDecimal())));
 				}
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorMaxLoan.getValue().replace("$max$", Configuration.Entry.LoanMax.getBigDecimal().toString()));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorMaxLoan.getValue().replace("$max$", Configuration.Entry.LoanMax.getBigDecimal().toString()));
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

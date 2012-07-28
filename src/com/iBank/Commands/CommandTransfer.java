@@ -14,7 +14,6 @@ import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 
 /**
  *  /bank transfer <SRC> <DEST> <AMOUNT>
@@ -27,7 +26,7 @@ import com.iBank.system.MessageManager;
 		root = "bank", 
 		sub = "transfer"
 )
-public class CommandTransfer implements Command {
+public class CommandTransfer extends Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		handle(sender, arguments, false);
 	}
@@ -36,32 +35,32 @@ public class CommandTransfer implements Command {
 		if(!(sender instanceof Player)) console = true;
 		if(arguments.length == 3) {
 			if(!check && !iBank.canExecuteCommand(((Player)sender))) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 				return;
 			}
 			BigDecimal money = null;
 			try{
 				money = new BigDecimal(arguments[2]);
 			}catch(Exception e) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
+				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
 			}
 			if(money.compareTo(new BigDecimal(0.10)) < 0) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.getValue());
 				return;
 			}
 			if(!Bank.hasAccount(arguments[0])) {	
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 				return;
 			}
 			if(!Bank.hasAccount(arguments[1])) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[1]));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[1]));
 				return;
 			}
 			BankAccount src = Bank.getAccount(arguments[0]);
 			BankAccount dest = Bank.getAccount(arguments[1]);
 			if(!console && !src.isUser(((Player)sender).getName()) && !src.isOwner(((Player)sender).getName())) {
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
 			}
 			BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeTransfer.getValue(), money);
@@ -73,7 +72,7 @@ public class CommandTransfer implements Command {
 					return;
 				}
 				//iBank - end
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
 			//iBank - call Event
@@ -85,10 +84,10 @@ public class CommandTransfer implements Command {
 			//iBank - end
 			src.subtractBalance(money.add(fee));
 			dest.addBalance(money);
-			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessTransfer.getValue().replace("$name$", arguments[0]).replace("$name2$", arguments[1]).replace("$amount$", iBank.format(money)));
-			if(fee.compareTo(BigDecimal.ZERO)>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
+			send(sender, "&g&"+Configuration.StringEntry.SuccessTransfer.getValue().replace("$name$", arguments[0]).replace("$name2$", arguments[1]).replace("$amount$", iBank.format(money)));
+			if(fee.compareTo(BigDecimal.ZERO)>0) send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

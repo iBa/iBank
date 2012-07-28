@@ -11,7 +11,6 @@ import com.iBank.system.Bank;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 import com.iBank.utils.StringUtils;
 
 /**
@@ -27,11 +26,11 @@ import com.iBank.utils.StringUtils;
 		root = "bank", 
 		sub = "list"
 )
-public class CommandList implements Command {
+public class CommandList extends Command {
 	
 	public void handle(CommandSender sender, String[] arguments) {
 		if((sender instanceof Player) && !iBank.canExecuteCommand(((Player)sender))) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		// Show list of accounts#
@@ -40,20 +39,20 @@ public class CommandList implements Command {
 		if(arguments.length > 0 && arguments[0] != null) {
 			owner = Bank.getAccountsByOwner(arguments[0]);
 			user = Bank.getAccountsByUser(arguments[0]);
-			MessageManager.send(sender, "&blue&Owner &y&User");
+			send(sender, "&blue&Owner &y&User");
 		}else{
 			owner = Bank.getAccounts();
 			user = new ArrayList<String>();
 		}
 		
 		if(owner.size() == 0 && user.size() == 0) {
-			MessageManager.send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
+			send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
 			return;
 		}
 		owner = owner == null ? new ArrayList<String>() : owner;
 		user = user == null ? new ArrayList<String>() : user;
-		MessageManager.send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
-		MessageManager.send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");
+		send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
+		send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");
 	}
 	public String getHelp() {
 		return Configuration.StringEntry.ListDescription.getValue();

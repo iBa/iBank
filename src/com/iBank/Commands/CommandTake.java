@@ -13,7 +13,6 @@ import com.iBank.system.BankAccount;
 import com.iBank.system.Command;
 import com.iBank.system.CommandInfo;
 import com.iBank.system.Configuration;
-import com.iBank.system.MessageManager;
 
 /**
  *  /bank take <ACCOUNT> <MONEY> - Take money from account
@@ -27,7 +26,7 @@ import com.iBank.system.MessageManager;
 		root = "bank", 
 		sub = "take"
 )
-public class CommandTake implements Command {
+public class CommandTake extends Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		if(arguments.length == 2) {
 			if(Bank.hasAccount(arguments[0])) {
@@ -37,11 +36,11 @@ public class CommandTake implements Command {
 				try{
 				todp = new BigDecimal(arguments[1]);
 				}catch(Exception e) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
+					send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 					return;
 				}
 				if(todp.compareTo(new BigDecimal(0.10)) < 0) {
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.getValue());
+					send(sender, "&r&"+Configuration.StringEntry.ErrorInvalidAm.getValue());
 					return;
 				}
 				// and save to account
@@ -62,14 +61,14 @@ public class CommandTake implements Command {
 						return;
 					}
 					//iBank - end
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
+					send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				}
-				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessTake.getValue().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
+				send(sender, "&g&"+Configuration.StringEntry.SuccessTake.getValue().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
 			}else{
-				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 		}else{
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	public String getHelp() {

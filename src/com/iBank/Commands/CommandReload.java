@@ -18,7 +18,7 @@ import com.iBank.system.Configuration;
 		root = "bank", 
 		sub = "reload"
 )
-public class CommandReload implements Command {
+public class CommandReload extends Command {
 	public void handle(CommandSender sender, String[] arguments) {
 		iBank.mainInstance.reloadConfig();
 	}
