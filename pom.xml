@@ -48,10 +48,10 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>${project.basedir}/bin/resources</directory>
+				<directory>bin/resources</directory>
 			</resource>
       <resource>
-        <directory>$(project.basedir)/src/resources</directory>
+        <directory>src/resources</directory>
         <excludes>
             <exclude>plugin.yml</exclude>
         </excludes>
@@ -80,7 +80,7 @@
 						</goals>
 						<configuration>
 							<sources>
-								<source>${project.basedir}/src</source>
+								<source>src</source>
 							</sources>
 						</configuration>
 					</execution>
