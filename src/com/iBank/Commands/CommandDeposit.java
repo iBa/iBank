@@ -60,7 +60,7 @@ public class CommandDeposit implements Command {
 				}
 				// check if current player has that amount
 				//double needed = 0.00;
-				BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeDeposit.toString(), todp);
+				BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeDeposit.getValue(), todp);
 				if(iBank.economy.has(((Player)sender).getName(), todp.doubleValue() + fee.doubleValue())) {
 					//iBank - call Event
 					iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_DEPOSIT, new Object[] { arguments[0], todp, fee, true } );

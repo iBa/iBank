@@ -57,7 +57,7 @@ public class Region {
 	 */
 	public void addOwner(String owner) {
 		Owners.add(owner);
-		DataSource.update(Configuration.Entry.DatabaseRegionTable.toString(), new String[]{"owners"}, new Object[]{StringUtils.join(Owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+		DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(Owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
 	 * Removes an owner
@@ -65,7 +65,7 @@ public class Region {
 	 */
 	public void removeOwner(String owner) {
 		Owners.remove(owner);
-		DataSource.update(Configuration.Entry.DatabaseRegionTable.toString(), new String[]{"owners"}, new Object[]{StringUtils.join(Owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+		DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(Owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
 	 * Returns a list with the owners
@@ -95,7 +95,7 @@ public class Region {
 	public void setOnPercentage(double on,boolean write) {
 		this.on = on;
 		//Write to db
-	    if(write) DataSource.update(Configuration.Entry.DatabaseRegionTable.toString(), new String[]{"onper"}, new Object[]{String.valueOf(on)}, new AndCondition("name", name, Operators.IDENTICAL));
+	    if(write) DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"onper"}, new Object[]{String.valueOf(on)}, new AndCondition("name", name, Operators.IDENTICAL));
 	    onDefault = false;
 	}
 	/**
@@ -106,7 +106,7 @@ public class Region {
 	public void setOffPercentage(double off,boolean write) {
 		this.off = off;
 		//Write to db
-	    if(write) DataSource.update(Configuration.Entry.DatabaseRegionTable.toString(), new String[]{"offper"}, new Object[]{String.valueOf(off)}, new AndCondition("name", name, Operators.IDENTICAL));
+	    if(write) DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"offper"}, new Object[]{String.valueOf(off)}, new AndCondition("name", name, Operators.IDENTICAL));
 	    offDefault = false;
 	}
 	/**

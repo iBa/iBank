@@ -33,7 +33,7 @@ public class Loan {
 	public Loan(String username, double interest, int interval,int time, BigDecimal amount, boolean create) {
 		this(username, interest, interval, time, amount, 0, -1);
 		int tmp = (int)(System.currentTimeMillis() / 1000L) + time;
-		this.id = DataSource.insertEntry(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "user", "amount", "percentage", "until", "interval", "mD" } , new Object[] { username, amount, interest, tmp, interval, 0 }, true); 
+		this.id = DataSource.insertEntry(Configuration.Entry.DatabaseLoanTable.getValue(), new String[] { "user", "amount", "percentage", "until", "interval", "mD" } , new Object[] { username, amount, interest, tmp, interval, 0 }, true); 
 	}
 	
 	public Loan(String username, double interest, int interval, long time, BigDecimal amount,int mD, int id) {
@@ -70,7 +70,7 @@ public class Loan {
 			return;
 		}
 		int minTMP = (int)(System.currentTimeMillis() / 100L) + (minutes * 60);
-		DataSource.update(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "until" }, new Object[] { minTMP } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
+		DataSource.update(Configuration.Entry.DatabaseLoanTable.getValue(), new String[] { "until" }, new Object[] { minTMP } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
 		this.time = minTMP;
 	}
 	/**
@@ -89,7 +89,7 @@ public class Loan {
 			throwIdError("SET_INTERVAL");
 			return;
 		}
-		DataSource.update(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "interval" }, new Object[] { minutes } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
+		DataSource.update(Configuration.Entry.DatabaseLoanTable.getValue(), new String[] { "interval" }, new Object[] { minutes } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
 		this.interval = minutes;
 	}
 	/**
@@ -108,7 +108,7 @@ public class Loan {
 			throwIdError("SET_INTEREST");
 			return;
 		}
-		DataSource.update(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "interest" }, new Object[] { interest } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
+		DataSource.update(Configuration.Entry.DatabaseLoanTable.getValue(), new String[] { "interest" }, new Object[] { interest } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
 		this.interest = interest;
 	}
 	/**
@@ -127,7 +127,7 @@ public class Loan {
 			throwIdError("SET_AMOUNT");
 			return;
 		}
-		DataSource.update(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "amount" }, new Object[] { amount } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
+		DataSource.update(Configuration.Entry.DatabaseLoanTable.getValue(), new String[] { "amount" }, new Object[] { amount } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
 		this.amount = amount;
 	}
 	/**
@@ -153,7 +153,7 @@ public class Loan {
 			throwIdError("SET_MINUTES_DONE");
 			return;
 		}
-		DataSource.update(Configuration.Entry.DatabaseLoanTable.toString(), new String[] { "mD" }, new Object[] { count } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
+		DataSource.update(Configuration.Entry.DatabaseLoanTable.getValue(), new String[] { "mD" }, new Object[] { count } , new AndCondition("id", this.id, Operators.IDENTICAL)); 
 		this.minutesDone = count;
 	}
 	/**
@@ -166,7 +166,7 @@ public class Loan {
 	 * Deletes the loan from the database
 	 */
 	public void remove() {
-		DataSource.deleteEntry(Configuration.Entry.DatabaseLoanTable.toString(), new AndCondition("id", id, Operators.IDENTICAL));
+		DataSource.deleteEntry(Configuration.Entry.DatabaseLoanTable.getValue(), new AndCondition("id", id, Operators.IDENTICAL));
 	}
 	/**
 	 * Return the id

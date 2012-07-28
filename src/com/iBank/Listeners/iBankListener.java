@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -87,7 +86,7 @@ public class iBankListener implements Listener {
     					 }else{
     						 iBank.loggedinto.put(event.getPlayer().getName(), order.get(0));
     					 }
-    					 MessageManager.send(event.getPlayer(), "&g&" + Configuration.StringEntry.SuccessLogin.toString());
+    					 MessageManager.send(event.getPlayer(), "&g&" + Configuration.StringEntry.SuccessLogin.getValue());
     				 }
     			 }
     		 }

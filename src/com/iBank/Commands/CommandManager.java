@@ -49,7 +49,7 @@ public class CommandManager implements Command {
 					try{
 						percentage = Double.parseDouble(arguments[2]);
 					}catch(Exception e) {
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[2]);
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[2]);
 						return;
 					}
 					Bank.getAccount(arguments[0]).setOnPercentage(percentage, true);
@@ -58,7 +58,7 @@ public class CommandManager implements Command {
 					try{
 						percentage = Double.parseDouble(arguments[2]);
 					}catch(Exception e) {
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[2]);
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[2]);
 						return;
 					}
 					Bank.getAccount(arguments[0]).setOffPercentage(percentage, true);
@@ -67,12 +67,12 @@ public class CommandManager implements Command {
 					try{
 						data = Integer.parseInt(arguments[2]);
 					}catch(Exception e) {
-						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[2]);
+						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[2]);
 						return;
 					}
 					Bank.getAccount(arguments[0]).setInterval(data, true);
 				}else{
-					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString()+" "+arguments[1]);
+					MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[1]);
 					return;
 				}
 				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAccount.getValue().replace("$name$", arguments[0]));
@@ -81,7 +81,7 @@ public class CommandManager implements Command {
 				return;
 			}
 		} else {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
 	

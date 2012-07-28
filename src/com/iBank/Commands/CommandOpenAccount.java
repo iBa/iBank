@@ -42,7 +42,7 @@ public class CommandOpenAccount implements Command {
 			
 			if(!Bank.hasAccount(arguments[0])) {
 				// fee stuff
-				String fee = Configuration.Entry.FeeCreate.toString();
+				String fee = Configuration.Entry.FeeCreate.getValue();
 				BigDecimal extra = new BigDecimal("0.00");
 				if(!fee.contains(";")) {
 					extra = iBank.parseFee(fee, new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
@@ -59,7 +59,7 @@ public class CommandOpenAccount implements Command {
 				List<String> tmp = Bank.getAccountsByOwner(((Player)sender).getName());
 				//skip if max is higher/equal to precision
 				if(Configuration.Entry.MaxAccountsPerUser.getInteger() != -1 && tmp.size() >= Configuration.Entry.MaxAccountsPerUser.getInteger()) {
-					MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.getValue().replace("$max$", Configuration.Entry.MaxAccountsPerUser.toString()));
+					MessageManager.send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.getValue().replace("$max$", Configuration.Entry.MaxAccountsPerUser.getValue()));
 					return;
 				}
 				if(!iBank.economy.has(((Player)sender).getName(), extra.doubleValue())) {

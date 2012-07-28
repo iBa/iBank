@@ -50,10 +50,10 @@ public class DataSource {
 				if(type == Drivers.SQLite)
 					db = new SQLite(new File(main.getDataFolder(), url));
 				else if(type == Drivers.MYSQL) 
-					db = new Mysql(url, Configuration.Entry.DatabaseUser.toString(), Configuration.Entry.DatabasePW.toString(), Configuration.Entry.DatabaseName.toString());
+					db = new Mysql(url, Configuration.Entry.DatabaseUser.getValue(), Configuration.Entry.DatabasePW.getValue(), Configuration.Entry.DatabaseName.getValue());
 				
 				if(!db.success())  return false;
-				if(!db.existsTable(Configuration.Entry.DatabaseLoanTable.toString()) || !db.existsTable(Configuration.Entry.DatabaseAccountsTable.toString()) || !db.existsTable(Configuration.Entry.DatabaseRegionTable.toString())) {
+				if(!db.existsTable(Configuration.Entry.DatabaseLoanTable.getValue()) || !db.existsTable(Configuration.Entry.DatabaseAccountsTable.getValue()) || !db.existsTable(Configuration.Entry.DatabaseRegionTable.getValue())) {
 					if(type == Drivers.SQLite)
 						System.out.println("[iBank] Creating SQLite tables...");
 					else if(type == Drivers.MYSQL) 
@@ -64,7 +64,7 @@ public class DataSource {
 					else if(type == Drivers.MYSQL)
 						sql = StreamUtils.inputStreamToString(main.getResource("sql/mysql.sql"));
 					for(String line : sql.split(";")) {
-						if(line.length()>1) db.execute(line.replace("{$loan$}", Configuration.Entry.DatabaseLoanTable.toString()).replace("{$accounts$}", Configuration.Entry.DatabaseAccountsTable.toString()).replace("{$regions$}", Configuration.Entry.DatabaseRegionTable.toString()));
+						if(line.length()>1) db.execute(line.replace("{$loan$}", Configuration.Entry.DatabaseLoanTable.getValue()).replace("{$accounts$}", Configuration.Entry.DatabaseAccountsTable.getValue()).replace("{$regions$}", Configuration.Entry.DatabaseRegionTable.getValue()));
 					}
 				}
 				DataSource.updateStructure();
@@ -81,17 +81,17 @@ public class DataSource {
 	private static void updateStructure() {
 		if(type == Drivers.SQLite || type == Drivers.MYSQL) {
 			//use db
-			if(!db.listFields(Configuration.Entry.DatabaseRegionTable.toString()).contains("owners")) {
+			if(!db.listFields(Configuration.Entry.DatabaseRegionTable.getValue()).contains("owners")) {
 				System.out.println("[iBank] Updating regions (add owners)");
-				db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseRegionTable.toString(), true, "owners", "TEXT"));
+				db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseRegionTable.getValue(), true, "owners", "TEXT"));
 			}
-			if(!db.listFields(Configuration.Entry.DatabaseAccountsTable.toString()).contains("interval")) {
+			if(!db.listFields(Configuration.Entry.DatabaseAccountsTable.getValue()).contains("interval")) {
 				System.out.println("[iBank] Updating accounts (add interval)");
-				db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseAccountsTable.toString(), true, "interval", "VARCHAR(30)"));
+				db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseAccountsTable.getValue(), true, "interval", "VARCHAR(30)"));
 			}
-			if(!db.listFields(Configuration.Entry.DatabaseAccountsTable.toString()).contains("mD")) {
+			if(!db.listFields(Configuration.Entry.DatabaseAccountsTable.getValue()).contains("mD")) {
 				System.out.println("[iBank] Updating accounts (add mD)");
-				db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseAccountsTable.toString(), true, "mD", "INT"));
+				db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseAccountsTable.getValue(), true, "mD", "INT"));
 			}
 		}
 	}

@@ -52,7 +52,7 @@ public class CommandWithdraw implements Command {
 						MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 						return;
 					}
-					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.toString(), todp);
+					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.getValue(), todp);
 					
 					if(account.has(todp.add(fee))) {
 						if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
@@ -79,7 +79,7 @@ public class CommandWithdraw implements Command {
 				if(account.isOwner(((Player)sender).getName()) || account.isUser(((Player)sender).getName())) {
 					//Withdraw The MAX
 					BigDecimal amount = account.getBalance();
-					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.toString(), amount);
+					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.getValue(), amount);
 					if(fee.compareTo(BigDecimal.ZERO)>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
 					amount = amount.subtract(fee);
 					//iBank - call Event

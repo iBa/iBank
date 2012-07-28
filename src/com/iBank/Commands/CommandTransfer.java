@@ -64,7 +64,7 @@ public class CommandTransfer implements Command {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
 			}
-			BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeTransfer.toString(), money);
+			BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeTransfer.getValue(), money);
 			if(!src.has(money.add(fee))) {
 				//iBank - call Event
 				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_TRANSFER, new Object[] { arguments[0], arguments[1], money, BigDecimal.ZERO, false } );

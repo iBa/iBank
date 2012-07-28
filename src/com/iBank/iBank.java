@@ -150,15 +150,15 @@ public class iBank extends JavaPlugin {
 		description = this.getDescription();  
 		  
 		//DB
-			if(Configuration.Entry.DatabaseType.getValue().toString().equalsIgnoreCase("sqlite") || Configuration.Entry.DatabaseType.getValue().toString().equalsIgnoreCase("mysql")) {
-				if(Configuration.Entry.DatabaseUrl.getValue().toString() != null) {
+			if(Configuration.Entry.DatabaseType.getValue().equalsIgnoreCase("sqlite") || Configuration.Entry.DatabaseType.getValue().equalsIgnoreCase("mysql")) {
+				if(Configuration.Entry.DatabaseUrl.getValue() != null) {
 					// connect
 					Drivers driver = DataSource.Drivers.SQLite;
-					if(Configuration.Entry.DatabaseType.getValue().toString().equalsIgnoreCase("mysql")) {
+					if(Configuration.Entry.DatabaseType.getValue().equalsIgnoreCase("mysql")) {
 						driver = DataSource.Drivers.MYSQL;
 					}
 					
-					if(!DataSource.setup(driver, Configuration.Entry.DatabaseUrl.getValue().toString(), this)) {
+					if(!DataSource.setup(driver, Configuration.Entry.DatabaseUrl.getValue(), this)) {
 						System.out.println("[iBank] Database connection failed! Shuting down iBank...");
 						getServer().getPluginManager().disablePlugin(this);
 						return;
@@ -169,7 +169,7 @@ public class iBank extends JavaPlugin {
 			}else{
 				if(Configuration.Entry.DatabaseUrl.getValue().toString() != null) {
 				// connect
-				if(!DataSource.setup(DataSource.Drivers.SQLite, Configuration.Entry.DatabaseUrl.getValue().toString(), this)) {
+				if(!DataSource.setup(DataSource.Drivers.SQLite, Configuration.Entry.DatabaseUrl.getValue(), this)) {
 					System.out.println("[iBank] Database connection failed! Shuting down iBank...");
 					getServer().getPluginManager().disablePlugin(this);
 					return;
@@ -213,13 +213,13 @@ public class iBank extends JavaPlugin {
 		    {
 		        if(Configuration.Entry.RealisticInternal.getBoolean())
 		        {
-		            if(!Bank.hasAccount(Configuration.Entry.RealisticAccount.toString()))
+		            if(!Bank.hasAccount(Configuration.Entry.RealisticAccount.getValue()))
 		            {
 		                System.out.println("[iBank][RealisticMode] Internal account created!");
-		                Bank.createAccount(Configuration.Entry.RealisticAccount.toString(), "");
+		                Bank.createAccount(Configuration.Entry.RealisticAccount.getValue(), "");
 		            }
 		            /* Negative amount test xD */
-		            com.iBank.system.BankAccount test = Bank.getAccount(Configuration.Entry.RealisticAccount.toString());
+		            com.iBank.system.BankAccount test = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
 		            BigDecimal tmp = test.getBalance().add(new BigDecimal(100));
 		            test.subtractBalance(tmp);
 		            if(test.getBalance().compareTo(BigDecimal.ZERO) < 0) 
@@ -234,12 +234,12 @@ public class iBank extends JavaPlugin {
 		        }
 		        else
 		        {
-		            double amount = economy.getBalance(Configuration.Entry.RealisticAccount.toString()) + 10000;
-		            economy.withdrawPlayer(Configuration.Entry.RealisticAccount.toString(), amount);
-		            if(economy.getBalance(Configuration.Entry.RealisticAccount.toString()) < 0)
+		            double amount = economy.getBalance(Configuration.Entry.RealisticAccount.getValue()) + 10000;
+		            economy.withdrawPlayer(Configuration.Entry.RealisticAccount.getValue(), amount);
+		            if(economy.getBalance(Configuration.Entry.RealisticAccount.getValue()) < 0)
 		            {
 		                System.out.println("[iBank][RealisticMode] Negative amounts supported! ");
-		                economy.depositPlayer(Configuration.Entry.RealisticAccount.toString(), amount);
+		                economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), amount);
 		            }
 		            else
 		            {

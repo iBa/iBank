@@ -29,7 +29,7 @@ public class Bank {
 	 */
 	public static Region getRegion(String name) {
 		// fetch region data
-		QueryResult data = DataSource.query(new String[]{"loc1","loc2","onper","offper","owners"}, Configuration.Entry.DatabaseRegionTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		QueryResult data = DataSource.query(new String[]{"loc1","loc2","onper","offper","owners"}, Configuration.Entry.DatabaseRegionTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
 		if(!data.found) return null;
 		Region ret = new Region(name, data.getString("loc1"), data.getString("loc2"));
 		if(data.getString("onper").length()>0) {
@@ -48,7 +48,7 @@ public class Bank {
 	 * @return List<String>
 	 */
 	public static List<String> getRegions() {
-		QueryResult data = DataSource.query(new String[]{"name"}, Configuration.Entry.DatabaseRegionTable.toString());
+		QueryResult data = DataSource.query(new String[]{"name"}, Configuration.Entry.DatabaseRegionTable.getValue());
 		List<String> ret = new ArrayList<String>();
 		if(!data.found) return ret;
 		boolean c = true;
@@ -64,7 +64,7 @@ public class Bank {
 	 * @return boolean
 	 */
 	public static boolean hasRegion(String name) {
-		QueryResult data = DataSource.query(new String[]{"loc1","loc2","onper","offper"}, Configuration.Entry.DatabaseRegionTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		QueryResult data = DataSource.query(new String[]{"loc1","loc2","onper","offper"}, Configuration.Entry.DatabaseRegionTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
 		return data.found;
 	}
 	/**
@@ -81,7 +81,7 @@ public class Bank {
 			return;
 		}
 		//iBank - end
-		DataSource.insertEntry(Configuration.Entry.DatabaseRegionTable.toString(), new String[]{"name","loc1","loc2","onper","offper", "owners"}, new String[]{name, Bank.formLocation(first), Bank.formLocation(second), "", "", ""});
+		DataSource.insertEntry(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"name","loc1","loc2","onper","offper", "owners"}, new String[]{name, Bank.formLocation(first), Bank.formLocation(second), "", "", ""});
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class Bank {
 					return;
 				}
 		//iBank - end
-		DataSource.deleteEntry(Configuration.Entry.DatabaseRegionTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		DataSource.deleteEntry(Configuration.Entry.DatabaseRegionTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public class Bank {
 	 * @return
 	 */
 	public static BankAccount getAccount(String name) {
-		QueryResult data = DataSource.query(new String[]{"balance", "owners", "users", "onper", "offper", "interval", "mD"}, Configuration.Entry.DatabaseAccountsTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		QueryResult data = DataSource.query(new String[]{"balance", "owners", "users", "onper", "offper", "interval", "mD"}, Configuration.Entry.DatabaseAccountsTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
 		if(!data.found) return null;
 		BankAccount obj = new BankAccount(name, data.getBigInteger("balance"));
 		obj.Users(data.getString("users"));
@@ -131,7 +131,7 @@ public class Bank {
 	 * @return boolean
 	 */
 	public static boolean hasAccount(String name) {
-		QueryResult data = DataSource.query(new String[]{"balance"}, Configuration.Entry.DatabaseAccountsTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		QueryResult data = DataSource.query(new String[]{"balance"}, Configuration.Entry.DatabaseAccountsTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
 		return data.found;
 	}
 	/**
@@ -139,7 +139,7 @@ public class Bank {
 	 * @return List<String>
 	 */
 	public static List<String> getAccounts() {
-		QueryResult data = DataSource.query(new String[]{"name"}, Configuration.Entry.DatabaseAccountsTable.toString());
+		QueryResult data = DataSource.query(new String[]{"name"}, Configuration.Entry.DatabaseAccountsTable.getValue());
 		List<String> ret = new ArrayList<String>();
 		if(!data.found) return ret;
 		boolean c = true;
@@ -155,7 +155,7 @@ public class Bank {
 	 * @return List<String>
 	 */
 	public static List<String> getAccountsByUser(String user) {
-		QueryResult data = DataSource.query(new String[]{"name", "users"}, Configuration.Entry.DatabaseAccountsTable.toString());
+		QueryResult data = DataSource.query(new String[]{"name", "users"}, Configuration.Entry.DatabaseAccountsTable.getValue());
 		List<String> ret = new ArrayList<String>();
 		if(!data.found) return ret;
 		boolean c = true;
@@ -180,7 +180,7 @@ public class Bank {
 	 * @return List<String>
 	 */
 	public static List<String> getAccountsByOwner(String user) {
-		QueryResult data = DataSource.query(new String[]{"name", "owners"}, Configuration.Entry.DatabaseAccountsTable.toString());
+		QueryResult data = DataSource.query(new String[]{"name", "owners"}, Configuration.Entry.DatabaseAccountsTable.getValue());
 		List<String> ret = new ArrayList<String>();
 		if(!data.found) return ret;
 		boolean c = true;
@@ -212,7 +212,7 @@ public class Bank {
 			return;
 		}
 		//iBank - end
-		DataSource.insertEntry(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"name","balance","owners","users","onper","offper"}, new Object[] {name, Configuration.Entry.StandardBalance.getInteger(), name2, "", "", ""});
+		DataSource.insertEntry(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"name","balance","owners","users","onper","offper"}, new Object[] {name, Configuration.Entry.StandardBalance.getInteger(), name2, "", "", ""});
 	}
 	/**
 	 * Removes an account
@@ -226,7 +226,7 @@ public class Bank {
 					return;
 				}
 		//iBank - end
-		DataSource.deleteEntry(Configuration.Entry.DatabaseAccountsTable.toString(), new AndCondition("name", name, Condition.Operators.IDENTICAL)); 
+		DataSource.deleteEntry(Configuration.Entry.DatabaseAccountsTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL)); 
 	}
 	
 	/**
@@ -234,7 +234,7 @@ public class Bank {
 	 * @return List<Loan>
 	 */
 	public static List<Loan> getLoans() {
-		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.toString());
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.getValue());
 		List<Loan> ret = new ArrayList<Loan>();
 		if(!data.found) return ret;
 		boolean c = true;
@@ -253,7 +253,7 @@ public class Bank {
 	 * @return
 	 */
 	public static List<Loan> getLoansByAccount(String user) {
-		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.toString(), new AndCondition("user", user, Operators.IDENTICAL));
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.getValue(), new AndCondition("user", user, Operators.IDENTICAL));
 		List<Loan> ret = new ArrayList<Loan>();
 		if(!data.found) return ret;
 		boolean c = true;
@@ -272,7 +272,7 @@ public class Bank {
 	 * @return Loan
 	 */
 	public static Loan getLoanById(int id) {
-		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.toString(), new AndCondition("id", id, Operators.IDENTICAL));
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.getValue(), new AndCondition("id", id, Operators.IDENTICAL));
 		if(!data.found) return null;
 		Loan ret = null;
 		double interest = 0.00;

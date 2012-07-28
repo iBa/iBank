@@ -71,7 +71,7 @@ public class BankAccount {
 	public void setOnPercentage(double onper, boolean write) {
 		this.on = onper;
 		//Write to db
-	    if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"onper"}, new Object[]{String.valueOf(on)}, new AndCondition("name", name, Operators.IDENTICAL));
+	    if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"onper"}, new Object[]{String.valueOf(on)}, new AndCondition("name", name, Operators.IDENTICAL));
 	    onDefault = false;
 	}
 	/**
@@ -82,7 +82,7 @@ public class BankAccount {
 	public void setOffPercentage(double offper, boolean write) {
 		this.off = offper;
 		//Write to db
-	    if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"offper"}, new Object[]{String.valueOf(off)}, new AndCondition("name", name, Operators.IDENTICAL));
+	    if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"offper"}, new Object[]{String.valueOf(off)}, new AndCondition("name", name, Operators.IDENTICAL));
 	    offDefault = false;
 	}
 	/**
@@ -96,7 +96,7 @@ public class BankAccount {
 		//save
 		this.balance = newbalance;
 		//Write to DB
-		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"balance"}, new Object[]{newbalance}, new AndCondition("name", name, Operators.IDENTICAL));
+		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"balance"}, new Object[]{newbalance}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
 	 * Adds a balance to this account
@@ -148,7 +148,7 @@ public class BankAccount {
 	 */
 	public void addOwner(String user) {
 		owners.add(user);
-		DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
 	 * Remove an owner
@@ -156,7 +156,7 @@ public class BankAccount {
 	 */
 	public void removeOwner(String user) {
 		owners.remove(user);
-		DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
 	 * Adds an user
@@ -164,7 +164,7 @@ public class BankAccount {
 	 */
 	public void addUser(String user) {
 		users.add(user);
-		DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"users"}, new Object[]{StringUtils.join(users,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"users"}, new Object[]{StringUtils.join(users,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
 	 * Remove an user
@@ -172,7 +172,7 @@ public class BankAccount {
 	 */
 	public void removeUser(String user) {
 		users.remove(user);
-		DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"users"}, new Object[]{StringUtils.join(users,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"users"}, new Object[]{StringUtils.join(users,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
 	 * Returns all Owners
@@ -262,7 +262,7 @@ public class BankAccount {
 	public void setInterval(int interval,boolean write) {
 		this.interval = interval;
 		intervalDefault = false;
-		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"interval"}, new Object[]{interval}, new AndCondition("name", name, Operators.IDENTICAL));
+		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"interval"}, new Object[]{interval}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
 	 * Sets how much "loops" this account already "did"
@@ -271,7 +271,7 @@ public class BankAccount {
 	 */
 	public void setMinutesDone(int integer, boolean write) {
 		this.mD = integer;
-		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{"mD"}, new Object[]{integer}, new AndCondition("name", name, Operators.IDENTICAL));
+		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"mD"}, new Object[]{integer}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	/**
 	 * Returns how much "loops" this account already "did"
@@ -286,6 +286,6 @@ public class BankAccount {
 	 * @param string2
 	 */
 	public void Update(String key, String value) {
-		DataSource.update(Configuration.Entry.DatabaseAccountsTable.toString(), new String[]{ key }, new Object[]{ value }, new AndCondition("name", name, Operators.IDENTICAL));
+		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{ key }, new Object[]{ value }, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 }

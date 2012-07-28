@@ -34,18 +34,18 @@ public class BankRootCommand implements Command {
 	@Override
 	public void handle(CommandSender sender, String[] arguments) {
 		if(!(sender instanceof Player)) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
 			return;
 		}
 		if(!iBank.canExecuteCommand(((Player)sender))) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		// Show list of accounts
 		List<String> owner = Bank.getAccountsByOwner(((Player)sender).getName());
 		List<String> user = Bank.getAccountsByUser(((Player)sender).getName());
 		if(owner.size() == 0 && user.size() == 0) {
-			MessageManager.send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.toString());
+			MessageManager.send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
 			return;
 		}
 		MessageManager.send(sender, "&blue&Owner &y&User");

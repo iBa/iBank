@@ -80,12 +80,12 @@ public class CommandPayBack implements Command {
 				{
 				    if(Configuration.Entry.RealisticInternal.getBoolean())
 				    {
-				        com.iBank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.toString());
+				        com.iBank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
 				        tmp.addBalance(todp);
 				    }
 				    else
 				    {
-				        iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.toString(), todp.doubleValue());
+				        iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), todp.doubleValue());
 				    }
 				}
 				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(todp)));
@@ -124,7 +124,7 @@ public class CommandPayBack implements Command {
 			}
 			if(Configuration.Entry.RealisticMode.getBoolean())
             {
-                iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.toString(), todp.doubleValue());
+                iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), todp.doubleValue());
             }
 			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(paiedback)));
 		}else{

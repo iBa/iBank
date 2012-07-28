@@ -80,10 +80,20 @@ public class Configuration {
 			return key;
 		}
 		/**
-		 * @return The value of the Entry
+		 * Gets the value as String
+		 * @return String The value of the Entry
 		 */
-		public Object getValue() {
-			return value;
+		public String getValue() {
+			return (String) value;
+		}
+		
+		/**
+		 * Gets the value as Object
+		 * @return Object
+		 */
+		public Object getObject()
+		{
+		    return value;
 		}
 		/**
 		 * @return The value of the Entry as boolean
@@ -138,9 +148,9 @@ public class Configuration {
         public void setValue(Object value) {
         	this.value = value;
         }
-        @Override
+        @Deprecated
         public String toString() {
-        	return String.valueOf(value);
+        	return getValue();
         }
 	}
 	public static enum StringEntry
@@ -253,10 +263,7 @@ public class Configuration {
         	this.value = value;
         }
         @Override
-        /*
-         * @DEPRECATED(non-Javadoc)
-         * @see java.lang.Enum#toString()
-         */
+        @Deprecated
         public String toString()
         {
             return "[DEPRECATED-PLEASE_REPORT_THIS!!] " + this.value;

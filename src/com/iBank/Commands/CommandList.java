@@ -31,7 +31,7 @@ public class CommandList implements Command {
 	
 	public void handle(CommandSender sender, String[] arguments) {
 		if((sender instanceof Player) && !iBank.canExecuteCommand(((Player)sender))) {
-			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.toString());
+			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		// Show list of accounts#
@@ -47,7 +47,7 @@ public class CommandList implements Command {
 		}
 		
 		if(owner.size() == 0 && user.size() == 0) {
-			MessageManager.send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.toString());
+			MessageManager.send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
 			return;
 		}
 		owner = owner == null ? new ArrayList<String>() : owner;
