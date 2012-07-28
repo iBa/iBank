@@ -73,12 +73,20 @@ public class CommandPayBack implements Command {
 				loan.setAmount(loan.getAmount().subtract(todp));
 			    iBank.economy.withdrawPlayer(((Player)sender).getName(), todp.doubleValue());
 				//<= to prevent MAGIC exceptions
-				if(loan.getAmount().compareTo(new BigDecimal("0.00"))<=0) {
+				if(loan.getAmount().compareTo(BigDecimal.ZERO)<=0) {
 					loan.remove();
 				}
 				if(Configuration.Entry.RealisticMode.getBoolean())
 				{
-				    iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.toString(), todp.doubleValue());
+				    if(Configuration.Entry.RealisticInternal.getBoolean())
+				    {
+				        com.iBank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.toString());
+				        tmp.addBalance(todp);
+				    }
+				    else
+				    {
+				        iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.toString(), todp.doubleValue());
+				    }
 				}
 				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(todp)));
 			}
@@ -114,6 +122,10 @@ public class CommandPayBack implements Command {
 					break;
 				}
 			}
+			if(Configuration.Entry.RealisticMode.getBoolean())
+            {
+                iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.toString(), todp.doubleValue());
+            }
 			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(paiedback)));
 		}else{
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());

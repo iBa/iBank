@@ -102,7 +102,7 @@ public class iBank extends JavaPlugin {
 		loadStrings();
 		Configuration.init(Config);
 		Configuration.stringinit(StringConfig);
-		
+
 		if(!Configuration.Entry.Enabled.getBoolean()) 
 		{
 			System.out.println("[iBank] Disabled as configured in configuration");
@@ -204,6 +204,54 @@ public class iBank extends JavaPlugin {
 					Loan.scheduleAtFixedRate(new BankLoan(), time, time);
 				}
 			}).start();
+		}
+		if(Configuration.Entry.RealisticMode.getBoolean())
+		{
+		    System.out.println("[iBank] starting with enabled realistic mode!");
+		    // Check if negative amounts are supported, if configured
+		    if(Configuration.Entry.RealisticNegative.getBoolean())
+		    {
+		        if(Configuration.Entry.RealisticInternal.getBoolean())
+		        {
+		            if(!Bank.hasAccount(Configuration.Entry.RealisticAccount.toString()))
+		            {
+		                System.out.println("[iBank][RealisticMode] Internal account created!");
+		                Bank.createAccount(Configuration.Entry.RealisticAccount.toString(), "");
+		            }
+		            /* Negative amount test xD */
+		            com.iBank.system.BankAccount test = Bank.getAccount(Configuration.Entry.RealisticAccount.toString());
+		            BigDecimal tmp = test.getBalance().add(new BigDecimal(100));
+		            test.subtractBalance(tmp);
+		            if(test.getBalance().compareTo(BigDecimal.ZERO) < 0) 
+		            {
+		                System.out.println("[iBank][RealisticMode] Negative amounts supported! (new Balance:" + test.getBalance().toString() + ")");
+		                test.addBalance(tmp);
+		            }
+		            else
+		            {
+		                System.out.println("[iBank][RealisticMode] Negative amounts not supported! (new Balance:" + test.getBalance().toString() + ")");
+		            }
+		        }
+		        else
+		        {
+		            double amount = economy.getBalance(Configuration.Entry.RealisticAccount.toString()) + 10000;
+		            economy.withdrawPlayer(Configuration.Entry.RealisticAccount.toString(), amount);
+		            if(economy.getBalance(Configuration.Entry.RealisticAccount.toString()) < 0)
+		            {
+		                System.out.println("[iBank][RealisticMode] Negative amounts supported! ");
+		                economy.depositPlayer(Configuration.Entry.RealisticAccount.toString(), amount);
+		            }
+		            else
+		            {
+		                System.out.println("[iBank][RealisticMode] Negative amounts not supported!");
+		                Configuration.Entry.RealisticNegative.setValue(false);
+		            }
+		        }
+		    }
+		}
+		else
+		{
+		    System.out.println("[iBank] starting without realistic mode!");
 		}
 		System.out.println("[iBank] Version " + description.getVersion() + " loaded successfully!");
 	}

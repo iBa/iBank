@@ -126,7 +126,7 @@ public class BankAccount {
 	 */
 	public void subtractBalance(BigDecimal balance) {
 		BigDecimal newval = this.balance.subtract(balance);
-		setBalance(newval.compareTo(BigDecimal.ZERO)>0?newval:BigDecimal.ZERO, true);
+		setBalance(newval, true);
 	}
 	/**
 	 * Returns the online percentage

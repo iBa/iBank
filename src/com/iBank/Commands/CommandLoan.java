@@ -55,15 +55,39 @@ public class CommandLoan implements Command {
 				    if(Configuration.Entry.RealisticMode.getBoolean())
 				    {
 				        // Check if enough money is on the bank-account
-				        if(!iBank.economy.has(Configuration.Entry.RealisticAccount.toString(), amount.doubleValue()))
+				        if(Configuration.Entry.RealisticInternal.getBoolean())
 				        {
-				            //TODO: Are negative amounts supported?
-				            BigDecimal newAmount = new BigDecimal(iBank.economy.getBalance(Configuration.Entry.RealisticAccount.toString())).subtract(amount);
-				            //Can be either equal to the max*-1 or it needs to be bigger
-				            if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
+				            if(!Configuration.Entry.RealisticNegative.getBoolean())
 				            {
 				                MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
-				                return;
+                                return;
+				            }
+				            com.iBank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.toString());
+				            BigDecimal newAmount = tmp.getBalance().subtract(amount);
+				            //Can be either equal to the max*-1 or it needs to be bigger
+                            if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
+                            {
+                                MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+                                return;
+                            }
+                            tmp.subtractBalance(amount);
+				        }
+				        else
+				        {
+				            if(!iBank.economy.has(Configuration.Entry.RealisticAccount.toString(), amount.doubleValue()))
+				            {
+				                if(!Configuration.Entry.RealisticNegative.getBoolean())
+				                {
+				                    MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+				                    return;
+				                }
+				                BigDecimal newAmount = new BigDecimal(iBank.economy.getBalance(Configuration.Entry.RealisticAccount.toString())).subtract(amount);
+				                //Can be either equal to the max*-1 or it needs to be bigger
+				                if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
+				                {
+				                    MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+				                    return;
+				                }
 				            }
 				            //All fine
 				            iBank.economy.withdrawPlayer(Configuration.Entry.RealisticAccount.toString(), amount.doubleValue());

@@ -58,6 +58,7 @@ public class Configuration {
 		RealisticMode("System.RealisticMode.Enabled", false),
 		RealisticNegative("System.RealisticMode.negative", true),
 		RealisticMaxNeg("System.RealisticMode.maxNegative", 10000),
+		RealisticInternal("System.RealisticMode.useiBank", true),
 		RealisticAccount("System.RealisticMode.account", "bank");
 		
 		String key;

@@ -30,6 +30,8 @@ System:
    RealisticMode:
       # Whether to enable this account
       Enabled:  false
+      # Whether to use an iBank account as bank account or an economy account
+      useiBank: true
       # Whether to use negative amounts if possible
       negative: true
       # Maximal negative amounts (use 0 for infinite) (DONT GIVE NEGATIVE AMOUNTS, if you gave 10000 iBank won't allow amounts below -10000)   -9999 > -10000 > -10001  
