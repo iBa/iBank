@@ -47,7 +47,7 @@ public class CommandPayBack implements Command {
 				return;
 			}
 			//arguments[1] -> BigDecimal
-			BigDecimal todp = new BigDecimal("0.00");
+			BigDecimal todp = BigDecimal.ZERO;
 			try{
 				todp = new BigDecimal(arguments[1]);
 			}catch(Exception e) {
@@ -93,7 +93,7 @@ public class CommandPayBack implements Command {
 		}else if(arguments.length == 1){
 			//loop through all, calculate stuff, etc.
 			//arguments[0] -> BigDecimal
-			BigDecimal todp = new BigDecimal("0.00");
+			BigDecimal todp = BigDecimal.ZERO;
 			try{
 				todp = new BigDecimal(arguments[0]);
 			}catch(Exception e) {
@@ -104,7 +104,7 @@ public class CommandPayBack implements Command {
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
-			BigDecimal paiedback = new BigDecimal("0.00");
+			BigDecimal paiedback = BigDecimal.ZERO;
 			for(Loan loan : Bank.getLoansByAccount(((Player)sender).getName())) {
 				//todp > loan => remove loan, todp -= loan
 				if(todp.compareTo(loan.getAmount()) >= 0) {

@@ -55,7 +55,7 @@ public class CommandWithdraw implements Command {
 					BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeWithdraw.getValue(), todp);
 					
 					if(account.has(todp.add(fee))) {
-						if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
+						if(fee.compareTo(BigDecimal.ZERO)>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
 							//iBank - call Event
 							iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_WITHDRAW, new Object[] { arguments[0], todp, fee, true } );
 							Bukkit.getServer().getPluginManager().callEvent(event);

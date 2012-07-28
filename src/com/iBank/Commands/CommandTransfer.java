@@ -86,7 +86,7 @@ public class CommandTransfer implements Command {
 			src.subtractBalance(money.add(fee));
 			dest.addBalance(money);
 			MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessTransfer.getValue().replace("$name$", arguments[0]).replace("$name2$", arguments[1]).replace("$amount$", iBank.format(money)));
-			if(fee.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
+			if(fee.compareTo(BigDecimal.ZERO)>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
 		}else{
 			MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}

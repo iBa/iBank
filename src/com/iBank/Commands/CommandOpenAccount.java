@@ -43,7 +43,7 @@ public class CommandOpenAccount implements Command {
 			if(!Bank.hasAccount(arguments[0])) {
 				// fee stuff
 				String fee = Configuration.Entry.FeeCreate.getValue();
-				BigDecimal extra = new BigDecimal("0.00");
+				BigDecimal extra = BigDecimal.ZERO;
 				if(!fee.contains(";")) {
 					extra = iBank.parseFee(fee, new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
 				}else{
@@ -75,7 +75,7 @@ public class CommandOpenAccount implements Command {
 					if(!reg.offDefault) Bank.getAccount(arguments[0]).setOffPercentage(reg.getOffPercentage(), true);
 				}
 				MessageManager.send(sender, "&g&"+Configuration.StringEntry.SuccessAddAccount.getValue().replace("$name$", "Account "+arguments[0]+" "));
-				if(extra.compareTo(new BigDecimal("0.00"))>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(extra)));
+				if(extra.compareTo(BigDecimal.ZERO)>0) MessageManager.send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(extra)));
 			}else{
 				MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.getValue().replace("$name$", "Account "+arguments[0]+" "));
 			}

@@ -388,7 +388,7 @@ public class iBank extends JavaPlugin {
      * @return BigDecimal The fee value
      */
 	public static BigDecimal parseFee(String fee, BigDecimal due) {
-		BigDecimal val = new BigDecimal("0.00");
+		BigDecimal val = BigDecimal.ZERO;
 		//check if percentage or static amount
 		if(fee.contains("+")) {
 			String[] plus = fee.split("+");
@@ -411,7 +411,7 @@ public class iBank extends JavaPlugin {
 	 * @return
 	 */
 	public static BigDecimal parseFeeString(String part, BigDecimal due) {
-		BigDecimal tmp = new BigDecimal("0.00");
+		BigDecimal tmp = BigDecimal.ZERO;
 		if(part.endsWith("%")) {
 			tmp = tmp.add(due.multiply(new BigDecimal(Double.parseDouble(part.replace("%","")) / 100)));
 		}else{
