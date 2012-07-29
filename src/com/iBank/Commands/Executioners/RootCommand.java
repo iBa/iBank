@@ -16,7 +16,7 @@ public class RootCommand extends Command
 {
     public RootCommand()
     {
-        this.registerHandler(Command.NO_ARGUMENTS, "handle");
+        this.registerHandler("handle");
     }
     public ArgumentCollection getArguments()
     {
