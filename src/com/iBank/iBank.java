@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -89,6 +90,7 @@ public class iBank extends JavaPlugin {
     public static PluginDescriptionFile description = null;
     public static Listener Listener = new iBankListener();
     private static Permission permission = null;
+    private static CommandSet commands = null; 
     public static Economy economy = null;
     public static DataSource data = new DataSource();
     private Timer Loan = null;
@@ -153,7 +155,7 @@ public class iBank extends JavaPlugin {
 	      }
 	    */
 		CommandSet bankCommands = new CommandSet();
-		CommandSet commands = new CommandSet();
+		commands = new CommandSet();
 		commands.addCommand("bank", bankCommands);
 		bankCommands.addCommand(new RootCommand());
 		description = this.getDescription();  
@@ -343,9 +345,11 @@ public class iBank extends JavaPlugin {
         return (economy != null);
     }
     
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { 	
-    	//return CommandHandler.handle(sender, cmd.getName(), args);
-        return true;
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        List<String> arguments = new ArrayList<String>();
+        arguments.add(cmd.getName());
+        arguments.addAll(Arrays.asList(args));
+    	return commands.handle(sender, arguments);
     }
     
     /**
