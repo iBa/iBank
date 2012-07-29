@@ -55,10 +55,14 @@ public class CommandSet
                 Object toHandle = commands.get(Command.NO_ARGUMENTS);
                 if(toHandle instanceof Command)
                 {
-                    if(!(sender instanceof Player) && !((Command)toHandle).runnableFromConsole())
+                    Command cmd = ((Command) toHandle);
+                    if(!(sender instanceof Player) && !cmd.runnableFromConsole())
                         MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
                     else
-                        ((Command) toHandle).handle(sender, ((Command) toHandle).getArguments().insert((ArrayList<String>)arguments));
+                        if(cmd.executable(sender))
+                            cmd.handle(sender, cmd.getArguments().insert((ArrayList<String>)arguments));
+                        else
+                            MessageManager.send(sender, "&r& Permission denied!");
                 }
                 else
                 {
@@ -72,11 +76,14 @@ public class CommandSet
             Object toHandle = commands.get(arguments.get(0));
             if(toHandle instanceof Command)
             {
-                //Execute it
-                if(!(sender instanceof Player) && !((Command)toHandle).runnableFromConsole())
+                Command cmd = ((Command) toHandle);
+                if(!(sender instanceof Player) && !cmd.runnableFromConsole())
                     MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
                 else
-                    ((Command) toHandle).handle(sender, ((Command) toHandle).getArguments().insert((ArrayList<String>)arguments));
+                    if(cmd.executable(sender))
+                        cmd.handle(sender, cmd.getArguments().insert((ArrayList<String>)arguments));
+                    else
+                        MessageManager.send(sender, "&r& Permission denied!");
                 return true;
             }
             else if(toHandle instanceof CommandSet)

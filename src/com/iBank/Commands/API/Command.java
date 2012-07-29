@@ -116,4 +116,19 @@ public class Command
     {
         MessageManager.send(source, text);
     }
+    
+    /**
+     * Checks if the current command is executable by a given CommandSender
+     * @param sender The source of the command
+     * @return boolean TRUE, if executable
+     */
+    public boolean executable(CommandSender sender) 
+    {
+        for(String permission : getPermissions())
+        {
+            if(sender.hasPermission(permission))
+                return true;
+        }
+        return false;
+    }
 }
