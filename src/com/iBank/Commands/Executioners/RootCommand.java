@@ -1,11 +1,17 @@
 package com.iBank.Commands.Executioners;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.entity.Player;
+
+import com.iBank.iBank;
 import com.iBank.Commands.API.Command;
 import com.iBank.Commands.DataTypes.ArgumentCollection;
+import com.iBank.system.Bank;
 import com.iBank.system.Configuration;
+import com.iBank.utils.StringUtils;
 
 /**
  * /bank - Shows the accounts of the executor
@@ -33,7 +39,22 @@ public class RootCommand extends Command
      */
     public void handle()
     {
-        System.out.println("Received bank!");
+        if(!iBank.canExecuteCommand(((Player)source))) {
+            send("&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
+            return;
+        }
+        // Show list of accounts
+        List<String> owner = Bank.getAccountsByOwner(((Player)source).getName());
+        List<String> user = Bank.getAccountsByUser(((Player)source).getName());
+        if(owner.size() == 0 && user.size() == 0) {
+            send("&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
+            return;
+        }
+        send("&blue&Owner &y&User");
+        owner = owner == null ? new ArrayList<String>() : owner;
+        user = user == null ? new ArrayList<String>() : user;
+        send("&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
+        send("&y&"+StringUtils.join(user, "&w&,&y&"), "");
     }
 
     public String getName()

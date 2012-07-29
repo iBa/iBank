@@ -20,7 +20,7 @@ public class Command
     public static final String NO_ARGUMENTS =  "";
     private HandlerCollection handlers = new HandlerCollection();
     private ArgumentCollection args = new ArgumentCollection();
-    private CommandSender source;
+    protected CommandSender source;
     
     /**
      * @return ArgumentCollection all Arguments this accepts
@@ -115,6 +115,16 @@ public class Command
     public void send(String text)
     {
         MessageManager.send(source, text);
+    }
+    
+    /**
+     * Sends text to the source
+     * @param text The text
+     * @param tag The tag
+     */
+    public void send(String text, String tag)
+    {
+        MessageManager.send(source, text, tag);
     }
     
     /**
