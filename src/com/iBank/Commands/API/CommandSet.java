@@ -43,6 +43,9 @@ public class CommandSet
      */
     public boolean handle(CommandSender sender, List<String> arguments)
     {
+        //Fix: (If no arguments put a empty one :P)
+        if(arguments.size() == 0)
+            arguments.add(Command.NO_ARGUMENTS);
         if(commands.containsKey(arguments.get(0)))
         {
             Object toHandle = commands.get(arguments.get(0));
