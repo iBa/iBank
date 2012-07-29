@@ -1,5 +1,6 @@
 package com.iBank.Commands.API;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,7 +71,12 @@ public class Command
             source.sendMessage("[iBank] Wrong arguments!");
             return;
         }
-        //TODO Fire handler
+        try {
+            Method meth = this.getClass().getMethod(handler);
+            meth.invoke(this, new Object[] { });
+        } catch (Exception e) {
+            System.out.println("[iBank] Handler found but internally failed!(" + e.getMessage() + ")" );
+        }
     }
     
     /**
