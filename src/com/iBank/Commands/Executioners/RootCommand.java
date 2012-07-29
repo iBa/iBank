@@ -45,4 +45,9 @@ public class RootCommand extends Command
     {
         return Arrays.asList(new String[] { "iBank.access" } );
     }
+    
+    public boolean runnableFromConsole()
+    {
+        return false;
+    }
 }

@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import com.iBank.system.Configuration;
+import com.iBank.system.MessageManager;
 
 /**
  * Internal storage for commands
@@ -49,7 +53,17 @@ public class CommandSet
             if(commands.containsKey(Command.NO_ARGUMENTS))
             {
                 Object toHandle = commands.get(Command.NO_ARGUMENTS);
-                ((Command) toHandle).handle(sender, ((Command) toHandle).getArguments().insert((ArrayList<String>)arguments));
+                if(toHandle instanceof Command)
+                {
+                    if(!(sender instanceof Player) && !((Command)toHandle).runnableFromConsole())
+                        MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
+                    else
+                        ((Command) toHandle).handle(sender, ((Command) toHandle).getArguments().insert((ArrayList<String>)arguments));
+                }
+                else
+                {
+                    System.out.println("[iBank] iBank is confused! Please report this!");
+                }
                 return true;
             }
         }
@@ -59,7 +73,10 @@ public class CommandSet
             if(toHandle instanceof Command)
             {
                 //Execute it
-                ((Command) toHandle).handle(sender, ((Command) toHandle).getArguments().insert((ArrayList<String>)arguments));
+                if(!(sender instanceof Player) && !((Command)toHandle).runnableFromConsole())
+                    MessageManager.send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
+                else
+                    ((Command) toHandle).handle(sender, ((Command) toHandle).getArguments().insert((ArrayList<String>)arguments));
                 return true;
             }
             else if(toHandle instanceof CommandSet)

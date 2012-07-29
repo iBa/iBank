@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 
 import com.iBank.Commands.DataTypes.ArgumentCollection;
 import com.iBank.Commands.DataTypes.HandlerCollection;
+import com.iBank.system.MessageManager;
 
 /**
  * Representing a command
@@ -96,5 +97,23 @@ public class Command
     public String getArgument(String name)
     {
         return this.args.getValue(name);
+    }
+    
+    /**
+     * Returns whether this method is runnable as console user
+     * @return boolean
+     */
+    public boolean runnableFromConsole()
+    {
+        return true;
+    }
+    
+    /**
+     * Send text to the source
+     * @param text The text
+     */
+    public void send(String text)
+    {
+        MessageManager.send(source, text);
     }
 }
