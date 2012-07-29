@@ -15,7 +15,7 @@ public class HandlerCollection
      */
     public void register(String method, String... cmds)
     {
-        data.put(method, (ArrayList<String>)Arrays.asList(cmds));
+        data.put(method, new ArrayList<String>(Arrays.asList(cmds)));
     }
     
     /**
