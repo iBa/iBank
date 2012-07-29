@@ -12,7 +12,7 @@ public class Argument
      * @author steffen
      *
      */
-    enum Type
+    public enum Type
     {
         REQUIRED,
         OPTIONAL

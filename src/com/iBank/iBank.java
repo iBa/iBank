@@ -24,39 +24,13 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-/*
-import com.iBank.Commands.BankRootCommand;
-import com.iBank.Commands.CommandAddRegion;
-import com.iBank.Commands.CommandBalance;
-import com.iBank.Commands.CommandClose;
-import com.iBank.Commands.CommandDelRegion;
-import com.iBank.Commands.CommandDelete;
-import com.iBank.Commands.CommandDeposit;
-import com.iBank.Commands.CommandGive;
-import com.iBank.Commands.CommandHelp;
-import com.iBank.Commands.CommandList;
-import com.iBank.Commands.CommandLoan;
-import com.iBank.Commands.CommandLoanEdit;
-import com.iBank.Commands.CommandLoanInfo;
-import com.iBank.Commands.CommandManager;
-import com.iBank.Commands.CommandOpenAccount;
-import com.iBank.Commands.CommandOwners;
-import com.iBank.Commands.CommandPayBack;
-import com.iBank.Commands.CommandRegion;
-import com.iBank.Commands.CommandReload;
-import com.iBank.Commands.CommandRename;
-import com.iBank.Commands.CommandTake;
-import com.iBank.Commands.CommandTransfer;
-import com.iBank.Commands.CommandUsers;
-import com.iBank.Commands.CommandWithdraw;
-*/
 import com.iBank.Commands.API.CommandSet;
+import com.iBank.Commands.Executioners.AddRegionCommand;
 import com.iBank.Commands.Executioners.RootCommand;
 import com.iBank.Database.DataSource;
 import com.iBank.Database.DataSource.Drivers;
 import com.iBank.Listeners.iBankListener;
 import com.iBank.system.Bank;
-//import com.iBank.system.CommandHandler;
 import com.iBank.system.Configuration;
 import com.iBank.system.Region;
 import com.iBank.utils.Mathematics;
@@ -128,7 +102,7 @@ public class iBank extends JavaPlugin {
 	    /*register commands
 		CommandHandler.register(new BankRootCommand());               #DONE
 	    CommandHandler.register(new CommandHelp("bank"));
-	    CommandHandler.register(new CommandAddRegion());
+	    CommandHandler.register(new CommandAddRegion());              #DONE
 	    CommandHandler.register(new CommandDelRegion());
 	    CommandHandler.register(new CommandRegion());
 	    CommandHandler.register(new CommandOpenAccount());
@@ -158,6 +132,7 @@ public class iBank extends JavaPlugin {
 		commands = new CommandSet();
 		commands.addCommand("bank", bankCommands);
 		bankCommands.addCommand(new RootCommand());
+		bankCommands.addCommand(new AddRegionCommand());
 		description = this.getDescription();  
 		  
 		//DB
