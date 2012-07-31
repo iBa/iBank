@@ -43,7 +43,7 @@ public class AddRegionCommand extends Command
     
     public List<String> getPermissions()
     {
-        return Arrays.asList(new String[] { "iBank.access" } );
+        return Arrays.asList(new String[] { "iBank.regions" } );
     }
     
     public boolean runnableFromConsole()

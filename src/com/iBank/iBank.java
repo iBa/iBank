@@ -103,7 +103,7 @@ public class iBank extends JavaPlugin {
 		CommandHandler.register(new BankRootCommand());               #DONE
 	    CommandHandler.register(new CommandHelp("bank"));
 	    CommandHandler.register(new CommandAddRegion());              #DONE
-	    CommandHandler.register(new CommandDelRegion());
+	    CommandHandler.register(new CommandDelRegion());              #DONE
 	    CommandHandler.register(new CommandRegion());
 	    CommandHandler.register(new CommandOpenAccount());
 	    CommandHandler.register(new CommandBalance());
@@ -133,6 +133,7 @@ public class iBank extends JavaPlugin {
 		commands.addCommand("bank", bankCommands);
 		bankCommands.addCommand(new RootCommand());
 		bankCommands.addCommand(new AddRegionCommand());
+		bankCommands.addCommand(new DelRegionCommand());
 		description = this.getDescription();  
 		  
 		//DB
