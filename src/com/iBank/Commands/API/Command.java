@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
+import com.iBank.iBank;
 import com.iBank.Commands.DataTypes.ArgumentCollection;
 import com.iBank.Commands.DataTypes.HandlerCollection;
 import com.iBank.system.MessageManager;
@@ -136,7 +137,7 @@ public class Command
     {
         for(String permission : getPermissions())
         {
-            if(sender.hasPermission(permission))
+            if(iBank.hasPermission(sender,  permission))
                 return true;
         }
         return false;

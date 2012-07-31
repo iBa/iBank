@@ -26,6 +26,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.iBank.Commands.API.CommandSet;
 import com.iBank.Commands.Executioners.AddRegionCommand;
+import com.iBank.Commands.Executioners.DelRegionCommand;
+import com.iBank.Commands.Executioners.RegionCommand;
 import com.iBank.Commands.Executioners.RootCommand;
 import com.iBank.Database.DataSource;
 import com.iBank.Database.DataSource.Drivers;
@@ -104,7 +106,7 @@ public class iBank extends JavaPlugin {
 	    CommandHandler.register(new CommandHelp("bank"));
 	    CommandHandler.register(new CommandAddRegion());              #DONE
 	    CommandHandler.register(new CommandDelRegion());              #DONE
-	    CommandHandler.register(new CommandRegion());
+	    CommandHandler.register(new CommandRegion());                 #DONE
 	    CommandHandler.register(new CommandOpenAccount());
 	    CommandHandler.register(new CommandBalance());
 	    CommandHandler.register(new CommandList());
@@ -134,6 +136,7 @@ public class iBank extends JavaPlugin {
 		bankCommands.addCommand(new RootCommand());
 		bankCommands.addCommand(new AddRegionCommand());
 		bankCommands.addCommand(new DelRegionCommand());
+		bankCommands.addCommand(new RegionCommand());
 		description = this.getDescription();  
 		  
 		//DB
