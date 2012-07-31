@@ -55,6 +55,8 @@ public class Command
     {
         return Arrays.asList(new String[] { "iBank.access" } );
     }
+    
+    
     /**
      * Handles this command
      * @param source the source of the command
