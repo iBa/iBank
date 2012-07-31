@@ -56,6 +56,16 @@ public class Command
         return Arrays.asList(new String[] { "iBank.access" } );
     }
     
+    /**
+     * Returns whether this method is runnable as console user
+     * @return boolean
+     */
+    public boolean runnableFromConsole()
+    {
+        return true;
+    }
+    
+    
     
     /**
      * Handles this command
@@ -100,15 +110,6 @@ public class Command
     public String getArgument(String name)
     {
         return this.args.getValue(name);
-    }
-    
-    /**
-     * Returns whether this method is runnable as console user
-     * @return boolean
-     */
-    public boolean runnableFromConsole()
-    {
-        return true;
     }
     
     /**
