@@ -29,6 +29,7 @@ import com.iBank.Commands.Executioners.AddRegionCommand;
 import com.iBank.Commands.Executioners.BalanceCommand;
 import com.iBank.Commands.Executioners.DelRegionCommand;
 import com.iBank.Commands.Executioners.DepositCommand;
+import com.iBank.Commands.Executioners.GiveCommand;
 import com.iBank.Commands.Executioners.ListCommand;
 import com.iBank.Commands.Executioners.OpenAccountCommand;
 import com.iBank.Commands.Executioners.RegionCommand;
@@ -122,7 +123,7 @@ public class iBank extends JavaPlugin {
 	    CommandHandler.register(new CommandManager());
 	    CommandHandler.register(new CommandOwners());
 	    CommandHandler.register(new CommandUsers());
-	    CommandHandler.register(new CommandGive());
+	    CommandHandler.register(new CommandGive());                   #DONE
 	    CommandHandler.register(new CommandTake());
 	    CommandHandler.register(new CommandDelete());
 	    CommandHandler.register(new CommandClose());
@@ -149,6 +150,7 @@ public class iBank extends JavaPlugin {
 		bankCommands.addCommand(new DepositCommand());
 		bankCommands.addCommand(new WithdrawCommand());
 		bankCommands.addCommand(new TransferCommand());
+		bankCommands.addCommand(new GiveCommand());
 		description = this.getDescription();  
 		  
 		//DB
