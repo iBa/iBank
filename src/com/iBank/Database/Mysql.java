@@ -26,7 +26,7 @@ public class Mysql implements Database {
 	 */
 	public Mysql(String host, String user, String password, String database) {
 		try{
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/"+database+"?" + "user="+user+"&password="+password);
+			connection = DriverManager.getConnection("jdbc:mysql://" + host + "/" + database+"?" + "user="+user+"&password="+password);
 			success = true;
 		}catch(Exception e) {
 			System.out.println("[iBank] Establishing the Mysql Connection failed! "+ e);
