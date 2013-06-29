@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.iBank</groupId>
 	<artifactId>iBank</artifactId>
-	<version>0.6</version>
+	<version>0.6.1</version>
 	<name>iBank</name>
 	<description>Bank plugin for bukkit using vault.</description>
 	<url>http://dev.bukkit.org/server-mods/iBank/</url>
@@ -18,44 +18,35 @@
 	</scm>
 	<ciManagement>
 		<system>jenkins</system>
-		<url>http://ci.howarts.info/job/iBank/</url>
+		<url>https://buildhive.cloudbees.com/job/iBa/job/iBank/</url>
 	</ciManagement>
 	<repositories>
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public/</url>
 		</repository>
-    <repository>
-        <id>vault-repo</id>
-        <url>http://maven.sk89q.com/repo/</url>
-    </repository>
 	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.2.5-R5.0</version>
+			<version>1.5.2-R1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>Vault</artifactId>
-            <version>1.2.16</version>
+            <version>1.2.25</version>
             <scope>compile</scope>
         </dependency>
 	</dependencies>
 	<build>
 		<resources>
-			<resource>
-				<directory>bin/resources</directory>
-			</resource>
-      <resource>
-        <directory>src/resources</directory>
-        <excludes>
-            <exclude>plugin.yml</exclude>
-        </excludes>
-      </resource>
+            <resource>
+                <directory>src/resources</directory>
+                <filtering>true</filtering>
+            </resource>
 		</resources>
 		<plugins>
 			<plugin>
@@ -99,58 +90,23 @@
 					</execution>
 				</executions>
 			</plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>buildnumber-maven-plugin</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>create</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <doCheck>true</doCheck>
-          <doUpdate>true</doUpdate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.google.code.maven-replacer-plugin</groupId>
-            <artifactId>maven-replacer-plugin</artifactId>
-            <version>1.4.0</version>
-            <executions>                
-                <execution>
-                    <phase>process-sources</phase>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                  <execution>
+                    <phase>validate</phase>
                     <goals>
-                        <goal>replace</goal>
+                      <goal>create</goal>
                     </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <file>src/resources/plugin.yml</file>
-                <outputFile>bin/resources/plugin.yml</outputFile>
-                <replacements>
-                          <replacement>
-                            <token>@pomversion@</token>
-                            <value>${project.version}</value>
-                          </replacement>
-                          <replacement>
-                              <token>@build@</token>
-                              <value>${buildNumber}</value>
-                          </replacement>
-                          <replacement>
-                            <token>@snap@</token>
-                            <value>${version.snap}</value>
-                          </replacement>
-                          <replacement>
-                              <token>@codename@</token>
-                              <value>${version.codename}</value>
-                          </replacement>
-                </replacements>                        
-            </configuration>
-        </plugin>
-		</plugins>
+                  </execution>
+                </executions>
+                <configuration>
+                  <doCheck>true</doCheck>
+                  <doUpdate>true</doUpdate>
+                </configuration>
+            </plugin>
+        </plugins>
 	</build>
 </project>

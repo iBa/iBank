@@ -1,7 +1,7 @@
 #General
 name: iBank
 main: com.iBank.iBank
-version: @pomversion@(@build@)[@snap@]{@codename@}
+version: ${project.version}(${buildNumber})[${version.snap}]{${version.codename}}
 commands:
      bank:
        description: Manage your money
