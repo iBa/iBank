@@ -58,7 +58,7 @@ public class CommandLoan extends Command {
 				        {
 				            if(!Configuration.Entry.RealisticNegative.getBoolean())
 				            {
-				                send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+				                send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
                                 return;
 				            }
 				            com.iBank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
@@ -66,7 +66,7 @@ public class CommandLoan extends Command {
 				            //Can be either equal to the max*-1 or it needs to be bigger
                             if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
                             {
-                                send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+                                send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
                                 return;
                             }
                             tmp.subtractBalance(amount);
@@ -77,14 +77,14 @@ public class CommandLoan extends Command {
 				            {
 				                if(!Configuration.Entry.RealisticNegative.getBoolean())
 				                {
-				                    send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+				                    send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
 				                    return;
 				                }
 				                BigDecimal newAmount = new BigDecimal(iBank.economy.getBalance(Configuration.Entry.RealisticAccount.getValue())).subtract(amount);
 				                //Can be either equal to the max*-1 or it needs to be bigger
 				                if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
 				                {
-				                    send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank);
+				                    send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
 				                    return;
 				                }
 				            }
