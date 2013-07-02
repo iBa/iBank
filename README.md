@@ -1,3 +1,5 @@
+[![Build Status](https://buildhive.cloudbees.com/job/iBa/job/iBank/badge/icon)](https://buildhive.cloudbees.com/job/iBa/job/iBank/)
+
 iBank
 =============
 
