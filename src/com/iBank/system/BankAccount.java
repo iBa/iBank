@@ -17,7 +17,8 @@ import com.iBank.utils.StringUtils;
  * @author steffengy
  *
  */
-public class BankAccount {
+public class BankAccount 
+{
 	private String name;
 	private BigDecimal balance = null;
 	private double on = Configuration.Entry.InterestOnPercentage.getDouble();
@@ -30,67 +31,75 @@ public class BankAccount {
 	public boolean intervalDefault = true;
 	public int mD = 0;
 	
-	public BankAccount(String name, BigDecimal bigInteger) {
+	public BankAccount(String name, BigDecimal bigInteger) 
+	{
 		this.balance = bigInteger;
 		this.name = name;
 	}
+	
 	/**
 	 * Inits all owners as string
 	 * @param str
 	 */
-	public void Owners(String str) {
-		if(str.contains(","))
-			owners = new ArrayList<String>(Arrays.asList(str.split(",")));
-		else {
+	public void Owners(String str) 
+	{
+		if(str.contains(",")) owners = new ArrayList<String>(Arrays.asList(str.split(",")));
+		else 
+		{
 			owners = new ArrayList<String>();
 			/* Prevent stupid behavior -.- */
-			if(str.length() > 0)
-			    owners.add(str);
+			if(str.length() > 0) owners.add(str);
 		}
-		
 	}
+	
 	/**
 	 * Inits all users as string
 	 * @param str
 	 */
-	public void Users(String str) {
-		if(str.contains(",")) 
-			users = new ArrayList<String>(Arrays.asList(str.split(",")));
-		else {
+	public void Users(String str) 
+	{
+		if(str.contains(",")) users = new ArrayList<String>(Arrays.asList(str.split(",")));
+		else 
+		{
 			users = new ArrayList<String>();
 			/* Prevent even more stupid behavior -.- */
-			if(str.length() > 0)
-			    users.add(str);
+			if(str.length() > 0) users.add(str);
 		}
 	}
+	
 	/**
 	 * Sets the online percentage
 	 * @param onper The online percentage as double
 	 * @param write If to write
 	 */
-	public void setOnPercentage(double onper, boolean write) {
+	public void setOnPercentage(double onper, boolean write) 
+	{
 		this.on = onper;
 		//Write to db
 	    if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"onper"}, new Object[]{String.valueOf(on)}, new AndCondition("name", name, Operators.IDENTICAL));
 	    onDefault = false;
 	}
+	
 	/**
 	 * Sets the offline percentage
 	 * @param offper The offline percentage as double
 	 * @param write If to write
 	 */
-	public void setOffPercentage(double offper, boolean write) {
+	public void setOffPercentage(double offper, boolean write) 
+	{
 		this.off = offper;
 		//Write to db
 	    if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"offper"}, new Object[]{String.valueOf(off)}, new AndCondition("name", name, Operators.IDENTICAL));
 	    offDefault = false;
 	}
+	
 	/**
 	 * Sets the balance
 	 * @param newbalance The new balance as BigInteger
 	 * @param write The boolean
 	 */
-	public void setBalance(BigDecimal newbalance, boolean write) {
+	public void setBalance(BigDecimal newbalance, boolean write) 
+	{
 		// round
 		newbalance = newbalance.setScale(2, BigDecimal.ROUND_DOWN);
 		//save
@@ -98,145 +107,179 @@ public class BankAccount {
 		//Write to DB
 		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"balance"}, new Object[]{newbalance}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
+	
 	/**
 	 * Adds a balance to this account
 	 * @param todp BigInteger
 	 */
-	public void addBalance(BigDecimal todp) {
+	public void addBalance(BigDecimal todp) 
+	{
 		setBalance(this.balance.add(todp), true);
 	}
+	
 	/**
 	 * Returns the balance
 	 * @return BigInteger
 	 */
-	public BigDecimal getBalance() {
+	public BigDecimal getBalance() 
+	{
 		return balance;
 	}
+	
 	/**
 	 * Returns if the account has that amount
 	 * @param amount The amount
 	 * @return Boolean
 	 */
-	public boolean has(BigDecimal amount) {
+	public boolean has(BigDecimal amount) 
+	{
 		return balance.compareTo(amount) >= 0;
 	}
+	
 	/**
 	 * Subtracts a value from this account
 	 * @param balance BigInteger
 	 */
-	public void subtractBalance(BigDecimal balance) {
+	public void subtractBalance(BigDecimal balance) 
+	{
 		BigDecimal newval = this.balance.subtract(balance);
 		setBalance(newval, true);
 	}
+	
 	/**
 	 * Returns the online percentage
 	 * @return double
 	 */
-	public double getOnlinePercentage() {
+	public double getOnlinePercentage() 
+	{
 		return this.on;
 	}
+	
 	/**
 	 * Returns the offline percentage
 	 * @return double
 	 */
-	public double getOfflinePercentage() {
+	public double getOfflinePercentage() 
+	{
 		return this.off;
 	}
+	
 	/**
 	 * Adds an owner
 	 * @param user The user
 	 */
-	public void addOwner(String user) {
+	public void addOwner(String user) 
+	{
 		owners.add(user);
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
+	
 	/**
 	 * Remove an owner
 	 * @param user The owner as string
 	 */
-	public void removeOwner(String user) {
+	public void removeOwner(String user) 
+	{
 		owners.remove(user);
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
+	
 	/**
 	 * Adds an user
 	 * @param user The user
 	 */
-	public void addUser(String user) {
+	public void addUser(String user) 
+	{
 		users.add(user);
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"users"}, new Object[]{StringUtils.join(users,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
+	
 	/**
 	 * Remove an user
 	 * @param user The user as string
 	 */
-	public void removeUser(String user) {
+	public void removeUser(String user) 
+	{
 		users.remove(user);
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"users"}, new Object[]{StringUtils.join(users,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
+	
 	/**
 	 * Returns all Owners
 	 * @return List<String>
 	 */
-	public List<String> getOwners() {
+	public List<String> getOwners() 
+	{
 		return owners;
 	}
+	
 	/**
 	 * Returns all users
 	 * @return List<String>
 	 */
-	public List<String> getUsers() {
+	public List<String> getUsers() 
+	{
 		return users;
 	}
+	
 	/**
 	 * Returns if the user is an owner of this account
 	 * @param user The user
 	 * @return boolean
 	 */
-	public boolean isOwner(String user) {
+	public boolean isOwner(String user) 
+	{
 		return owners.contains(user);
 	}
+	
 	/**
 	 * Returns if the user is an user of this account
 	 * @param user 
 	 * @return
 	 */
-	public boolean isUser(String user) {
+	public boolean isUser(String user) 
+	{
 		return users.contains(user);
 	}
+	
 	/**
 	 * Returns a string array with all users online
 	 * @param int limit The max count of users who shall got
 	 * @return String[] Contains the usernames
 	 */
-	public String[] getOnlines(int limit) {
+	public String[] getOnlines(int limit) 
+	{
 		List<String> b = new ArrayList<String>();
 		int c = 0;
-		for(String p : owners) {
+		for(String p : owners) 
+		{
 			if(Bukkit.getServer().getPlayer(p) != null) 
-				if(limit == -1 || c < limit) {
+				if(limit == -1 || c < limit) 
+				{
 				    if(!b.contains(p)) b.add(p); 
 					c++;
-				}else{
-					break;
 				}
+				else break;	
 		}
-		for(String p : users) {
+		for(String p : users) 
+		{
 			if(Bukkit.getServer().getPlayer(p) != null)
-				if(limit == -1 || c < limit) {
+				if(limit == -1 || c < limit) 
+				{
 					if(!b.contains(p)) b.add(p);
 					c++;
-				}else{
-					break;
 				}
+				else break;
 		}
 		return b.toArray(new String[0]);
 	}
+	
 	/**
 	 * Returns a string array with all users online without limit
 	 * @return String[] Contains the usernames
 	 */
-	public String[] getOnlines() {
+	public String[] getOnlines() 
+	{
 		return getOnlines(-1);
 	}
 
@@ -244,48 +287,59 @@ public class BankAccount {
 	 * Returns the name of the account
 	 * @return String
 	 */
-	public String getName() {
+	public String getName() 
+	{
 		return name;
 	}
+	
 	/**
 	 * Get the interval
 	 * @return int
 	 */
-	public int getInterval() {
+	public int getInterval() 
+	{
 		return this.interval;
 	}
+	
 	/**
 	 * Set the interval
 	 * @param interval The interval
 	 * @param if to write in Storage
  	 */
-	public void setInterval(int interval,boolean write) {
+	public void setInterval(int interval,boolean write) 
+	{
 		this.interval = interval;
 		intervalDefault = false;
 		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"interval"}, new Object[]{interval}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
+	
 	/**
 	 * Sets how much "loops" this account already "did"
 	 * @param integer The integer describing the amount
 	 * @param write If to write to db
 	 */
-	public void setMinutesDone(int integer, boolean write) {
+	public void setMinutesDone(int integer, boolean write) 
+	{
 		this.mD = integer;
 		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"mD"}, new Object[]{integer}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
+	
 	/**
 	 * Returns how much "loops" this account already "did"
 	 * @return Integer
 	 */
-	public int getMinutesDone() {
+	public int getMinutesDone() 
+	{
 		return this.mD;
 	}
+	
 	/**
 	 * Updates an field in this account to value
 	 * @param string
 	 * @param string2
 	 */
-	public void Update(String key, String value) {
+	public void Update(String key, String value) 
+	{
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{ key }, new Object[]{ value }, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 }

@@ -23,48 +23,67 @@ import com.iBank.system.Loan;
 		root = "bank", 
 		sub = "payback"
 )
-public class CommandPayBack extends Command {
-	public void handle(CommandSender sender, String[] arguments) {
+public class CommandPayBack extends Command 
+{
+	@Override
+	public void handle(CommandSender sender, String[] arguments) 
+	{
 		handle(sender, arguments, false);
 	}
-	public void handle(CommandSender sender, String[] arguments, boolean check) {
-		if(!(sender instanceof Player)) {
+	
+	public void handle(CommandSender sender, String[] arguments, boolean check) 
+	{
+		if(!(sender instanceof Player)) 
+		{
 			send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
 			return;
 		}
-		if(!check && !iBank.canExecuteCommand(((Player)sender))) {
+		if(!check && !iBank.canExecuteCommand(((Player)sender))) 
+		{
 			send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
-		if(arguments.length == 2) {
+		if(arguments.length == 2) 
+		{
 			//arguments[0] -> int
 			int arg = 0;
-			try{
+			try
+			{
 				arg = Integer.parseInt(arguments[0]);
-			}catch(Exception e) {
+			}
+			catch(Exception e) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [ID]");
 				return;
 			}
 			//arguments[1] -> BigDecimal
 			BigDecimal todp = BigDecimal.ZERO;
-			try{
+			try
+			{
 				todp = new BigDecimal(arguments[1]);
-			}catch(Exception e) {
+			}
+			catch(Exception e) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
 			}
-			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) {
+			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
 			//try to get this loan
 			Loan loan = Bank.getLoanById(arg);
-			if(loan == null) {
+			if(loan == null) 
+			{
 				//notfound
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name", String.valueOf(arg)));
-			}else{
+			}
+			else
+			{
 				//loan.getAmount() has to be bigger or equal than given (0 or -1)
-				if(!(loan.getAmount().compareTo(todp)<=0)) {
+				if(!(loan.getAmount().compareTo(todp)<=0)) 
+				{
 					//throw error
 					send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue() + "AMOUNT>LOAN");
 					return;
@@ -72,9 +91,7 @@ public class CommandPayBack extends Command {
 				loan.setAmount(loan.getAmount().subtract(todp));
 			    iBank.economy.withdrawPlayer(((Player)sender).getName(), todp.doubleValue());
 				//<= to prevent MAGIC exceptions
-				if(loan.getAmount().compareTo(BigDecimal.ZERO)<=0) {
-					loan.remove();
-				}
+				if(loan.getAmount().compareTo(BigDecimal.ZERO)<=0) loan.remove();
 				if(Configuration.Entry.RealisticMode.getBoolean())
 				{
 				    if(Configuration.Entry.RealisticInternal.getBoolean())
@@ -83,37 +100,44 @@ public class CommandPayBack extends Command {
 				        tmp.addBalance(todp);
 				    }
 				    else
-				    {
 				        iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), todp.doubleValue());
-				    }
 				}
 				send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(todp)));
 			}
-		}else if(arguments.length == 1){
+		}
+		else if(arguments.length == 1)
+		{
 			//loop through all, calculate stuff, etc.
 			//arguments[0] -> BigDecimal
 			BigDecimal todp = BigDecimal.ZERO;
-			try{
+			try
+			{
 				todp = new BigDecimal(arguments[0]);
-			}catch(Exception e) {
+			}
+			catch(Exception e) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
 			}
-			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) {
+			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue())) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
 			BigDecimal paiedback = BigDecimal.ZERO;
-			for(Loan loan : Bank.getLoansByAccount(((Player)sender).getName())) {
+			for(Loan loan : Bank.getLoansByAccount(((Player)sender).getName())) 
+			{
 				//todp > loan => remove loan, todp -= loan
-				if(todp.compareTo(loan.getAmount()) >= 0) {
+				if(todp.compareTo(loan.getAmount()) >= 0) 
+				{
 					iBank.economy.withdrawPlayer(((Player)sender).getName(), loan.getAmount().doubleValue());
 					paiedback = paiedback.add(loan.getAmount());
 					todp.subtract(loan.getAmount());
 					loan.remove();
 				}
 				//todp < loan => subtract as much as possible, loan -= todp
-				if(todp.compareTo(loan.getAmount()) < 0) {
+				if(todp.compareTo(loan.getAmount()) < 0) 
+				{
 					loan.setAmount(loan.getAmount().subtract(todp));
 					paiedback = paiedback.add(todp);
 					iBank.economy.withdrawPlayer(((Player)sender).getName(), todp.doubleValue());
@@ -126,11 +150,15 @@ public class CommandPayBack extends Command {
                 iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), todp.doubleValue());
             }
 			send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(paiedback)));
-		}else{
+		}
+		else
+		{
 			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
-	public String getHelp() {
+	
+	public String getHelp() 
+	{
 		return Configuration.StringEntry.PayBackDescription.getValue();
 	}
 }

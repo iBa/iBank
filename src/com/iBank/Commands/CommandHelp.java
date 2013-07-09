@@ -19,20 +19,24 @@ import com.iBank.system.Configuration;
   root = "bank", 
   sub = "help"
 )
-public class CommandHelp extends Command {
+public class CommandHelp extends Command
+{
 	protected String root = "";
 	/**
 	 * Constructor
 	 * @param root The root name of the command
 	 */
-	public CommandHelp(String root) {
+	public CommandHelp(String root) 
+	{
 		this.root = root;
 	}
 	
 	@Override
-	public void handle(CommandSender sender, String[] arguments) {
+	public void handle(CommandSender sender, String[] arguments) 
+	{
 		//Display possible help for this command
-		if(!(sender instanceof Player)) {
+		if(!(sender instanceof Player)) 
+		{
 			send(sender, "iBank "+iBank.description.getVersion());
 			String args = "";
 			for(String name : CommandHandler.getCommands("bank"))
@@ -45,9 +49,11 @@ public class CommandHelp extends Command {
 		
 		int sites = 1 + (int) Math.ceil(CommandHandler.getCommands("bank").size() / 9);
 		int curSite = 0;
-		try{
+		try
+		{
 			curSite = arguments.length == 0 ? 0 : Integer.parseInt(arguments[0]) -1;
-		}catch(Exception e) { }
+		}
+		catch(Exception e) { }
 		send(sender, "iBank "+iBank.description.getVersion()+" ("+(curSite+1)+"/"+sites+")", "");
 		String args = "";
 		int counter = 0;
@@ -65,9 +71,10 @@ public class CommandHelp extends Command {
 				counter++; 
 			}
 		}
-		
 	}
-	public String getHelp() {
+	
+	public String getHelp()
+	{
 		return Configuration.StringEntry.HelpDescription.getValue();
 	}
 }

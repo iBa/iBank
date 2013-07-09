@@ -23,18 +23,26 @@ import com.iBank.system.Loan;
 		root = "bank", 
 		sub = "loanedit"
 )
-public class CommandLoanEdit extends Command {
-	public void handle(CommandSender sender, String[] arguments) {
-		if(arguments.length == 3) {
+public class CommandLoanEdit extends Command 
+{
+	@Override
+	public void handle(CommandSender sender, String[] arguments) 
+	{
+		if(arguments.length == 3) 
+		{
 			int id = 0;
-			try{
+			try
+			{
 				id = Integer.parseInt(arguments[0]);
-			}catch(Exception e) {
+			}
+			catch(Exception e) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Id]");
 				return;
 			}
 			Loan loan = null;
-			if((loan = Bank.getLoanById(id)) == null) {
+			if((loan = Bank.getLoanById(id)) == null) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name", String.valueOf(id)));
 				return;
 			}
@@ -43,11 +51,15 @@ public class CommandLoanEdit extends Command {
 			 * interval
 			 * [2] as Integer
 			 */
-			if(arguments[1].equalsIgnoreCase("interval")) {
+			if(arguments[1].equalsIgnoreCase("interval")) 
+			{
 				int param = 0;
-				try{
+				try
+				{
 					param = Integer.parseInt(arguments[2]);
-				}catch(Exception e) {
+				}
+				catch(Exception e) 
+				{
 					send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 					return;
 				}
@@ -58,11 +70,15 @@ public class CommandLoanEdit extends Command {
 			 * percentage
 			 * [2] as double
 			 */
-			else if(arguments[1].equalsIgnoreCase("percentage")) {
+			else if(arguments[1].equalsIgnoreCase("percentage")) 
+			{
 				double param = 0.00;
-				try{
+				try
+				{
 					param = Double.parseDouble(arguments[2]);
-				}catch(Exception e) {
+				}
+				catch(Exception e)
+				{
 					send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 					return;
 				}
@@ -72,16 +88,21 @@ public class CommandLoanEdit extends Command {
 			 * amount
 			 * [2] as BigDecimal
 			 */
-			else if(arguments[1].equalsIgnoreCase("amount")) {
+			else if(arguments[1].equalsIgnoreCase("amount")) 
+			{
 				BigDecimal param = BigDecimal.ZERO;
 				String mode = "normal";
-				if(arguments[2].startsWith("+") || arguments[2].startsWith("-")) {
+				if(arguments[2].startsWith("+") || arguments[2].startsWith("-")) 
+				{
 					mode = ""+arguments[2].charAt(0);
 					arguments[2] = arguments[2].substring(1);
 				}
-				try{
+				try
+				{
 					param = new BigDecimal(arguments[2]);
-				}catch(Exception e) {
+				}
+				catch(Exception e) 
+				{
 					send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 					return;
 				}
@@ -89,12 +110,11 @@ public class CommandLoanEdit extends Command {
 					loan.setAmount(param);
 				else if(mode == "+") 
 					loan.setAmount(loan.getAmount().add(param));
-				else if(mode == "-") {
+				else if(mode == "-") 
+				{
 					loan.setAmount(loan.getAmount().subtract(param));
 					// loan > param
-					if(loan.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
-						loan.remove();
-					}
+					if(loan.getAmount().compareTo(BigDecimal.ZERO) <= 0) loan.remove();
 				}
 			}
 			/**
@@ -104,57 +124,80 @@ public class CommandLoanEdit extends Command {
 			 * following stuff = 1y2d3m => 1 year, 2 days, 3 months
 			 * or 1ydM => 1 year, 1 day , 1 month
 			 */
-			else if(arguments[1].equalsIgnoreCase("until")) {
+			else if(arguments[1].equalsIgnoreCase("until")) 
+			{
 				String param = arguments[2];
-				if(!(param.length() > 2)) {
+				if(!(param.length() > 2)) 
+				{
 					send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 					return;
 				}
 				int leftMinutes = 0;
 				boolean flush = false;
 				String cache = "";
-				for(int pointer = 1; pointer < param.length(); pointer++) {
+				for(int pointer = 1; pointer < param.length(); pointer++) 
+				{
 					char tmp = param.charAt(pointer);
-					if(tmp >= '0' && tmp <= '9') {
+					if(tmp >= '0' && tmp <= '9') 
+					{
 						if(flush) {
 							cache = "";
 							flush = false;
 						}
 						cache += tmp; 
-					}else{
-						if(((String)""+tmp).equalsIgnoreCase("d")) {
+					}
+					else
+					{
+						if(((String)""+tmp).equalsIgnoreCase("d")) 
+						{
 							leftMinutes += Integer.parseInt(cache) * 24 * 60;
 							flush = true;
-						}else if(((String)""+tmp).equals("m")) {
+						}
+						else if(((String)""+tmp).equals("m")) 
+						{
 							leftMinutes += Integer.parseInt(cache);
 							flush = true;
-						}else if(((String)""+tmp).equals("M")) {
+						}
+						else if(((String)""+tmp).equals("M")) 
+						{
 							leftMinutes += Integer.parseInt(cache) * 24 * 60 * 30;
 							flush = true;
-						}else if(((String)""+tmp).equalsIgnoreCase("h")) {
+						}
+						else if(((String)""+tmp).equalsIgnoreCase("h")) 
+						{
 							leftMinutes += Integer.parseInt(cache) * 60;
 							flush = true;
-						}else{
+						}
+						else
+						{
 							send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 							return;
 						}
 					}
 				}
-				if(((String)""+param.charAt(0)).equals("+")) {
+				if(((String)""+param.charAt(0)).equals("+")) 
+				{
 					loan.setLeftTime(loan.getLeftMinutes() + leftMinutes);
-				}else{
+				}
+				else
+				{
 					loan.setLeftTime(loan.getLeftMinutes() - leftMinutes > 0 ? loan.getLeftMinutes() - leftMinutes  : 0);
 				}
-			}else{
+			}
+			else
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 				return;
 			}
 			//success
 			send(sender, "&g&"+Configuration.StringEntry.SuccessLoanEdit.getValue());
-		}else{
+		}
+		else
+		{
 			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
  	}
+	
 	public String getHelp() {
 		return Configuration.StringEntry.LoanEditDescription.getValue();
 	}

@@ -19,7 +19,8 @@ import java.util.Iterator;
  * limitations under the License.
  */
 
-public class StringUtils {
+public class StringUtils 
+{
 	/**
 	 * The empty String {@code ""}.
 	 * @since 2.0
@@ -50,7 +51,8 @@ public class StringUtils {
      * @since 2.0
      * @since 3.0 Changed signature to use varargs
      */
-    public static <T> String join(T... elements) {
+    public static <T> String join(T... elements) 
+    {
         return join(elements, null);
     }
 
@@ -76,11 +78,9 @@ public class StringUtils {
      * @return the joined String, {@code null} if null array input
      * @since 2.0
      */
-    public static String join(Object[] array, char separator) {
-        if (array == null) {
-            return null;
-        }
-
+    public static String join(Object[] array, char separator) 
+    {
+        if (array == null) return null;
         return join(array, separator, 0, array.length);
     }
 
@@ -110,24 +110,21 @@ public class StringUtils {
      * @return the joined String, {@code null} if null array input
      * @since 2.0
      */
-    public static String join(Object[] array, char separator, int startIndex, int endIndex) {
-        if (array == null) {
+    public static String join(Object[] array, char separator, int startIndex, int endIndex) 
+    {
+        if (array == null) 
+        {
             return null;
         }
         int noOfItems = endIndex - startIndex;
-        if (noOfItems <= 0) {
-            return EMPTY;
-        }
+        if (noOfItems <= 0) return EMPTY;
         
         StringBuilder buf = new StringBuilder(noOfItems * 16);
 
-        for (int i = startIndex; i < endIndex; i++) {
-            if (i > startIndex) {
-                buf.append(separator);
-            }
-            if (array[i] != null) {
-                buf.append(array[i]);
-            }
+        for (int i = startIndex; i < endIndex; i++) 
+        {
+            if (i > startIndex) buf.append(separator);
+            if (array[i] != null) buf.append(array[i]);
         }
         return buf.toString();
     }
@@ -155,10 +152,9 @@ public class StringUtils {
      * @param separator  the separator character to use, null treated as ""
      * @return the joined String, {@code null} if null array input
      */
-    public static String join(Object[] array, String separator) {
-        if (array == null) {
-            return null;
-        }
+    public static String join(Object[] array, String separator) 
+    {
+        if (array == null) return null;
         return join(array, separator, 0, array.length);
     }
 
@@ -189,30 +185,23 @@ public class StringUtils {
      * an error to pass in an end index past the end of the array
      * @return the joined String, {@code null} if null array input
      */
-    public static String join(Object[] array, String separator, int startIndex, int endIndex) {
-        if (array == null) {
-            return null;
-        }
-        if (separator == null) {
-            separator = EMPTY;
-        }
+    public static String join(Object[] array, String separator, int startIndex, int endIndex) 
+    {
+        if (array == null) return null;
+
+        if (separator == null) separator = EMPTY;
 
         // endIndex - startIndex > 0:   Len = NofStrings *(len(firstString) + len(separator))
         //           (Assuming that all Strings are roughly equally long)
         int noOfItems = endIndex - startIndex;
-        if (noOfItems <= 0) {
-            return EMPTY;
-        }
+        if (noOfItems <= 0) return EMPTY;
 
         StringBuilder buf = new StringBuilder(noOfItems * 16);
 
-        for (int i = startIndex; i < endIndex; i++) {
-            if (i > startIndex) {
-                buf.append(separator);
-            }
-            if (array[i] != null) {
-                buf.append(array[i]);
-            }
+        for (int i = startIndex; i < endIndex; i++) 
+        {
+            if (i > startIndex) buf.append(separator);
+            if (array[i] != null) buf.append(array[i]);
         }
         return buf.toString();
     }
@@ -231,32 +220,25 @@ public class StringUtils {
      * @return the joined String, {@code null} if null iterator input
      * @since 2.0
      */
-    public static String join(Iterator<?> iterator, char separator) {
+    public static String join(Iterator<?> iterator, char separator) 
+    {
 
         // handle null, zero and one elements before building a buffer
-        if (iterator == null) {
-            return null;
-        }
-        if (!iterator.hasNext()) {
-            return EMPTY;
-        }
+        if (iterator == null) return null;
+        if (!iterator.hasNext()) return EMPTY;
+        
         Object first = iterator.next();
-        if (!iterator.hasNext()) {
-            return toString(first);
-        }
+        if (!iterator.hasNext()) return toString(first);
 
         // two or more elements
         StringBuilder buf = new StringBuilder(256); // Java default is 16, probably too small
-        if (first != null) {
-            buf.append(first);
-        }
+        if (first != null) buf.append(first);
 
-        while (iterator.hasNext()) {
+        while (iterator.hasNext()) 
+        {
             buf.append(separator);
             Object obj = iterator.next();
-            if (obj != null) {
-                buf.append(obj);
-            }
+            if (obj != null) buf.append(obj);
         }
 
         return buf.toString();
@@ -275,34 +257,25 @@ public class StringUtils {
      * @param separator  the separator character to use, null treated as ""
      * @return the joined String, {@code null} if null iterator input
      */
-    public static String join(Iterator<?> iterator, String separator) {
+    public static String join(Iterator<?> iterator, String separator) 
+    {
 
         // handle null, zero and one elements before building a buffer
-        if (iterator == null) {
-            return null;
-        }
-        if (!iterator.hasNext()) {
-            return EMPTY;
-        }
+        if (iterator == null) return null;
+        if (!iterator.hasNext()) return EMPTY;
+
         Object first = iterator.next();
-        if (!iterator.hasNext()) {
-            return toString(first);
-        }
+        if (!iterator.hasNext()) return toString(first);
 
         // two or more elements
         StringBuilder buf = new StringBuilder(256); // Java default is 16, probably too small
-        if (first != null) {
-            buf.append(first);
-        }
+        if (first != null) buf.append(first);
 
-        while (iterator.hasNext()) {
-            if (separator != null) {
-                buf.append(separator);
-            }
+        while (iterator.hasNext()) 
+        {
+            if (separator != null) buf.append(separator);
             Object obj = iterator.next();
-            if (obj != null) {
-                buf.append(obj);
-            }
+            if (obj != null) buf.append(obj);
         }
         return buf.toString();
     }
@@ -322,9 +295,7 @@ public class StringUtils {
      * @since 2.3
      */
     public static String join(Iterable<?> iterable, char separator) {
-        if (iterable == null) {
-            return null;
-        }
+        if (iterable == null) return null;
         return join(iterable.iterator(), separator);
     }
 
@@ -343,11 +314,10 @@ public class StringUtils {
      * @since 2.3
      */
     public static String join(Iterable<?> iterable, String separator) {
-        if (iterable == null) {
-            return null;
-        }
+        if (iterable == null) return null;
         return join(iterable.iterator(), separator);
     }
+    
     public static String toString(Object obj) {
         return obj == null ? "" : obj.toString();
     }

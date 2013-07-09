@@ -8,7 +8,8 @@ import java.util.List;
  * @author steffengy
  *
  */
-public interface Database {
+public interface Database 
+{
 	public boolean success();
 	public ResultSet query(String query);
 	public boolean execute(String query);

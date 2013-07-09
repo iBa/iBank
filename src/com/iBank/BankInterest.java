@@ -7,7 +7,8 @@ import com.iBank.system.Bank;
 import com.iBank.system.BankAccount;
 import com.iBank.system.Configuration;
 
-public class BankInterest extends TimerTask {
+public class BankInterest extends TimerTask 
+{
 
 	@Override
 	public void run() {
@@ -30,8 +31,8 @@ public class BankInterest extends TimerTask {
 			BankAccount item = Bank.getAccount(i);
 			// >= to prevent cases which are MAGIC
 			// -1 to balance indifference in runtime
-			if(item.getMinutesDone() >= item.getInterval() - 1) {
-			
+			if(item.getMinutesDone() >= item.getInterval() - 1) 
+			{
 				on = new BigDecimal(item.getOnlinePercentage() / 100);
 				off = new BigDecimal(item.getOfflinePercentage() / 100);
 				if(item.getOnlines(needed + 1).length >= needed)
@@ -39,19 +40,22 @@ public class BankInterest extends TimerTask {
 					debugOnline++;
 					BigDecimal add = item.getBalance().multiply(on);
 					item.addBalance(add);
-				}else{
+				}
+				else
+				{
 					debugOffline++;
 					BigDecimal add = item.getBalance().multiply(off);
 					item.addBalance(add);
 				}
 				//now we can simply set mD to 0
 				item.setMinutesDone(0, true);
-			}else{
-				//++mD
+			}
+			else
+			{
 				item.setMinutesDone(item.getMinutesDone() + 1, true);
 			}
 		}
-		if(Configuration.Entry.Debug.getBoolean()) System.out.println("Interest done, Online: "+debugOnline+", Offline:"+debugOffline);
+		if(Configuration.Entry.Debug.getBoolean()) System.out.println("Interest done, Online: " + debugOnline + ", Offline:"+debugOffline);
 	}
 
 }

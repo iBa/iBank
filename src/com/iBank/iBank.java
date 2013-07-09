@@ -60,7 +60,7 @@ import com.iBank.utils.StreamUtils;
 /**
  * IBank
  * @author steffengy
- * @copyright Copyright steffengy (C) 2012
+ * @copyright Copyright steffengy (C) 2012-2013
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,7 +75,8 @@ import com.iBank.utils.StreamUtils;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class iBank extends JavaPlugin {
+public class iBank extends JavaPlugin 
+{
 	public static iBank mainInstance = null;
     private static YamlConfiguration StringConfig = null;
     private static YamlConfiguration Config = null;
@@ -150,41 +151,51 @@ public class iBank extends JavaPlugin {
 		description = this.getDescription();  
 		  
 		//DB
-			if(Configuration.Entry.DatabaseType.getValue().equalsIgnoreCase("sqlite") || Configuration.Entry.DatabaseType.getValue().equalsIgnoreCase("mysql")) {
-				if(Configuration.Entry.DatabaseUrl.getValue() != null) {
-					// connect
-					Drivers driver = DataSource.Drivers.SQLite;
-					if(Configuration.Entry.DatabaseType.getValue().equalsIgnoreCase("mysql")) {
-						driver = DataSource.Drivers.MYSQL;
-					}
-					
-					if(!DataSource.setup(driver, Configuration.Entry.DatabaseUrl.getValue(), this)) {
-						System.out.println("[iBank] Database connection failed! Shuting down iBank...");
-						getServer().getPluginManager().disablePlugin(this);
-						return;
-					}
-				}else{
-					System.out.println("[iBank] Database connection failed! No File specified!");
-				}
-			}else{
-				if(Configuration.Entry.DatabaseUrl.getValue().toString() != null) {
+		if(Configuration.Entry.DatabaseType.getValue().equalsIgnoreCase("sqlite") || Configuration.Entry.DatabaseType.getValue().equalsIgnoreCase("mysql")) 
+		{
+			if(Configuration.Entry.DatabaseUrl.getValue() != null) 
+			{
 				// connect
-				if(!DataSource.setup(DataSource.Drivers.SQLite, Configuration.Entry.DatabaseUrl.getValue(), this)) {
+				Drivers driver = DataSource.Drivers.SQLite;
+				if(Configuration.Entry.DatabaseType.getValue().equalsIgnoreCase("mysql")) {
+					driver = DataSource.Drivers.MYSQL;
+				}
+				
+				if(!DataSource.setup(driver, Configuration.Entry.DatabaseUrl.getValue(), this)) {
 					System.out.println("[iBank] Database connection failed! Shuting down iBank...");
 					getServer().getPluginManager().disablePlugin(this);
 					return;
 				}
-				}else{
-					getServer().getPluginManager().disablePlugin(this);
-					return;
-				}
 			}
+			else
+			{
+				System.out.println("[iBank] Database connection failed! No File specified!");
+			}
+		}
+		else
+		{
+			if(Configuration.Entry.DatabaseUrl.getValue().toString() != null) {
+			// connect
+			if(!DataSource.setup(DataSource.Drivers.SQLite, Configuration.Entry.DatabaseUrl.getValue(), this)) 
+			{
+				System.out.println("[iBank] Database connection failed! Shuting down iBank...");
+				getServer().getPluginManager().disablePlugin(this);
+				return;
+			}
+			}
+			else
+			{
+				getServer().getPluginManager().disablePlugin(this);
+				return;
+			}
+		}
 	    
 		//Register events
 		getServer().getPluginManager().registerEvents(Listener, this);
 		
 		//start interest syncer
-		if(Configuration.Entry.InterestEnabled.getBoolean()) {
+		if(Configuration.Entry.InterestEnabled.getBoolean()) 
+		{
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -195,7 +206,8 @@ public class iBank extends JavaPlugin {
 			}).start();
 		}
 		//start loan syncer
-		if(Configuration.Entry.Loan.getBoolean()) {
+		if(Configuration.Entry.Loan.getBoolean()) 
+		{
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -257,15 +269,18 @@ public class iBank extends JavaPlugin {
 	}
 	
 	@Override
-	public void onDisable() {
+	public void onDisable() 
+	{
 		DataSource.shutdown();
 		//Kill timers
-		if(Interest != null) {
+		if(Interest != null) 
+		{
                 Interest.cancel();
                 Interest.purge();
                 Interest = null;
 		}
-		if(Loan != null) {
+		if(Loan != null) 
+		{
 				Loan.cancel();
 				Loan.purge();
 				Loan = null;
@@ -278,15 +293,15 @@ public class iBank extends JavaPlugin {
 	 */
 	public void reloadConfig() 
 	{
-	    if(ConfigFile == null) {
-	    	ConfigFile = new File(getDataFolder(), "config.yml");
-	    }
-	    if(ConfigFile.exists()) {
-	    	Config = YamlConfiguration.loadConfiguration(ConfigFile);
-	    }else{
+	    if(ConfigFile == null) ConfigFile = new File(getDataFolder(), "config.yml");
+	    if(ConfigFile.exists()) Config = YamlConfiguration.loadConfiguration(ConfigFile);
+	    else
+	    {
 	    	if(StreamUtils.copy(getResource("config.yml"), ConfigFile)) {
 	    		Config = YamlConfiguration.loadConfiguration(ConfigFile);
-	    	}else{
+	    	}
+	    	else
+	    	{
 	    		System.out.println("[iBank] OOPS! Failed loading config!");
 	    	}
 	    }
@@ -296,13 +311,13 @@ public class iBank extends JavaPlugin {
 	 */
 	private void loadStrings() 
 	{
-	    if(StringFile == null) {
-	    	StringFile = new File(getDataFolder(), "strings.yml");
-	    }
+	    if(StringFile == null) StringFile = new File(getDataFolder(), "strings.yml");
+	    
 	    StringConfig = YamlConfiguration.loadConfiguration(StringFile);
 	    //Get default config
 	    InputStream defConfigStream = getResource("strings.yml");
-	    if (defConfigStream != null) {
+	    if (defConfigStream != null) 
+	    {
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 	        StringConfig.setDefaults(defConfig);
 	    }
@@ -345,7 +360,8 @@ public class iBank extends JavaPlugin {
      * @param p The player
      * @return boolean
      */
-    public static boolean canExecuteCommand(Player p) {
+    public static boolean canExecuteCommand(Player p) 
+    {
     	if(!Configuration.Entry.BoundToRegion.getBoolean()) return true;
     	if(hasPermission(p, "iBank.global")) return true;
     	Location l = p.getLocation();
@@ -356,18 +372,19 @@ public class iBank extends JavaPlugin {
      * @param l The location
      * @return Name of region or null
      */
-    public static String regionAt(Location l) {
+    public static String regionAt(Location l) 
+    {
     	double x = l.getX();
     	double y = l.getY();
     	double z = l.getZ();
     	Region tmp;
-    	for(String i : Bank.getRegions()) {
+    	for(String i : Bank.getRegions()) 
+    	{
     		tmp = Bank.getRegion(i);
-    		if(l.getWorld() == tmp.getFirstLocation().getWorld()) {
-    			if(Mathematics.isInBox(x,y,z,tmp.getFirstLocation().getX(),tmp.getFirstLocation().getY(),tmp.getFirstLocation().getZ(),tmp.getSecondLocation().getX(),tmp.getSecondLocation().getY(),tmp.getSecondLocation().getZ())) {
-    				return i;
-    			}
-    		       
+    		if(l.getWorld() == tmp.getFirstLocation().getWorld()) 
+    		{
+    			if(Mathematics.isInBox(x,y,z,tmp.getFirstLocation().getX(),tmp.getFirstLocation().getY(),tmp.getFirstLocation().getZ(),tmp.getSecondLocation().getX(),tmp.getSecondLocation().getY(),tmp.getSecondLocation().getZ())) 
+    				return i;  
     		}
     	}
     	return null;
@@ -378,7 +395,8 @@ public class iBank extends JavaPlugin {
      * @return String
      * (probalby wrong formated due to BigInteger/double limits
      */
-    public static String format(BigDecimal todp) {
+    public static String format(BigDecimal todp) 
+    {
          return economy.format(todp.doubleValue());
     }
     /**
@@ -387,19 +405,24 @@ public class iBank extends JavaPlugin {
      * @param due The value, which shall be applied to 
      * @return BigDecimal The fee value
      */
-	public static BigDecimal parseFee(String fee, BigDecimal due) {
+	public static BigDecimal parseFee(String fee, BigDecimal due) 
+	{
 		BigDecimal val = BigDecimal.ZERO;
 		//check if percentage or static amount
-		if(fee.contains("+")) {
+		if(fee.contains("+")) 
+		{
 			String[] plus = fee.split("+");
 			val = val.add(parseFeeString(plus[0], due));
 			val = val.add(parseFeeString(plus[1], due));
-		}else
-		if(fee.contains("-")) {
+		}
+		else if(fee.contains("-")) 
+		{
 			String[] minus = fee.split("-");
 			val = val.subtract(parseFeeString(minus[0], due));
 			val = val.subtract(parseFeeString(minus[1], due));
-		}else{
+		}
+		else
+		{
 			val = parseFeeString(fee, due);
 		}
 		return val;
@@ -410,11 +433,15 @@ public class iBank extends JavaPlugin {
 	 * @param due The due
 	 * @return
 	 */
-	public static BigDecimal parseFeeString(String part, BigDecimal due) {
+	public static BigDecimal parseFeeString(String part, BigDecimal due) 
+	{
 		BigDecimal tmp = BigDecimal.ZERO;
-		if(part.endsWith("%")) {
+		if(part.endsWith("%")) 
+		{
 			tmp = tmp.add(due.multiply(new BigDecimal(Double.parseDouble(part.replace("%","")) / 100)));
-		}else{
+		}
+		else
+		{
 			tmp = tmp.add(new BigDecimal(Double.parseDouble(part)));
 		}
 		return tmp;
@@ -425,10 +452,14 @@ public class iBank extends JavaPlugin {
 	 * @param permission The permission
 	 * @return boolean
 	 */
-	public static boolean hasPermission(Player user, String permission) {
-		if(iBank.permission.isEnabled()) {
+	public static boolean hasPermission(Player user, String permission) 
+	{
+		if(iBank.permission.isEnabled()) 
+		{
 			return iBank.permission.has(user, permission);
-		}else{
+		}
+		else
+		{
 			return (user).hasPermission(permission);
 		}
 	}
@@ -438,7 +469,8 @@ public class iBank extends JavaPlugin {
 	 * @param permission Permission
 	 * @return boolean
 	 */
-	public static boolean hasPermission(CommandSender user, String permission) {
+	public static boolean hasPermission(CommandSender user, String permission) 
+	{
 		if(!(user instanceof Player)) return true;
 		return hasPermission((Player)user, permission);
 	}
@@ -448,14 +480,16 @@ public class iBank extends JavaPlugin {
 	 * @param player
 	 * @param what What to login?
 	 */
-	public static void login(String player) {
+	public static void login(String player) 
+	{
 		connected.add(player);
 	}
 	/**
 	 * Debinds a player from directbank
 	 * @param player
 	 */
-	public static void logout(String player) {
+	public static void logout(String player) 
+	{
 		if(connected.contains(player)) connected.remove(player);
 	}
 }

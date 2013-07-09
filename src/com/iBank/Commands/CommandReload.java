@@ -18,11 +18,15 @@ import com.iBank.system.Configuration;
 		root = "bank", 
 		sub = "reload"
 )
-public class CommandReload extends Command {
-	public void handle(CommandSender sender, String[] arguments) {
+public class CommandReload extends Command 
+{
+	public void handle(CommandSender sender, String[] arguments) 
+	{
 		iBank.mainInstance.reloadConfig();
 	}
-	public String getHelp() {
+	
+	public String getHelp() 
+	{
 		return Configuration.StringEntry.ReloadDescription.getValue();
 	}
 }

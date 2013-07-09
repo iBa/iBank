@@ -26,26 +26,33 @@ import com.iBank.utils.StringUtils;
 		root = "bank", 
 		sub = "list"
 )
-public class CommandList extends Command {
-	
-	public void handle(CommandSender sender, String[] arguments) {
-		if((sender instanceof Player) && !iBank.canExecuteCommand(((Player)sender))) {
+public class CommandList extends Command 
+{
+	@Override
+	public void handle(CommandSender sender, String[] arguments) 
+	{
+		if((sender instanceof Player) && !iBank.canExecuteCommand(((Player)sender))) 
+		{
 			send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		// Show list of accounts#
 		List<String> owner;
 		List<String> user;
-		if(arguments.length > 0 && arguments[0] != null) {
+		if(arguments.length > 0 && arguments[0] != null) 
+		{
 			owner = Bank.getAccountsByOwner(arguments[0]);
 			user = Bank.getAccountsByUser(arguments[0]);
 			send(sender, "&blue&Owner &y&User");
-		}else{
+		}
+		else
+		{
 			owner = Bank.getAccounts();
 			user = new ArrayList<String>();
 		}
 		
-		if(owner.size() == 0 && user.size() == 0) {
+		if(owner.size() == 0 && user.size() == 0) 
+		{
 			send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
 			return;
 		}
@@ -54,7 +61,9 @@ public class CommandList extends Command {
 		send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
 		send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");
 	}
-	public String getHelp() {
+	
+	public String getHelp() 
+	{
 		return Configuration.StringEntry.ListDescription.getValue();
 	}
 }

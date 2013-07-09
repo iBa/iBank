@@ -27,10 +27,13 @@ import com.iBank.system.Region;
         permission = "iBank.access", 
         root = "bank", 
         sub = "region")
-public class CommandRegion extends Command {
+public class CommandRegion extends Command 
+{
     @Override
-    public void handle(CommandSender sender, String[] arguments) {
-        if(arguments.length == 1) {
+    public void handle(CommandSender sender, String[] arguments) 
+    {
+        if(arguments.length == 1) 
+        {
             //Display info
             if(Bank.hasRegion(arguments[0])) {
                 Region tmp = Bank.getRegion(arguments[0]);
@@ -48,51 +51,64 @@ public class CommandRegion extends Command {
                 send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Region "+arguments[0]+" "));
                 return;
             }
-        } else
-            //Saves info
-            if(arguments.length == 3) {
-                if(Bank.hasRegion(arguments[0])) {
-                    if(sender instanceof Player && !iBank.hasPermission(sender, "iBank.regions") && !Bank.getRegion(arguments[0]).getOwners().contains(((Player)sender).getName())) {
-                        send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
-                        return;
-                    }
-                    if(arguments[1].equalsIgnoreCase("online") || arguments[1].equalsIgnoreCase("on")) {
-                        Double percentage = 0.00;
-                        try{
-                            percentage = Double.parseDouble(arguments[2]);
-                        }catch(Exception e) {
-                            send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[2]);
-                            return;
-                        }
-                        Bank.getRegion(arguments[0]).setOnPercentage(percentage, true);
-                    }else if(arguments[1].equalsIgnoreCase("offline") || arguments[1].equalsIgnoreCase("off")) {
-                        Double percentage = 0.00;
-                        try{
-                            percentage = Double.parseDouble(arguments[2]);
-                        }catch(Exception e) {
-                            send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[2]);
-                            return;
-                        }
-                        Bank.getRegion(arguments[0]).setOffPercentage(percentage, true);
-                    }else if(arguments[1].equalsIgnoreCase("add")) {
-                        Bank.getRegion(arguments[0]).addOwner(arguments[2]);
-                    }else if(arguments[1].equalsIgnoreCase("del")) {
-                        if(Bank.getRegion(arguments[0]).getOwners().contains(arguments[2]))
-                            Bank.getRegion(arguments[0]).removeOwner(arguments[2]);
-                    }else{
-                        send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[1]);
-                        return;
-                    }
-                    send(sender, "&g&"+Configuration.StringEntry.SuccessRegion.getValue().replace("$name$", arguments[0]));
-                }else{
-                    send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Region "+arguments[0]+" "));
+        } 
+        else if(arguments.length == 3) 
+        { 
+            if(!Bank.hasRegion(arguments[0])) 
+            {
+            	send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Region "+arguments[0]+" "));
+                return;
+            }
+            if(sender instanceof Player && !iBank.hasPermission(sender, "iBank.regions") && !Bank.getRegion(arguments[0]).getOwners().contains(((Player)sender).getName())) 
+            {
+                send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
+                return;
+            }
+            if(arguments[1].equalsIgnoreCase("online") || arguments[1].equalsIgnoreCase("on")) 
+            {
+                Double percentage = 0.00;
+                try
+                {
+                    percentage = Double.parseDouble(arguments[2]);
+                }
+                catch(Exception e) 
+                {
+                    send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[2]);
                     return;
                 }
-            } else {
-                send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
+                Bank.getRegion(arguments[0]).setOnPercentage(percentage, true);
             }
+            else if(arguments[1].equalsIgnoreCase("offline") || arguments[1].equalsIgnoreCase("off")) 
+            {
+                Double percentage = 0.00;
+                try
+                {
+                    percentage = Double.parseDouble(arguments[2]);
+                }
+                catch(Exception e) 
+                {
+                    send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[2]);
+                    return;
+                }
+                Bank.getRegion(arguments[0]).setOffPercentage(percentage, true);
+            }
+            else if(arguments[1].equalsIgnoreCase("add")) 
+                Bank.getRegion(arguments[0]).addOwner(arguments[2]);
+            else if(arguments[1].equalsIgnoreCase("del")) 
+                if(Bank.getRegion(arguments[0]).getOwners().contains(arguments[2])) Bank.getRegion(arguments[0]).removeOwner(arguments[2]);
+        	else
+        	{
+                send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[1]);
+                return;
+            }
+            send(sender, "&g&"+Configuration.StringEntry.SuccessRegion.getValue().replace("$name$", arguments[0]));
+        } 
+        else 
+        	send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
     }
-    public String getHelp() {
+    
+    public String getHelp() 
+    {
         return Configuration.StringEntry.RegionDescription.getValue();
     }
 }

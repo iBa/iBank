@@ -7,7 +7,8 @@ import org.bukkit.command.CommandSender;
  * @author steffengy
  *
  */
-public class Command {
+public class Command 
+{
 	/**
 	 * Handle params as this command
 	 * @param sender
@@ -29,7 +30,6 @@ public class Command {
 	public void send(CommandSender sender, String message)
 	{
 	    MessageManager.send(sender, message);
-	    
 	}
 	
 	/**

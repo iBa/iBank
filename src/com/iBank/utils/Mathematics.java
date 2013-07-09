@@ -9,7 +9,8 @@ import org.bukkit.Location;
  * @author steffengy
  *
  */
-public class Mathematics {
+public class Mathematics 
+{
 	/**
      * Returns whether the given coords match
      * @return Boolean
@@ -38,23 +39,28 @@ public class Mathematics {
      * @param str
      * @return
      */
-    public static BigDecimal parseString(String str) {
+    public static BigDecimal parseString(String str) 
+    {
     	BigDecimal todp = null;
-    	try{    			
+    	try
+    	{    			
     		todp = new BigDecimal(str);
-    		}catch(Exception e) {
-
-    			return todp;
-    		}
+		}
+    	catch(Exception e) 
+    	{
+    		return todp;
+		}
     	return todp;
     }
+    
     /**
      * Diffs location a with b
      * @param a 
      * @param b
      * @return int, whole difference
      */
-    public static int[] diffLoc(Location a, Location b) {
+    public static int[] diffLoc(Location a, Location b) 
+    {
     	int[] diff = new int[] { 0,0,0 };
     	if(a.getX() > b.getX()) 
     		diff[0] = a.getBlockX() - b.getBlockX(); 

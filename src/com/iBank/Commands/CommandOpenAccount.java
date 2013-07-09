@@ -25,64 +25,78 @@ import com.iBank.system.Region;
 		root = "bank", 
 		sub = "open"
 )
-public class CommandOpenAccount extends Command {
-	public void handle(CommandSender sender, String[] arguments) { 
-		if(arguments.length == 1) {
-			if(!(sender instanceof Player)) {
+public class CommandOpenAccount extends Command 
+{
+	public void handle(CommandSender sender, String[] arguments) 
+	{ 
+		if(arguments.length == 1) 
+		{
+			if(!(sender instanceof Player)) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
 				return;
 			}
-			if(!iBank.canExecuteCommand(((Player)sender))) {
+			if(!iBank.canExecuteCommand(((Player)sender))) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 				return;
 			}
 			String region = iBank.regionAt(((Player)sender).getLocation());
 			region = region == null ?  " " : region;
 			
-			if(!Bank.hasAccount(arguments[0])) {
-				// fee stuff
-				String fee = Configuration.Entry.FeeCreate.getValue();
-				BigDecimal extra = BigDecimal.ZERO;
-				if(!fee.contains(";")) {
-					extra = iBank.parseFee(fee, new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
-				}else{
-					String[] costs = fee.split(";");
-					int account = Bank.getAccountsByOwner(((Player)sender).getName()).size();
-				
-					if(costs.length > account) {
-						extra = iBank.parseFee(costs[account], new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
-					}else{
-						extra = iBank.parseFee(costs[costs.length - 1], new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
-					}
-				}
-				List<String> tmp = Bank.getAccountsByOwner(((Player)sender).getName());
-				//skip if max is higher/equal to precision
-				if(Configuration.Entry.MaxAccountsPerUser.getInteger() != -1 && tmp.size() >= Configuration.Entry.MaxAccountsPerUser.getInteger()) {
-					send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.getValue().replace("$max$", Configuration.Entry.MaxAccountsPerUser.getValue()));
-					return;
-				}
-				if(!iBank.economy.has(((Player)sender).getName(), extra.doubleValue())) {
-					send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
-					return;
-				}
-				iBank.economy.withdrawPlayer(((Player)sender).getName(), extra.doubleValue());
-				Bank.createAccount(arguments[0], ((Player)sender).getName());
-				// check for custom percentages
-				if(region != " ") {
-					Region reg = Bank.getRegion(region);
-					if(!reg.onDefault) Bank.getAccount(arguments[0]).setOnPercentage(reg.getOnPercentage(), true);
-					if(!reg.offDefault) Bank.getAccount(arguments[0]).setOffPercentage(reg.getOffPercentage(), true);
-				}
-				send(sender, "&g&"+Configuration.StringEntry.SuccessAddAccount.getValue().replace("$name$", "Account "+arguments[0]+" "));
-				if(extra.compareTo(BigDecimal.ZERO)>0) send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(extra)));
-			}else{
+			if(Bank.hasAccount(arguments[0])) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.getValue().replace("$name$", "Account "+arguments[0]+" "));
+				return;
 			}
-		}else{
+			// fee stuff
+			String fee = Configuration.Entry.FeeCreate.getValue();
+			BigDecimal extra = BigDecimal.ZERO;
+			if(!fee.contains(";")) 
+				extra = iBank.parseFee(fee, new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
+			else
+			{
+				String[] costs = fee.split(";");
+				int account = Bank.getAccountsByOwner(((Player)sender).getName()).size();
+			
+				if(costs.length > account) 
+					extra = iBank.parseFee(costs[account], new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
+				else
+					extra = iBank.parseFee(costs[costs.length - 1], new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
+			}
+			List<String> tmp = Bank.getAccountsByOwner(((Player)sender).getName());
+			//skip if max is higher/equal to precision
+			if(Configuration.Entry.MaxAccountsPerUser.getInteger() != -1 && tmp.size() >= Configuration.Entry.MaxAccountsPerUser.getInteger()) 
+			{
+				send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.getValue().replace("$max$", Configuration.Entry.MaxAccountsPerUser.getValue()));
+				return;
+			}
+			if(!iBank.economy.has(((Player)sender).getName(), extra.doubleValue())) 
+			{
+				send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
+				return;
+			}
+			iBank.economy.withdrawPlayer(((Player)sender).getName(), extra.doubleValue());
+			Bank.createAccount(arguments[0], ((Player)sender).getName());
+			// check for custom percentages
+			if(region != " ") 
+			{
+				Region reg = Bank.getRegion(region);
+				if(!reg.onDefault) Bank.getAccount(arguments[0]).setOnPercentage(reg.getOnPercentage(), true);
+				if(!reg.offDefault) Bank.getAccount(arguments[0]).setOffPercentage(reg.getOffPercentage(), true);
+			}
+			send(sender, "&g&"+Configuration.StringEntry.SuccessAddAccount.getValue().replace("$name$", "Account "+arguments[0]+" "));
+			if(extra.compareTo(BigDecimal.ZERO)>0) send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(extra)));
+		
+		}
+		else
+		{
 			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
-	public String getHelp() {
+	
+	public String getHelp() 
+	{
 		return Configuration.StringEntry.OpenAccountDescription.getValue();
 	}
 }

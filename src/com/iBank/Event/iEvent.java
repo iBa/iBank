@@ -4,8 +4,10 @@ package com.iBank.Event;
  * @author steffengy
  *
  */
-public class iEvent {
-	public static enum Types {
+public class iEvent 
+{
+	public static enum Types 
+	{
 		/**
 		 * Called when a account was created
 		 */

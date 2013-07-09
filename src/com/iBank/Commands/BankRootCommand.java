@@ -24,26 +24,31 @@ import com.iBank.utils.StringUtils;
 		root = "bank", 
 		sub = ""
 )
-public class BankRootCommand extends Command {
+public class BankRootCommand extends Command 
+{
 
 	/**
 	 *  Shows if in bank region if enabled
 	 *  Shows a list of all accounts the player owns and has access to
 	 */
 	@Override
-	public void handle(CommandSender sender, String[] arguments) {
-		if(!(sender instanceof Player)) {
+	public void handle(CommandSender sender, String[] arguments) 
+	{
+		if(!(sender instanceof Player)) 
+		{
 			send(sender, "&r&"+Configuration.StringEntry.ErrorNoPlayer.getValue());
 			return;
 		}
-		if(!iBank.canExecuteCommand(((Player)sender))) {
+		if(!iBank.canExecuteCommand(((Player)sender))) 
+		{
 			send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
 		// Show list of accounts
 		List<String> owner = Bank.getAccountsByOwner(((Player)sender).getName());
 		List<String> user = Bank.getAccountsByUser(((Player)sender).getName());
-		if(owner.size() == 0 && user.size() == 0) {
+		if(owner.size() == 0 && user.size() == 0) 
+		{
 			send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
 			return;
 		}
@@ -53,6 +58,7 @@ public class BankRootCommand extends Command {
 		send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
 		send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");
 	}
+	
 	public String getHelp() {
 		return Configuration.StringEntry.BankDescription.getValue();
 	}

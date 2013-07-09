@@ -11,37 +11,44 @@ import com.iBank.Event.iEvent.Types;
  * @author steffengy
  *
  */
-public class iBankEvent extends Event implements Cancellable {
+public class iBankEvent extends Event implements Cancellable 
+{
 	private static final HandlerList handlers = new HandlerList();
-	 	private Types data;
-	 	private boolean cancelled = false;
-	 	
-	    public iBankEvent(Types type, Object data) {
-	        data = type;
-	    }
-	 
-	    public HandlerList getHandlers() {
-	        return handlers;
-	    }
-	 
-	    public static HandlerList getHandlerList() {
-	        return handlers;
-	    }
-	    /**
-	     * Returns the iEvent.Types of this event
-	     * @return
-	     */
-	    public Types getiBankType() {
-	    	return data;
-	    }
+ 	private Types data;
+ 	private boolean cancelled = false;
+ 	
+    public iBankEvent(Types type, Object data) 
+    {
+        data = type;
+    }
+ 
+    public HandlerList getHandlers() 
+    {
+        return handlers;
+    }
+ 
+    public static HandlerList getHandlerList() 
+    {
+        return handlers;
+    }
+    /**
+     * Returns the iEvent.Types of this event
+     * @return
+     */
+    public Types getiBankType() 
+    {
+    	return data;
+    }
 
-		@Override
-		public boolean isCancelled() {
-			return cancelled;
-		}
+	@Override
+	public boolean isCancelled() 
+	{
+		return cancelled;
+	}
 
-		@Override
-		public void setCancelled(boolean arg0) {
-			cancelled = arg0;
-		}
+	@Override
+	public void setCancelled(boolean arg0) 
+	{
+		cancelled = arg0;
+	}
 }

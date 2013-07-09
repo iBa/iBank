@@ -69,21 +69,24 @@ public class Configuration {
 		 * @param Name The name of the entry
 		 * @param value The value of the entry
 		 */
-		private Entry(String Name, Object value) {
+		private Entry(String Name, Object value) 
+		{
 			this.key = Name;
 			this.value = value;
 		}
 		/**
 		 * @return The key of the Entry
 		 */
-		public String getKey() {
+		public String getKey() 
+		{
 			return key;
 		}
 		/**
 		 * Gets the value as String
 		 * @return String The value of the Entry
 		 */
-		public String getValue() {
+		public String getValue() 
+		{
 			return (String) value;
 		}
 		
@@ -95,64 +98,76 @@ public class Configuration {
 		{
 		    return value;
 		}
+		
 		/**
 		 * @return The value of the Entry as boolean
 		 */
-		public Boolean getBoolean() {
+		public Boolean getBoolean() 
+		{
             return (Boolean) value;
         }
+		
 		/*
 		 * @return The value of the Entry as Integer (or Double)
 		 */
-        public Integer getInteger() {
-            if(value instanceof Double)
-                return ((Double) value).intValue();
-
+        public Integer getInteger() 
+        {
+            if(value instanceof Double) return ((Double) value).intValue();
             return (Integer) value;
         }
+        
         /**
          * @return The value of the Entry as Double
          */
-        public Double getDouble() {
-            if(value instanceof Integer)
-                return (double) ((Integer) value).intValue();
+        public Double getDouble() 
+        {
+            if(value instanceof Integer) return (double) ((Integer) value).intValue();
 
             return (Double) value;
         }
+        
         /**
          * @return The value of the Entry as BigDecimal
          */
-        public BigDecimal getBigDecimal() {
+        public BigDecimal getBigDecimal() 
+        {
             return new BigDecimal(String.valueOf(value));
         }
+        
         /**
          * @return The value of the Entry as Long (or Integer)
          */
-        public Long getLong() {
-            if(value instanceof Integer)
-                return ((Integer) value).longValue();
+        public Long getLong() 
+        {
+            if(value instanceof Integer) return ((Integer) value).longValue();
 
             return (Long) value;
         }
+        
         /*
          * @return The value of the Entry as List
          */
         @SuppressWarnings("unchecked")
-		public List<String> getStringList() {
+		public List<String> getStringList() 
+		{
         		return (List<String>) value;
         }
+        
         /*
          * Sets the value of this Entry
          * @param value the value as object
          */
-        public void setValue(Object value) {
+        public void setValue(Object value) 
+        {
         	this.value = value;
         }
+        
         @Deprecated
         public String toString() {
         	return getValue();
         }
 	}
+	
 	public static enum StringEntry
 	{
 		BankTag("Tags.Bank", "&g&[&w&Bank&g&]"),
@@ -239,34 +254,42 @@ public class Configuration {
 		 * @param Name The name of the entry
 		 * @param value The value of the entry
 		 */
-		private StringEntry(String Name, String value) {
+		private StringEntry(String Name, String value) 
+		{
 			this.key = Name;
 			this.value = value;
 		}
+		
 		/**
 		 * @return The key of the Entry
 		 */
-		public String getKey() {
+		public String getKey() 
+		{
 			return key;
 		}
+		
 		/**
 		 * @return The value of the Entry
 		 */
-		public String getValue() {
+		public String getValue() 
+		{
 			return value;
 		}
+		
         /*
          * Sets the value of this Entry
          * @param value the value
          */
-        public void setValue(String value) {
+        public void setValue(String value) 
+        {
         	this.value = value;
         }
+        
         @Override
         @Deprecated
         public String toString()
         {
-            return "[DEPRECATED-PLEASE_REPORT_THIS!!] " + this.value;
+            return this.value;
         }
 	}
     /**
@@ -276,10 +299,10 @@ public class Configuration {
     public static void init(YamlConfiguration config)
     {
     	for(Entry s : Entry.values())
-    		if(!s.getKey().isEmpty())
-    			if(config.get(s.getKey()) != null)
-    				s.setValue(config.get(s.getKey()));
+    		if(!s.getKey().isEmpty() && config.get(s.getKey()) != null)
+    			s.setValue(config.get(s.getKey()));
     }
+    
     /**
      * Sets the lang system up
      * @param config The configuration got from the YamlFile 
@@ -287,8 +310,7 @@ public class Configuration {
     public static void stringinit(YamlConfiguration config)
     {
     	for(StringEntry s : StringEntry.values())
-    		if(!s.getKey().isEmpty())
-    			if(config.get(s.getKey()) != null)
-    				s.setValue(config.getString(s.getKey()));
+    		if(!s.getKey().isEmpty() && config.get(s.getKey()) != null)
+				s.setValue(config.getString(s.getKey()));
     }
 }

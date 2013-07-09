@@ -6,23 +6,26 @@ package com.iBank.Database;
  * @author steffengy
  *
  */
-public class Condition {
-	public enum Operators {
+public class Condition 
+{
+	public enum Operators 
+	{
 		IDENTICAL("="),
 		NOT_IDENTICAL("!="),
 		BIGGER(">"), 
 		LOWER("<");
 		
 		String chr;
-		private Operators(String chars) {
+		private Operators(String chars) 
+		{
 			chr = chars;
 		}
-		public String getChar() {
+		public String getChar() 
+		{
 			return chr;
 		}
 	}
 	String field = null;
 	Object value = null;
 	Operators action = null;
-
 }

@@ -18,20 +18,28 @@ import com.iBank.system.Configuration;
 		root = "bank", 
 		sub = "delete"
 )
-public class CommandDelete extends Command {
-	public void handle(CommandSender sender, String[] arguments) { 
-		if(arguments.length == 1) {
-			if(Bank.hasAccount(arguments[0])) {
-				Bank.removeAccount(arguments[0]);
-				send(sender, "&g&"+Configuration.StringEntry.SuccessDelAccount.getValue().replace("$name$", arguments[0]));
-			}else{
+public class CommandDelete extends Command 
+{
+	public void handle(CommandSender sender, String[] arguments) 
+	{ 
+		if(arguments.length == 1) 
+		{
+			if(!Bank.hasAccount(arguments[0])) 
+			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
+				return;
 			}
-		}else{
+			Bank.removeAccount(arguments[0]);
+			send(sender, "&g&"+Configuration.StringEntry.SuccessDelAccount.getValue().replace("$name$", arguments[0]));
+		}
+		else
+		{
 			send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue());
 		}
 	}
-	public String getHelp() {
+	
+	public String getHelp() 
+	{
 		return Configuration.StringEntry.DeleteDescription.getValue();
 	}
 }
