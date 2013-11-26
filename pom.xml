@@ -8,7 +8,7 @@
 	<description>Bank plugin for bukkit using vault.</description>
 	<url>http://dev.bukkit.org/server-mods/iBank/</url>
   <properties>
-      <version.snap>true</version.snap>
+      <version.snap>false</version.snap>
       <version.codename>GumbleForge</version.codename>
   </properties>
 	<scm>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.6.2-R0.1-SNAPSHOT</version>
+			<version>1.6.4-R2.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

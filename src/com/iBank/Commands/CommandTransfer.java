@@ -72,6 +72,7 @@ public class CommandTransfer extends Command
 			}
 			BankAccount src = Bank.getAccount(arguments[0]);
 			BankAccount dest = Bank.getAccount(arguments[1]);
+			if(src.getName().equalsIgnoreCase(dest.getName())) dest = src;
 			if(!console && !src.isUser(((Player)sender).getName()) && !src.isOwner(((Player)sender).getName())) 
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
