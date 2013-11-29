@@ -82,7 +82,7 @@ public class CommandWithdraw extends Command
 					return;
 				}
 				//iBank - end
-				doWithdraw(sender, todp.add(fee), account);
+				doWithdraw(sender, todp.add(fee), todp, account);
 		}
 		else if(arguments.length == 1) 
 		{
@@ -120,8 +120,13 @@ public class CommandWithdraw extends Command
 	
 	public void doWithdraw(CommandSender sender, BigDecimal todp, BankAccount account) 
 	{
+		doWithdraw(sender, todp, todp, account);
+	}
+	
+	public void doWithdraw(CommandSender sender, BigDecimal todp, BigDecimal deposit, BankAccount account) 
+	{
 			account.subtractBalance(todp);
-			iBank.economy.depositPlayer(((Player)sender).getName(), todp.doubleValue());
+			iBank.economy.depositPlayer(((Player)sender).getName(), deposit.doubleValue());
 			send(sender, "&g&"+Configuration.StringEntry.SuccessWithdraw.getValue().replace("$name$", account.getName()).replace("$amount$", iBank.format(todp)));
 	}
 	
