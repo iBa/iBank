@@ -146,9 +146,15 @@ public class CommandPayBack extends Command
 				}
 			}
 			if(Configuration.Entry.RealisticMode.getBoolean())
-            {
-                iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), todp.doubleValue());
-            }
+            		{
+            			if(Configuration.Entry.RealisticInternal.getBoolean())
+				{
+				        com.iBank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
+				        tmp.addBalance(todp);
+				}
+				else
+                			iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), todp.doubleValue());
+            		}
 			send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(paiedback)));
 		}
 		else
