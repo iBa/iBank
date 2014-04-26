@@ -15,7 +15,7 @@ import com.iBank.Listeners.iBankListener;
 
 @CommandInfo(
 		arguments = { "Name" }, 
-		permission = "iBank.access", 
+		permission = "iBank.regions", 
 		root = "bank", 
 		sub = "addregion"
 )
