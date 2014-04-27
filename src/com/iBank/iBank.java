@@ -246,18 +246,7 @@ public class iBank extends JavaPlugin
 		        }
 		        else
 		        {
-		            double amount = economy.getBalance(Configuration.Entry.RealisticAccount.getValue()) + 10000;
-		            economy.withdrawPlayer(Configuration.Entry.RealisticAccount.getValue(), amount);
-		            if(economy.getBalance(Configuration.Entry.RealisticAccount.getValue()) < 0)
-		            {
-		                System.out.println("[iBank][RealisticMode] Negative amounts supported! ");
-		                economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), amount);
-		            }
-		            else
-		            {
-		                System.out.println("[iBank][RealisticMode] Negative amounts not supported!");
-		                Configuration.Entry.RealisticNegative.setValue(false);
-		            }
+		            setupEconomyRealisticNegative(120000);
 		        }
 		    }
 		}
@@ -266,6 +255,57 @@ public class iBank extends JavaPlugin
 		    System.out.println("[iBank] starting without realistic mode!");
 		}
 		System.out.println("[iBank] Version " + description.getVersion() + " loaded successfully!");
+	}
+	
+	/**
+	 * Starts a Thread which sets RealisticNegative to true or false
+	 * after waiting for the economy plugin enabled and accessable.
+	 * The timeout cancels the waiting after thread already waited the given milliseconds.
+	 * 
+	 * @param timeout The timeout in milliseconds
+	 */
+	private void setupEconomyRealisticNegative(final long timeout)
+	{
+		Configuration.Entry.RealisticNegative.setValue(false);
+		new Thread(new Runnable() {
+				@Override
+				public void run()
+				{
+					boolean apiAvailable = false;
+					long millis = System.currentTimeMillis() + timeout;
+					do
+					{
+						try
+						{
+							economy.getBalance(Configuration.Entry.RealisticAccount.getValue());
+							apiAvailable = true;
+						}
+						catch(Throwable t)
+						{
+							try
+							{
+								Thread.sleep(1000);
+							}
+							catch (InterruptedException e)
+							{  }
+						}
+					}
+					while(!apiAvailable && System.currentTimeMillis() < millis);
+
+					double amount = economy.getBalance(Configuration.Entry.RealisticAccount.getValue()) + 10000;
+					economy.withdrawPlayer(Configuration.Entry.RealisticAccount.getValue(), amount);
+					if(economy.getBalance(Configuration.Entry.RealisticAccount.getValue()) < 0)
+					{
+						System.out.println("[iBank][RealisticMode] Negative amounts supported! ");
+						economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), amount);
+						Configuration.Entry.RealisticNegative.setValue(true);
+					}
+					else
+					{
+						System.out.println("[iBank][RealisticMode] Negative amounts not supported!");
+					}
+				}
+			}).start();
 	}
 	
 	@Override
