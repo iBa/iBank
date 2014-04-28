@@ -6,6 +6,9 @@ commands:
      bank:
        description: Manage your money
        usage: /bank help
+     ibank:
+       description: Manage your money
+       usage: /ibank help
 depend: [Vault]
 #Generator
 description: Banks for iConomy
