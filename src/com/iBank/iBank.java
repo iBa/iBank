@@ -391,7 +391,7 @@ public class iBank extends JavaPlugin
     
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { 	
     	String cmdWrapped = "bank";
-    	if(cmd.getName() != cmdWrapped && cmd.getName() != "ibank") cmdWrapped = cmd.getName();
+    	if(!cmd.getName().equalsIgnoreCase(cmdWrapped) && !cmd.getName().equalsIgnoreCase("ibank")) cmdWrapped = cmd.getName();
     	return CommandHandler.handle(sender, cmdWrapped, args);
     }
     
