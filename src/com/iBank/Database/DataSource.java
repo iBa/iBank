@@ -118,6 +118,7 @@ public class DataSource
 				System.out.println("[iBank] Updating accounts (add mD)");
 				db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseAccountsTable.getValue(), true, "mD", "INT"));
 			}
+			if(type != Drivers.MYSQL) return;
 			db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseAccountsTable.getValue(), false, "balance", "TEXT", true));
 			db.execute(SQLBuilder.alter(Configuration.Entry.DatabaseLoanTable.getValue(), false, "amount", "TEXT", true));
 		}
