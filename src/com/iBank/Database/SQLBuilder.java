@@ -134,9 +134,18 @@ public class SQLBuilder
 	 * @param type The type
 	 * @return
 	 */
-	public static String alter(String table, boolean add, String field, String type) 
+	public static String alter(String table, boolean add, String field, String type, boolean change) 
 	{
-		String tt = add ? "ADD" : "DROP";
+		String tt;
+		if(change) tt = "CHANGE";
+		else if(add) tt = "ADD";
+		else tt = "DROP";
+
 		return "ALTER TABLE `"+table+"` " + tt +  " `"+field+"` "+type;
+	}
+	
+	public static String alter(String table, boolean add, String field, String type)
+	{
+		return alter(table,add,field,type, false);
 	}
 }

@@ -8,7 +8,7 @@ CREATE TABLE `{$regions$}` (
 );
 CREATE TABLE `{$accounts$}` (
 `name` VARCHAR(50) NOT NULL ,
-`balance` BIGINT NOT NULL ,
+`balance` TEXT NOT NULL ,
 `owners` TEXT NOT NULL ,
 `users` TEXT NOT NULL ,
 `onper` VARCHAR(30) NOT NULL ,
@@ -18,8 +18,8 @@ CREATE TABLE `{$accounts$}` (
 );
 CREATE TABLE `{$loan$}` (
 `id` INT NOT NULL AUTO_INCREMENT ,
-`user` VARCHAR(30) NOT NULL,
-`amount` BIGINT NOT NULL,
+`user` TEXT NOT NULL,
+`amount` TEXT NOT NULL,
 `percentage` INT,
 `interval` INT,
 `until` INT,
