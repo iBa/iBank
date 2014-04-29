@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.iBank</groupId>
 	<artifactId>iBank</artifactId>
-	<version>0.6.6</version>
+	<version>0.6.7</version>
 	<name>iBank</name>
 	<description>Bank plugin for bukkit using vault.</description>
 	<url>http://dev.bukkit.org/server-mods/iBank/</url>
   <properties>
-      <version.snap>false</version.snap>
+      <version.snap>true</version.snap>
       <version.codename>GumbleForge</version.codename>
   </properties>
 	<scm>
