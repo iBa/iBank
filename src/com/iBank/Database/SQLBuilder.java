@@ -141,6 +141,7 @@ public class SQLBuilder
 		else if(add) tt = "ADD";
 		else tt = "DROP";
 
+		if(change) type = "`" + field + "` " + type;
 		return "ALTER TABLE `"+table+"` " + tt +  " `"+field+"` "+type;
 	}
 	
