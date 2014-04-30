@@ -29,7 +29,7 @@ public class Mysql implements Database
 	{
 		try
 		{
-			connection = DriverManager.getConnection("jdbc:mysql://" + host + "/" + database+"?" + "user="+user+"&password="+password+"?autoReconnect=true");
+			connection = DriverManager.getConnection("jdbc:mysql://" + host + "/" + database+"?" + "user="+user+"&password="+password+"&autoReconnect=true");
 			success = true;
 		}
 		catch(Exception e) 
