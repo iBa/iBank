@@ -1,1 +1,0 @@
-mvn install:install-file -DgroupId=net.milkbowl.vault -DartifactId=Vault -Dversion=1.2.25 -Dpackaging=jar -Dfile=Vault.jar
