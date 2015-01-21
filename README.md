@@ -12,6 +12,10 @@ Current Features
   Loan money
   
   All fully configurable
+
+License
+-------
+See LICENSE file
   
 Supported Database Types
 -------

@@ -8,6 +8,13 @@
 	<description>Bank plugin for bukkit using vault.</description>
 	<url>http://dev.bukkit.org/server-mods/iBank/</url>
 
+    <licenses>
+        <license>
+            <name>GNU Affero General Public License Version 3</name>
+            <url>http://www.gnu.org/licenses</url>
+        </license>
+    </licenses>
+
     <properties>
         <jdk.version>1.6</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,6 +31,7 @@
 		<system>jenkins</system>
 		<url>https://buildhive.cloudbees.com/job/iBa/job/iBank/</url>
 	</ciManagement>
+
 
 	<repositories>
 		<repository>
