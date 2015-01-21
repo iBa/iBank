@@ -1,5 +1,7 @@
 package com.ibank.Commands;
 
+import static com.ibank.Util.getUniqueId;
+
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -58,7 +60,7 @@ public class CommandRegion extends Command
             	send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Region "+arguments[0]+" "));
                 return;
             }
-            if(sender instanceof Player && !iBank.hasPermission(sender, "ibank.regions") && !Bank.getRegion(arguments[0]).getOwners().contains((sender).getName()))
+            if(sender instanceof Player && !iBank.hasPermission(sender, "ibank.regions") && !Bank.getRegion(arguments[0]).getOwners().contains(((Player) sender).getUniqueId()))
             {
                 send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
                 return;
@@ -92,9 +94,9 @@ public class CommandRegion extends Command
                 Bank.getRegion(arguments[0]).setOffPercentage(percentage, true);
             }
             else if(arguments[1].equalsIgnoreCase("add")) 
-                Bank.getRegion(arguments[0]).addOwner(arguments[2]);
+                Bank.getRegion(arguments[0]).addOwner(getUniqueId(arguments[2]));
             else if(arguments[1].equalsIgnoreCase("del")) 
-                if(Bank.getRegion(arguments[0]).getOwners().contains(arguments[2])) Bank.getRegion(arguments[0]).removeOwner(arguments[2]);
+                if(Bank.getRegion(arguments[0]).getOwners().contains(getUniqueId(arguments[2]))) Bank.getRegion(arguments[0]).removeOwner(getUniqueId(arguments[2]));
         	else
         	{
                 send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" "+arguments[1]);

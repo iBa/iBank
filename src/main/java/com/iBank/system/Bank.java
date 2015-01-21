@@ -11,8 +11,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The backend for all background code
@@ -40,7 +40,7 @@ public class Bank
 			ret.setOffPercentage(Double.parseDouble(data.getString("offper")), false);
 		}
 		if(data.getString("owners").length()>0) {
-			ret.Owners(data.getString("owners"));
+			ret.initOwners(data.getString("owners"));
 		}
 		return ret;
 	}
@@ -124,8 +124,8 @@ public class Bank
 		QueryResult data = DataSource.query(new String[]{"balance", "owners", "users", "onper", "offper", "interval", "mD"}, Configuration.Entry.DatabaseAccountsTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
 		if(!data.found) return null;
 		BankAccount obj = new BankAccount(name, data.getBigInteger("balance"));
-		obj.Users(data.getString("users"));
-		obj.Owners(data.getString("owners"));
+		obj.initUsers(data.getString("users"));
+		obj.initOwners(data.getString("owners"));
 		if(data.hasKey("onper") && data.getString("onper").length() > 0) obj.setOnPercentage(data.getDouble("onper"), false);
 		if(data.hasKey("offper") && data.getString("offper").length()>0) obj.setOffPercentage(data.getDouble("offper"), false);
 		if(data.hasKey("interval")) obj.setInterval(data.getInteger("interval"), false);
@@ -166,28 +166,25 @@ public class Bank
 	 * @param user The username
 	 * @return List<String>
 	 */
-	public static List<String> getAccountsByUser(String user)
+	public static List<String> getAccountsByUser(UUID user)
 	{
 		QueryResult data = DataSource.query(new String[]{"name", "users"}, Configuration.Entry.DatabaseAccountsTable.getValue());
-		List<String> ret = new ArrayList<String>();
-		if(!data.found) return ret;
+		List<String> accounts = new ArrayList<String>();
+		if(!data.found) return accounts;
 		boolean c = true;
 		String str;
-		List<String> users;
+		List<UUID> users;
 		while(c)
 		{
 			str = data.getString("users");
-			if(str.contains(","))
-				users = new ArrayList<String>(Arrays.asList(str.split(",")));
-			else 
-			{
-				users = new ArrayList<String>();
-				users.add(str);
-			}
-			if(users.contains(user)) ret.add(data.getString("name"));
+            users = new ArrayList<UUID>();
+            for(String s : str.split(",")) {
+                users.add(UUID.fromString(s));
+            }
+			if(users.contains(user)) accounts.add(data.getString("name"));
 			c = data.nextEntry();
 		}
-		return ret;
+		return accounts;
 	}
 	
 	/**
@@ -195,23 +192,21 @@ public class Bank
 	 * @param user The username
 	 * @return List<String>
 	 */
-	public static List<String> getAccountsByOwner(String user) 
+	public static List<String> getAccountsByOwner(UUID user)
 	{
 		QueryResult data = DataSource.query(new String[]{"name", "owners"}, Configuration.Entry.DatabaseAccountsTable.getValue());
 		List<String> ret = new ArrayList<String>();
 		if(!data.found) return ret;
 		boolean c = true;
 		String str;
-		List<String> users;
+		List<UUID> users;
 		while(c)
 		{
 			str = data.getString("owners");
-			if(str.contains(","))
-				users = new ArrayList<String>(Arrays.asList(str.split(",")));
-			else {
-				users = new ArrayList<String>();
-				users.add(str);
-			}
+            users = new ArrayList<UUID>();
+            for(String s : str.split(",")) {
+                users.add(UUID.fromString(s));
+            }
 			if(users.contains(user)) ret.add(data.getString("name"));
 			c = data.nextEntry();
 		}
@@ -221,16 +216,16 @@ public class Bank
 	/**
 	 * Generates an user 
 	 * @param name The name of the account
-	 * @param name2 The name of the owner
+	 * @param user The The owner
 	 */
-	public static void createAccount(String name, String name2) 
+	public static void createAccount(String name, UUID user)
 	{
 		//iBank - Call event
-		iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_CREATE, new String[] { name, name2 });
+		iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_CREATE, new String[] { name, user.toString() });
 		Bukkit.getPluginManager().callEvent(event);
 		if(event.isCancelled()) return;
 		//iBank - end
-		DataSource.insertEntry(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"name","balance","owners","users","onper","offper"}, new Object[] {name, Configuration.Entry.StandardBalance.getInteger(), name2, "", "", ""});
+		DataSource.insertEntry(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"name","balance","owners","users","onper","offper"}, new Object[] {name, Configuration.Entry.StandardBalance.getInteger(), user.toString(), "", "", ""});
 	}
 	
 	/**
@@ -262,7 +257,7 @@ public class Bank
 		{
 			if(data.hasKey("interest")) interest = data.getDouble("interest");
 			else interest = Configuration.Entry.LoanInterest.getDouble();
-			ret.add(new Loan(data.getString("user"), interest , data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id"))); 
+			ret.add(new Loan(UUID.fromString(data.getString("user")), interest , data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id")));
 			c = data.nextEntry();
 		}
 		return ret;
@@ -271,9 +266,9 @@ public class Bank
 	 * Gets a list with all loans of the user
 	 * @param user The user
 	 */
-	public static List<Loan> getLoansByAccount(String user) 
+	public static List<Loan> getLoansByAccount(UUID user)
 	{
-		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.getValue(), new AndCondition("user", user, Operators.IDENTICAL));
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.getValue(), new AndCondition("user", user.toString(), Operators.IDENTICAL));
 		List<Loan> ret = new ArrayList<Loan>();
 		if(!data.found) return ret;
 		boolean c = true;
@@ -282,7 +277,8 @@ public class Bank
 		{
 			if(data.hasKey("interest")) interest = data.getDouble("interest");
 			else interest = Configuration.Entry.LoanInterest.getDouble();
-			ret.add(new Loan(data.getString("user"), interest, data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id"))); 
+			ret.add(new Loan(UUID.fromString(data.getString("user")), interest, data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger(
+                    "id")));
 			c = data.nextEntry();
 		}
 		return ret;
@@ -301,7 +297,7 @@ public class Bank
 		double interest;
 		if(data.hasKey("interest")) interest = data.getDouble("interest");
 		else interest = Configuration.Entry.LoanInterest.getDouble();
-		ret = new Loan(data.getString("user"), interest, data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id")); 
+		ret = new Loan(UUID.fromString(data.getString("user")), interest, data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id"));
 		return ret;
 	}
 }
