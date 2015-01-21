@@ -39,7 +39,7 @@ public class CommandClose extends Command
 				return;
 			}
 			//@needs_owner true
-			if(!console && !Bank.getAccount(arguments[0]).isOwner(sender.getName()))
+			if(!console && !Bank.getAccount(arguments[0]).isOwner(((Player)sender).getUniqueId()))
 			{
 				send(sender, "&r&" + Configuration.StringEntry.ErrorNeedOwner.getValue());
 				return;

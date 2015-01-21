@@ -34,7 +34,7 @@ public class CommandDeposit extends Command
 	}
 	
 	public void handle(CommandSender sender, String[] arguments, boolean check) 
-	{ 	
+	{
 		if(arguments.length == 2) 
 		{
 			if(!(sender instanceof Player)) 
@@ -55,7 +55,7 @@ public class CommandDeposit extends Command
 			}
 			BigDecimal todp;
 			BankAccount account = Bank.getAccount(arguments[0]);
-			if(!account.isOwner((sender).getName()) && !account.isUser((sender).getName()))
+			if(!account.isOwner(((Player)sender).getUniqueId()) && !account.isUser(((Player)sender).getUniqueId()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
@@ -77,7 +77,7 @@ public class CommandDeposit extends Command
 			// check if current player has that amount
 			//double needed = 0.00;
 			BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeDeposit.getValue(), todp);
-			if(!iBank.economy.has(sender.getName(), todp.doubleValue() + fee.doubleValue()))
+			if(!iBank.economy.has((Player)sender, todp.doubleValue() + fee.doubleValue()))
 			{
 				//iBank - call Event
 				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_DEPOSIT, new Object[] { arguments[0], todp, fee, false } );
@@ -94,7 +94,7 @@ public class CommandDeposit extends Command
 			Bukkit.getPluginManager().callEvent(event);
 			if(event.isCancelled()) return;
 			//iBank - end
-			iBank.economy.withdrawPlayer(sender.getName(), todp.doubleValue() + fee.doubleValue());
+			iBank.economy.withdrawPlayer((Player)sender, todp.doubleValue() + fee.doubleValue());
 			account.addBalance(todp);
 			send(sender, "&g&"+Configuration.StringEntry.SuccessDeposit.getValue().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
 			if(fee.compareTo(BigDecimal.ZERO)>0) send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));	

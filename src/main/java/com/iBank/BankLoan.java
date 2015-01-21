@@ -4,6 +4,7 @@ import com.ibank.system.Bank;
 import com.ibank.system.BankAccount;
 import com.ibank.system.Configuration;
 import com.ibank.system.Loan;
+import org.bukkit.Bukkit;
 
 import java.math.BigDecimal;
 import java.util.TimerTask;
@@ -34,15 +35,15 @@ public class BankLoan extends TimerTask
 				if(Configuration.Entry.LoanForceInterest.getBoolean()) a.setAmount(a.getAmount().multiply(new BigDecimal((1+(a.getInterest() / 100)))));
 				if(Configuration.Entry.LoanForceMoney.getBoolean()) 
 				{
-					if(iBank.economy.has(a.getUser(), a.getAmount().doubleValue())) 
+					if(iBank.economy.has(Bukkit.getPlayer(a.getUser()), a.getAmount().doubleValue()))
 					{
-						iBank.economy.withdrawPlayer(a.getUser(), a.getAmount().doubleValue());
+						iBank.economy.withdrawPlayer(Bukkit.getPlayer(a.getUser()), a.getAmount().doubleValue());
 						a.remove(); //close  
 					}
 					else
 					{
-						a.setAmount(a.getAmount().subtract(new BigDecimal(iBank.economy.getBalance(a.getUser()))));
-						iBank.economy.withdrawPlayer(a.getUser(), iBank.economy.getBalance(a.getUser()));
+						a.setAmount(a.getAmount().subtract(new BigDecimal(iBank.economy.getBalance(Bukkit.getPlayer(a.getUser())))));
+						iBank.economy.withdrawPlayer(Bukkit.getPlayer(a.getUser()), iBank.economy.getBalance(Bukkit.getPlayer(a.getUser())));
 					}
 				}
 				if(Configuration.Entry.LoanForceBank.getBoolean()) 

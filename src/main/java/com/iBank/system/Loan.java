@@ -5,6 +5,7 @@ import com.ibank.Database.Condition.Operators;
 import com.ibank.Database.DataSource;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,7 +17,7 @@ public class Loan
 {
 	private BigDecimal amount;
 	private int id = -1; //For saving
-	private String user;
+	private UUID user;
 	private double interest;
 	private int interval;
 	private long time;
@@ -24,22 +25,22 @@ public class Loan
 	
 	/**
 	 * Creates a new loan
-     * @param username The username
+     * @param user The users uuid
      * @param interest The interest (f.e. 1 would be handled as 1 %)
      * @param interval The interval, his interest-product grows
      * @param time How much time (in seconds) the "loan-taker" has to pay-back
      * @param amount The amount which he received
      */
-	public Loan(String username, double interest, int interval, int time, BigDecimal amount)
+	public Loan(UUID user, double interest, int interval, int time, BigDecimal amount)
 	{
-		this(username, interest, interval, time, amount, 0, -1);
+		this(user, interest, interval, time, amount, 0, -1);
 		int tmp = (int)(System.currentTimeMillis() / 1000L) + time;
-		this.id = DataSource.insertEntry(Configuration.Entry.DatabaseLoanTable.getValue(), new String[] { "user", "amount", "percentage", "until", "interval", "mD" } , new Object[] { username, amount, interest, tmp, interval, 0 }, true); 
+		this.id = DataSource.insertEntry(Configuration.Entry.DatabaseLoanTable.getValue(), new String[] { "user", "amount", "percentage", "until", "interval", "mD" } , new Object[] { user.toString(), amount, interest, tmp, interval, 0 }, true);
 	}
 	
-	public Loan(String username, double interest, int interval, long time, BigDecimal amount,int mD, int id) 
+	public Loan(UUID user, double interest, int interval, long time, BigDecimal amount,int mD, int id)
 	{
-		this.user = username;
+		this.user = user;
 		this.amount = amount;
 		this.interest = interest;
 		this.interval = interval;
@@ -152,7 +153,7 @@ public class Loan
 	 * Returns the username of the loan
 	 * @return String
 	 */
-	public String getUser() 
+	public UUID getUser()
 	{
 		return user;
 	}

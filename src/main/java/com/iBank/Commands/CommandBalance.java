@@ -50,7 +50,7 @@ public class CommandBalance extends Command
 			if(event.isCancelled()) return;
 			//iBank - end
 			BankAccount acc = Bank.getAccount(arguments[0]);
-			if(console || (acc.isOwner(sender.getName()) || acc.isUser(sender.getName())) || iBank.hasPermission(sender, "ibank.balance"))
+			if(console || (acc.isOwner(((Player)sender).getUniqueId()) || acc.isUser(((Player)sender).getUniqueId())) || iBank.hasPermission(sender, "ibank.balance"))
 			{
 				String formattedBalance = iBank.economy.format(acc.getBalance().doubleValue());
 				if(!console && !check && !iBank.canExecuteCommand(((Player)sender))) 

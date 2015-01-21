@@ -1,17 +1,21 @@
 package com.ibank.Commands;
 
+import static com.ibank.Util.getUniqueId;
+
 import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
 import com.ibank.system.Loan;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *  /bank loaninfo <PLAYER> - loan info of others
@@ -47,14 +51,14 @@ public class CommandLoanInfo extends Command
 				send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
 				return;
 			}
-			showLoanInfo(sender.getName(), sender, 0);
+			showLoanInfo(((Player) sender).getUniqueId(), null, sender, 0);
 		}
 		else if(arguments.length == 1 || arguments.length == 2) 
 		{
 			char tmp;
 			if((tmp = arguments[0].charAt(0)) >= '0' && tmp <= '9') 
 			{
-				showLoanInfo(sender.getName(), sender, Integer.parseInt(arguments[0]));
+				showLoanInfo(((Player)sender).getUniqueId(), null, sender, Integer.parseInt(arguments[0]));
 				return;
 			}
 			boolean allowed = (!(sender instanceof Player)) || iBank.hasPermission(sender, "ibank.loaninfo");
@@ -64,7 +68,7 @@ public class CommandLoanInfo extends Command
 				return;
 			}
 			int site = arguments.length > 1 ? Integer.parseInt(arguments[1]) +1 : 0;
-			showLoanInfo(arguments[0], sender, site);
+			showLoanInfo(getUniqueId(arguments[0]), arguments[0], sender, site);
 		}
 		else
 		{
@@ -74,12 +78,16 @@ public class CommandLoanInfo extends Command
 	/**
 	 * Shows the loan info to destination
 	 * @param user The to-info user
+     * @param raw Raw name, may be null
 	 * @param destination The destination user
 	 */
-	public void showLoanInfo(String user, CommandSender destination,int site) 
+	public void showLoanInfo(UUID user, String raw, CommandSender destination,int site)
 	{
 		List<Loan> allLoans;
-		if(user.equalsIgnoreCase("all!")) 
+        if(raw == null) {
+            raw = Bukkit.getOfflinePlayer(user).getName();
+        }
+		if(raw.equalsIgnoreCase("all!"))
 		{ 
 			allLoans = Bank.getLoans();
 		}
@@ -87,7 +95,7 @@ public class CommandLoanInfo extends Command
 		int sites = (int)Math.ceil(((double)allLoans.size() / 10));
 		site = site > sites ? sites : site;
 		
-		send(destination, "&y&" + Configuration.StringEntry.GeneralInfo.getValue().replace("$type$", "Player").replace("$name$", user));
+		send(destination, "&y&" + Configuration.StringEntry.GeneralInfo.getValue().replace("$type$", "Player").replace("$name$", raw));
 		int i = 0;
 		for(Loan loan : allLoans) 
 		{

@@ -1,14 +1,15 @@
 package com.ibank.Commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import static com.ibank.Util.getUniqueId;
 
 import com.ibank.system.Bank;
 import com.ibank.system.BankAccount;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  *  /bank owners <ACCOUNT> - Show the owners of the account
@@ -50,7 +51,7 @@ public class CommandOwners extends Command
 		{
 			BankAccount tmp = Bank.getAccount(arguments[0]);
 			
-			if(!console && !tmp.isOwner(sender.getName()))
+			if(!console && !tmp.isOwner(((Player)sender).getUniqueId()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
@@ -58,10 +59,10 @@ public class CommandOwners extends Command
 				
 			if(arguments[1].equalsIgnoreCase("a") || arguments[1].equalsIgnoreCase("add")) 
 			{
-				if(!tmp.isOwner(arguments[2])) 
+				if(!tmp.isOwner(getUniqueId(arguments[2])))
 				{ 
 					if(Bukkit.getOfflinePlayer(arguments[2]) != null) 
-						tmp.addOwner(arguments[2]);
+						tmp.addOwner(getUniqueId(arguments[2]));
 					else
 						send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[2]));
 				} 
@@ -75,10 +76,10 @@ public class CommandOwners extends Command
 			}
 			else if(arguments[1].equalsIgnoreCase("d") || arguments[1].equalsIgnoreCase("del")) 
 			{
-				if(tmp.isOwner(arguments[2])) 
+				if(tmp.isOwner(getUniqueId(arguments[2])))
 				{
 					if(Bukkit.getOfflinePlayer(arguments[2]) != null) 
-						tmp.removeOwner(arguments[2]);
+						tmp.removeOwner(getUniqueId(arguments[2]));
 					else
 						send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[2]));
 				}

@@ -53,7 +53,7 @@ public class CommandAddRegion extends Command
 				}
 				if(Configuration.Entry.AllowBuyRegion.getBoolean() && !iBank.hasPermission(sender, "ibank.regions"))
 				{
-					if(!iBank.economy.has(sender.getName(), Configuration.Entry.RegionsPrice.getDouble()))
+					if(!iBank.economy.has((Player)sender, Configuration.Entry.RegionsPrice.getDouble()))
 					{
 						send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 						return;
@@ -61,7 +61,7 @@ public class CommandAddRegion extends Command
 					else
 					{
 						//cashout
-						iBank.economy.withdrawPlayer(sender.getName(), Configuration.Entry.RegionsPrice.getDouble());
+						iBank.economy.withdrawPlayer((Player)sender, Configuration.Entry.RegionsPrice.getDouble());
 						send(sender, "[ibank] Balance - " + String.valueOf(Configuration.Entry.RegionsPrice.getBoolean()));
 					}
 				}

@@ -8,8 +8,8 @@ import org.bukkit.Bukkit;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * This object represents a BankAccount
@@ -24,8 +24,8 @@ public class BankAccount
 	public boolean onDefault = true;
 	private double off = Configuration.Entry.InterestOffPercentage.getDouble();
 	public boolean offDefault = true;
-	private List<String> owners = new ArrayList<String>();
-	private List<String> users = new ArrayList<String>();
+	private List<UUID> owners = new ArrayList<UUID>();
+	private List<UUID> users = new ArrayList<UUID>();
 	private int interval = Configuration.Entry.InterestPeriod.getInteger();
 	public boolean intervalDefault = true;
 	public int mD = 0;
@@ -39,29 +39,25 @@ public class BankAccount
 	/**
 	 * Inits all owners as string
 	 */
-	public void Owners(String str) 
+	public void initOwners(String rawString)
 	{
-		if(str.contains(",")) owners = new ArrayList<String>(Arrays.asList(str.split(",")));
-		else 
-		{
-			owners = new ArrayList<String>();
-			/* Prevent stupid behavior -.- */
-			if(str.length() > 0) owners.add(str);
-		}
+        owners = new ArrayList<UUID>();
+        String rawStrings[] = rawString.split(",");
+        for(String s : rawStrings) {
+            owners.add(UUID.fromString(s));
+        }
 	}
 	
 	/**
 	 * Inits all users as string
 	 */
-	public void Users(String str) 
+	public void initUsers(String rawString)
 	{
-		if(str.contains(",")) users = new ArrayList<String>(Arrays.asList(str.split(",")));
-		else 
-		{
-			users = new ArrayList<String>();
-			/* Prevent even more stupid behavior -.- */
-			if(str.length() > 0) users.add(str);
-		}
+        users = new ArrayList<UUID>();
+        String rawStrings[] = rawString.split(",");
+        for(String s : rawStrings) {
+            users.add(UUID.fromString(s));
+        }
 	}
 	
 	/**
@@ -165,7 +161,7 @@ public class BankAccount
 	 * Adds an owner
 	 * @param user The user
 	 */
-	public void addOwner(String user) 
+	public void addOwner(UUID user)
 	{
 		owners.add(user);
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
@@ -175,7 +171,7 @@ public class BankAccount
 	 * Remove an owner
 	 * @param user The owner as string
 	 */
-	public void removeOwner(String user) 
+	public void removeOwner(UUID user)
 	{
 		owners.remove(user);
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
@@ -185,7 +181,7 @@ public class BankAccount
 	 * Adds an user
 	 * @param user The user
 	 */
-	public void addUser(String user) 
+	public void addUser(UUID user)
 	{
 		users.add(user);
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"users"}, new Object[]{StringUtils.join(users,",")}, new AndCondition("name", name, Operators.IDENTICAL));
@@ -195,7 +191,7 @@ public class BankAccount
 	 * Remove an user
 	 * @param user The user as string
 	 */
-	public void removeUser(String user) 
+	public void removeUser(UUID user)
 	{
 		users.remove(user);
 		DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"users"}, new Object[]{StringUtils.join(users,",")}, new AndCondition("name", name, Operators.IDENTICAL));
@@ -205,7 +201,7 @@ public class BankAccount
 	 * Returns all Owners
 	 * @return List<String>
 	 */
-	public List<String> getOwners() 
+	public List<UUID> getOwners()
 	{
 		return owners;
 	}
@@ -214,7 +210,7 @@ public class BankAccount
 	 * Returns all users
 	 * @return List<String>
 	 */
-	public List<String> getUsers() 
+	public List<UUID> getUsers()
 	{
 		return users;
 	}
@@ -224,7 +220,7 @@ public class BankAccount
 	 * @param user The user
 	 * @return boolean
 	 */
-	public boolean isOwner(String user) 
+	public boolean isOwner(UUID user)
 	{
 		return owners.contains(user);
 	}
@@ -232,7 +228,7 @@ public class BankAccount
 	/**
 	 * Returns if the user is an user of this account
 	 */
-	public boolean isUser(String user) 
+	public boolean isUser(UUID user)
 	{
 		return users.contains(user);
 	}
@@ -242,11 +238,11 @@ public class BankAccount
 	 * @param limit The max count of users who shall got
 	 * @return String[] Contains the usernames
 	 */
-	public String[] getOnlines(int limit) 
+	public UUID[] getOnlines(int limit)
 	{
-		List<String> b = new ArrayList<String>();
+		List<UUID> b = new ArrayList<UUID>();
 		int c = 0;
-		for(String p : owners) 
+		for(UUID p : owners)
 		{
 			if(Bukkit.getPlayer(p) != null)
 				if(limit == -1 || c < limit) 
@@ -256,7 +252,7 @@ public class BankAccount
 				}
 				else break;	
 		}
-		for(String p : users) 
+		for(UUID p : users)
 		{
 			if(Bukkit.getPlayer(p) != null)
 				if(limit == -1 || c < limit) 
@@ -266,14 +262,14 @@ public class BankAccount
 				}
 				else break;
 		}
-		return b.toArray(new String[b.size()]);
+		return b.toArray(new UUID[b.size()]);
 	}
 	
 	/**
 	 * Returns a string array with all users online without limit
 	 * @return String[] Contains the usernames
 	 */
-	public String[] getOnlines() 
+	public UUID[] getOnlines()
 	{
 		return getOnlines(-1);
 	}

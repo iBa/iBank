@@ -44,17 +44,17 @@ public class BankRootCommand extends Command
 			return;
 		}
 		// Show list of accounts
-		List<String> owner = Bank.getAccountsByOwner(sender.getName());
-		List<String> user = Bank.getAccountsByUser(sender.getName());
-		if(owner.size() == 0 && user.size() == 0) 
+		List<String> ownerAccounts = Bank.getAccountsByOwner(((Player) sender).getUniqueId());
+		List<String> userAccounts = Bank.getAccountsByUser(((Player) sender).getUniqueId());
+		if(ownerAccounts.size() == 0 && userAccounts.size() == 0)
 		{
 			send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
 			return;
 		}
 		send(sender, "&blue&Owner &y&User");
-		user = user == null ? new ArrayList<String>() : user;
-		send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
-		send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");
+        userAccounts = userAccounts == null ? new ArrayList<String>() : userAccounts;
+		send(sender, "&blue&"+StringUtils.join(ownerAccounts, "&w&,&blue&"), "");
+		send(sender, "&y&"+StringUtils.join(userAccounts, "&w&,&y&"), "");
 	}
 	
 	public String getHelp() {

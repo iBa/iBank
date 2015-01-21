@@ -6,6 +6,7 @@ import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
 import com.ibank.system.Loan;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -66,7 +67,7 @@ public class CommandPayBack extends Command
 				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
 			}
-			if(!iBank.economy.has(sender.getName(), todp.doubleValue()))
+			if(!iBank.economy.has((Player)sender, todp.doubleValue()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
@@ -88,7 +89,7 @@ public class CommandPayBack extends Command
 					return;
 				}
 				loan.setAmount(loan.getAmount().subtract(todp));
-			    iBank.economy.withdrawPlayer(sender.getName(), todp.doubleValue());
+			    iBank.economy.withdrawPlayer((Player)sender, todp.doubleValue());
 				//<= to prevent MAGIC exceptions
 				if(loan.getAmount().compareTo(BigDecimal.ZERO)<=0) loan.remove();
 				if(Configuration.Entry.RealisticMode.getBoolean())
@@ -99,7 +100,7 @@ public class CommandPayBack extends Command
 				        tmp.addBalance(todp);
 				    }
 				    else
-				        iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), todp.doubleValue());
+				        iBank.economy.depositPlayer(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), todp.doubleValue());
 				}
 				send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(todp)));
 			}
@@ -118,18 +119,18 @@ public class CommandPayBack extends Command
 				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
 			}
-			if(!iBank.economy.has(sender.getName(), todp.doubleValue()))
+			if(!iBank.economy.has((Player)sender, todp.doubleValue()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
 			BigDecimal paiedback = BigDecimal.ZERO;
-			for(Loan loan : Bank.getLoansByAccount(sender.getName()))
+			for(Loan loan : Bank.getLoansByAccount(((Player) sender).getUniqueId()))
 			{
 				//todp > loan => remove loan, todp -= loan
 				if(todp.compareTo(loan.getAmount()) >= 0) 
 				{
-					iBank.economy.withdrawPlayer(sender.getName(), loan.getAmount().doubleValue());
+					iBank.economy.withdrawPlayer((Player)sender, loan.getAmount().doubleValue());
 					paiedback = paiedback.add(loan.getAmount());
 					todp = todp.subtract(loan.getAmount());
 					loan.remove();
@@ -139,7 +140,7 @@ public class CommandPayBack extends Command
 				{
 					loan.setAmount(loan.getAmount().subtract(todp));
 					paiedback = paiedback.add(todp);
-					iBank.economy.withdrawPlayer(sender.getName(), todp.doubleValue());
+					iBank.economy.withdrawPlayer((Player)sender, todp.doubleValue());
 					//break because no money left
 					break;
 				}
@@ -152,7 +153,7 @@ public class CommandPayBack extends Command
 				        tmp.addBalance(todp);
 				}
 				else
-                			iBank.economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), todp.doubleValue());
+                			iBank.economy.depositPlayer(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), todp.doubleValue());
             		}
 			send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(paiedback)));
 		}

@@ -1,5 +1,6 @@
 package com.ibank.Commands;
 
+import com.ibank.Util;
 import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.Command;
@@ -40,8 +41,8 @@ public class CommandList extends Command
 		List<String> user;
 		if(arguments.length > 0 && arguments[0] != null) 
 		{
-			owner = Bank.getAccountsByOwner(arguments[0]);
-			user = Bank.getAccountsByUser(arguments[0]);
+			owner = Bank.getAccountsByOwner(Util.getUniqueId(arguments[0]));
+			user = Bank.getAccountsByUser(Util.getUniqueId(arguments[0]));
 			send(sender, "&blue&Owner &y&User");
 		}
 		else
