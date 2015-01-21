@@ -11,7 +11,7 @@ commands:
        usage: /ibank help
 depend: [Vault]
 #Generator
-description: Banks for iConomy
+description: Banks
 maintainer: steffengy
-authors: [steffengy]
+authors: [steffengy, Trojaner]
 # Add superperms !!

@@ -27,7 +27,8 @@ public class CommandRename extends Command
 	@Override
 	public void handle(CommandSender sender, String[] arguments) 
 	{
-		boolean hasPerm = !(sender instanceof Player) || iBank.hasPermission(((Player)sender), "ibank.manage");
+        boolean console = !(sender instanceof Player);
+		boolean hasPerm = console || iBank.hasPermission(((Player)sender), "ibank.manage");
 		if(arguments.length == 2) 
 		{
 			if(!Bank.hasAccount(arguments[0])) 
@@ -37,7 +38,7 @@ public class CommandRename extends Command
 			}
 			BankAccount account = Bank.getAccount(arguments[0]);
 			//Permission check / etc
-			if(!hasPerm && !account.isOwner(sender.getName()))
+			if(!hasPerm && !account.isOwner(((Player)sender).getUniqueId()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;

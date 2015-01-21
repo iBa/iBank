@@ -1,5 +1,6 @@
 package com.ibank.Commands;
 
+import com.ibank.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,17 +44,17 @@ public class CommandUsers extends Command
 		{
 			BankAccount tmp = Bank.getAccount(arguments[0]);
 			
-			if(!console && !tmp.isOwner(sender.getName())) {
+			if(!console && !tmp.isOwner(((Player)sender).getUniqueId())) {
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
 			}
 				
 			if(arguments[1].equalsIgnoreCase("a") || arguments[1].equalsIgnoreCase("add")) 
 			{
-					if(!tmp.isUser(arguments[2])) 
+					if(!tmp.isUser(Util.getUniqueId(arguments[2])))
 					{ 
 						if(Bukkit.getOfflinePlayer(arguments[2]) != null) 
-							tmp.addUser(arguments[2]);
+							tmp.addUser(Util.getUniqueId(arguments[2]));
 						else
 							send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[2]));
 					} 
@@ -66,10 +67,10 @@ public class CommandUsers extends Command
 			}
 			else if(arguments[1].equalsIgnoreCase("d") || arguments[1].equalsIgnoreCase("del")) 
 			{
-				if(tmp.isUser(arguments[2])) 
+				if(tmp.isUser(Util.getUniqueId(arguments[2])))
 				{
 					if(Bukkit.getOfflinePlayer(arguments[2]) != null) 
-						tmp.removeUser(arguments[2]);
+						tmp.removeUser(Util.getUniqueId(arguments[2]));
 					else
 						send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[2]));
 				} 

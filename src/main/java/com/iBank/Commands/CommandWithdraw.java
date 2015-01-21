@@ -46,6 +46,8 @@ public class CommandWithdraw extends Command
 			send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 			return;
 		}
+
+        Player p =(Player)sender;
 		
 		if(arguments.length == 2) 
 		{
@@ -54,7 +56,7 @@ public class CommandWithdraw extends Command
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 			BankAccount account = Bank.getAccount(arguments[0]);
-			if(!account.isOwner(sender.getName()) && !account.isUser(sender.getName()))
+			if(!account.isOwner(p.getUniqueId()) && !account.isUser(p.getUniqueId()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
@@ -91,7 +93,7 @@ public class CommandWithdraw extends Command
 				return;
 			}
 			BankAccount account = Bank.getAccount(arguments[0]);
-			if(!account.isOwner(sender.getName()) && !account.isUser(sender.getName()))
+			if(!account.isOwner(p.getUniqueId()) && !account.isUser(p.getUniqueId()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
@@ -125,7 +127,7 @@ public class CommandWithdraw extends Command
 	public void doWithdraw(CommandSender sender, BigDecimal todp, BigDecimal deposit, BankAccount account) 
 	{
 			account.subtractBalance(todp);
-			iBank.economy.depositPlayer(sender.getName(), deposit.doubleValue());
+			iBank.economy.depositPlayer((Player)sender, deposit.doubleValue());
 			send(sender, "&g&"+Configuration.StringEntry.SuccessWithdraw.getValue().replace("$name$", account.getName()).replace("$amount$", iBank.format(todp)));
 	}
 	
