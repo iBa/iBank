@@ -8,8 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * This class represents a region
@@ -21,7 +21,7 @@ public class Region
 	private final String name;
 	private final Location first;
 	private final Location second;
-	private List<String> Owners = new ArrayList<String>();
+	private List<UUID> owners = new ArrayList<UUID>();
 	private double on = Configuration.Entry.InterestOnPercentage.getDouble();
 	public boolean onDefault = true;
 	private double off = Configuration.Entry.InterestOffPercentage.getDouble();
@@ -45,42 +45,40 @@ public class Region
 	 * Set owners
 	 * @param str String[]
 	 */
-	public void Owners(String str) 
+	public void initOwners(String str)
 	{
-		if(str.contains(",")) Owners = new ArrayList<String>(Arrays.asList(str.split(",")));
-		else 
-		{
-			Owners = new ArrayList<String>();
-			Owners.add(str);
-		}
+        owners = new ArrayList<UUID>();
+		for(String s : str.split(",")) {
+            owners.add(UUID.fromString(s));
+        }
 	}
 	/**
 	 * Adds an owner
 	 * @param owner The name of the owner
 	 */
-	public void addOwner(String owner) 
+	public void addOwner(UUID owner)
 	{
-		Owners.add(owner);
-		DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(Owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+		owners.add(owner);
+		DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	
 	/**
 	 * Removes an owner
 	 * @param owner The name of the owner
 	 */
-	public void removeOwner(String owner) 
+	public void removeOwner(UUID owner)
 	{
-		Owners.remove(owner);
-		DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(Owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
+		owners.remove(owner);
+		DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"owners"}, new Object[]{StringUtils.join(owners,",")}, new AndCondition("name", name, Operators.IDENTICAL));
 	}
 	
 	/**
 	 * Returns a list with the owners
 	 * @return List<String>
 	 */
-	public List<String> getOwners() 
+	public List<UUID> getOwners()
 	{
-		return Owners;
+		return owners;
 	}
 	
 	/**

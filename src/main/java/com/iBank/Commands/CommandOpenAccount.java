@@ -53,31 +53,31 @@ public class CommandOpenAccount extends Command
 			String fee = Configuration.Entry.FeeCreate.getValue();
 			BigDecimal extra;
 			if(!fee.contains(";")) 
-				extra = iBank.parseFee(fee, new BigDecimal(iBank.economy.getBalance(sender.getName())));
+				extra = iBank.parseFee(fee, new BigDecimal(iBank.economy.getBalance((Player)sender)));
 			else
 			{
 				String[] costs = fee.split(";");
-				int account = Bank.getAccountsByOwner(sender.getName()).size();
+				int account = Bank.getAccountsByOwner(((Player) sender).getUniqueId()).size();
 			
 				if(costs.length > account) 
-					extra = iBank.parseFee(costs[account], new BigDecimal(iBank.economy.getBalance(sender.getName())));
+					extra = iBank.parseFee(costs[account], new BigDecimal(iBank.economy.getBalance((Player)sender)));
 				else
-					extra = iBank.parseFee(costs[costs.length - 1], new BigDecimal(iBank.economy.getBalance(sender.getName())));
+					extra = iBank.parseFee(costs[costs.length - 1], new BigDecimal(iBank.economy.getBalance((Player)sender)));
 			}
-			List<String> tmp = Bank.getAccountsByOwner(sender.getName());
+			List<String> tmp = Bank.getAccountsByOwner(((Player) sender).getUniqueId());
 			//skip if max is higher/equal to precision
 			if(Configuration.Entry.MaxAccountsPerUser.getInteger() != -1 && tmp.size() >= Configuration.Entry.MaxAccountsPerUser.getInteger()) 
 			{
 				send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.getValue().replace("$max$", Configuration.Entry.MaxAccountsPerUser.getValue()));
 				return;
 			}
-			if(!iBank.economy.has(sender.getName(), extra.doubleValue()))
+			if(!iBank.economy.has((Player)sender, extra.doubleValue()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
-			iBank.economy.withdrawPlayer(sender.getName(), extra.doubleValue());
-			Bank.createAccount(arguments[0], sender.getName());
+			iBank.economy.withdrawPlayer((Player)sender, extra.doubleValue());
+			Bank.createAccount(arguments[0], ((Player) sender).getUniqueId());
 			// check for custom percentages
 			if(!region.equals(" "))
 			{

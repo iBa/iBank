@@ -275,7 +275,7 @@ public class StringUtils
         {
             if (separator != null) buf.append(separator);
             Object obj = iterator.next();
-            if (obj != null) buf.append(obj);
+            if (obj != null) buf.append(obj.toString());
         }
         return buf.toString();
     }

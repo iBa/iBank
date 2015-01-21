@@ -35,6 +35,7 @@ import com.ibank.utils.Mathematics;
 import com.ibank.utils.StreamUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -52,6 +53,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -227,7 +229,7 @@ public class iBank extends JavaPlugin
 		            if(!Bank.hasAccount(Configuration.Entry.RealisticAccount.getValue()))
 		            {
 		                System.out.println("[iBank][RealisticMode] Internal account created!");
-		                Bank.createAccount(Configuration.Entry.RealisticAccount.getValue(), "");
+		                Bank.createAccount(Configuration.Entry.RealisticAccount.getValue(), UUID.randomUUID()); //Todo ??
 		            }
 		            /* Negative amount test xD */
 		            com.ibank.system.BankAccount test = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
@@ -276,7 +278,7 @@ public class iBank extends JavaPlugin
 					{
 						try
 						{
-							economy.getBalance(Configuration.Entry.RealisticAccount.getValue());
+							economy.getBalance(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()));
 							apiAvailable = true;
 						}
 						catch(Throwable t)
@@ -291,12 +293,12 @@ public class iBank extends JavaPlugin
 					}
 					while(!apiAvailable && System.currentTimeMillis() < millis);
 
-					double amount = economy.getBalance(Configuration.Entry.RealisticAccount.getValue()) + 10000;
-					economy.withdrawPlayer(Configuration.Entry.RealisticAccount.getValue(), amount);
-					if(economy.getBalance(Configuration.Entry.RealisticAccount.getValue()) < 0)
+					double amount = economy.getBalance(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue())) + 10000;
+					economy.withdrawPlayer(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), amount);
+					if(economy.getBalance(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue())) < 0)
 					{
 						System.out.println("[iBank][RealisticMode] Negative amounts supported! ");
-						economy.depositPlayer(Configuration.Entry.RealisticAccount.getValue(), amount);
+						economy.depositPlayer(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), amount);
 						Configuration.Entry.RealisticNegative.setValue(true);
 					}
 					else
