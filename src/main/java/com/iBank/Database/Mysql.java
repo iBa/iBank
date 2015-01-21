@@ -48,7 +48,6 @@ public class Mysql implements Database
 	
 	/**
 	 * Executs a query and returns a ResultSet
-	 * @param query
 	 * @return ResultSet
 	 */
 	public ResultSet query(String query) 
@@ -56,8 +55,7 @@ public class Mysql implements Database
 		try
 		{
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);  
-			return resultSet;
+            return statement.executeQuery(query);
 		}
 		catch(Exception e) 
 		{
@@ -87,7 +85,6 @@ public class Mysql implements Database
 	/**
 	 * Returns the id
 	 * @param query The command
-	 * @return
 	 */
 	public int insert(String query) 
 	{

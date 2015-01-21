@@ -12,7 +12,6 @@ import com.ibank.system.Configuration;
 /**
  *  /bank close <ACCOUNT> - Close the account
  * @author steffengy
- * @needs_owner true
  */
 @CommandInfo(
 		arguments = { "Name" }, 
@@ -40,7 +39,7 @@ public class CommandClose extends Command
 				return;
 			}
 			//@needs_owner true
-			if(!console && !Bank.getAccount(arguments[0]).isOwner(((Player)sender).getName()))
+			if(!console && !Bank.getAccount(arguments[0]).isOwner(sender.getName()))
 			{
 				send(sender, "&r&" + Configuration.StringEntry.ErrorNeedOwner.getValue());
 				return;

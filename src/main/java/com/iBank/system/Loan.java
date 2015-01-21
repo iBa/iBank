@@ -1,11 +1,11 @@
 package com.ibank.system;
 
+import com.ibank.Database.AndCondition;
+import com.ibank.Database.Condition.Operators;
+import com.ibank.Database.DataSource;
+
 import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
-
-import com.ibank.Database.AndCondition;
-import com.ibank.Database.DataSource;
-import com.ibank.Database.Condition.Operators;
 
 /**
  * This class represents a loan
@@ -24,14 +24,13 @@ public class Loan
 	
 	/**
 	 * Creates a new loan
-	 * @param username The username
-	 * @param interest The interest (f.e. 1 would be handled as 1 %)
-	 * @param interval The interval, his interest-product grows
-	 * @param time How much time (in seconds) the "loan-taker" has to pay-back
-	 * @param amount The amount which he received
-	 * @param boolean If given, loan will be created
-	 */
-	public Loan(String username, double interest, int interval,int time, BigDecimal amount, boolean create) 
+     * @param username The username
+     * @param interest The interest (f.e. 1 would be handled as 1 %)
+     * @param interval The interval, his interest-product grows
+     * @param time How much time (in seconds) the "loan-taker" has to pay-back
+     * @param amount The amount which he received
+     */
+	public Loan(String username, double interest, int interval, int time, BigDecimal amount)
 	{
 		this(username, interest, interval, time, amount, 0, -1);
 		int tmp = (int)(System.currentTimeMillis() / 1000L) + time;
@@ -68,8 +67,7 @@ public class Loan
 	
 	/**
 	 * Sets the left time
-	 * @param seconds The minutes
-	 * @return
+	 * @param minutes The minutes
 	 */
 	public void setLeftTime(int minutes) 
 	{
@@ -93,7 +91,6 @@ public class Loan
 	
 	/**
 	 * Sets the interval of this loan
-	 * @param seconds
 	 */
 	public void setInterval(int minutes) 
 	{

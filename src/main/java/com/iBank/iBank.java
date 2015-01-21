@@ -1,28 +1,5 @@
 package com.ibank;
 
-import java.io.File;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Timer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
-
-import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.ibank.Commands.BankRootCommand;
 import com.ibank.Commands.CommandAddRegion;
 import com.ibank.Commands.CommandBalance;
@@ -56,11 +33,31 @@ import com.ibank.system.Configuration;
 import com.ibank.system.Region;
 import com.ibank.utils.Mathematics;
 import com.ibank.utils.StreamUtils;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Location;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * IBank
  * @author steffengy
- * @copyright Copyright steffengy (C) 2012-2013
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -90,14 +87,16 @@ public class iBank extends JavaPlugin
     public static DataSource data = new DataSource();
     private Timer Loan = null;
     private Timer Interest = null;
-    public static List<String> connected = new ArrayList<String>();
+    public static final List<String> connected = new ArrayList<String>();
     public static HashMap<String, String> loggedinto = new HashMap<String, String>();
     
 	@Override
 	public void onEnable() {
 		//dirty hack :(
 		mainInstance = this;
-		if(!(getDataFolder().exists())) getDataFolder().mkdir();
+		if(!(getDataFolder().exists()) && !getDataFolder().mkdir()) {
+            throw new RuntimeException("Couldn't create datafolder: " + getDataFolder().getName());
+        }
 		// Load configuration + strings
 		reloadConfig();
 		loadStrings();
@@ -174,7 +173,7 @@ public class iBank extends JavaPlugin
 		}
 		else
 		{
-			if(Configuration.Entry.DatabaseUrl.getValue().toString() != null) {
+			if(Configuration.Entry.DatabaseUrl.getValue() != null) {
 			// connect
 			if(!DataSource.setup(DataSource.Drivers.SQLite, Configuration.Entry.DatabaseUrl.getValue(), this)) 
 			{
@@ -286,7 +285,7 @@ public class iBank extends JavaPlugin
 							{
 								Thread.sleep(1000);
 							}
-							catch (InterruptedException e)
+							catch (InterruptedException ignored)
 							{  }
 						}
 					}
@@ -398,7 +397,6 @@ public class iBank extends JavaPlugin
     /**
      * Checks if a player can execute this command
      * !NO PERMISSION CHECK!
-     * @param l The location of the player
      * @param p The player
      * @return boolean
      */
@@ -407,7 +405,7 @@ public class iBank extends JavaPlugin
     	if(!Configuration.Entry.BoundToRegion.getBoolean()) return true;
     	if(hasPermission(p, "ibank.global")) return true;
     	Location l = p.getLocation();
-    	return regionAt(l) == null ? false : true;
+    	return regionAt(l) != null;
     }
     /**
      * Gets a region at given location 
@@ -453,7 +451,7 @@ public class iBank extends JavaPlugin
 		//check if percentage or static amount
 		if(fee.contains("+")) 
 		{
-			String[] plus = fee.split("+");
+			String[] plus = fee.split("\\+");
 			val = val.add(parseFeeString(plus[0], due));
 			val = val.add(parseFeeString(plus[1], due));
 		}
@@ -471,9 +469,6 @@ public class iBank extends JavaPlugin
 	}
 	/**
 	 * Parses a single part of a feestring
-	 * @param part The part
-	 * @param due The due
-	 * @return
 	 */
 	public static BigDecimal parseFeeString(String part, BigDecimal due) 
 	{
@@ -511,16 +506,12 @@ public class iBank extends JavaPlugin
 	 * @param permission Permission
 	 * @return boolean
 	 */
-	public static boolean hasPermission(CommandSender user, String permission) 
-	{
-		if(!(user instanceof Player)) return true;
-		return hasPermission((Player)user, permission);
-	}
+	public static boolean hasPermission(CommandSender user, String permission) {
+        return !(user instanceof Player) || hasPermission((Player) user, permission);
+    }
 	/**
 	 * Disables all commands of a player, and connects him with 
 	 * the directbank
-	 * @param player
-	 * @param what What to login?
 	 */
 	public static void login(String player) 
 	{
@@ -528,7 +519,6 @@ public class iBank extends JavaPlugin
 	}
 	/**
 	 * Debinds a player from directbank
-	 * @param player
 	 */
 	public static void logout(String player) 
 	{

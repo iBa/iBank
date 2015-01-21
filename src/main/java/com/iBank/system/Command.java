@@ -11,8 +11,6 @@ public class Command
 {
 	/**
 	 * Handle params as this command
-	 * @param sender
-	 * @param arguments
 	 */
 	public void handle(CommandSender sender, String[] arguments) { }
 	/**
@@ -34,9 +32,6 @@ public class Command
 	
 	/**
 	 * Wrapper to second MessageManager.send
-	 * @param sender
-	 * @param message
-	 * @param Tag
 	 */
 	public void send(CommandSender sender, String message, String Tag)
 	{

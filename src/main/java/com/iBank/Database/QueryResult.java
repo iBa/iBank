@@ -31,17 +31,14 @@ public class QueryResult {
 	
 	/**
 	 * Returns if the current set contains this key
-	 * @param string
-	 * @return
 	 */
 	public boolean hasKey(String string) 
 	{
-		return keyvalues.size()>readpointer ? keyvalues.get(readpointer).containsKey(string) : false;
+		return keyvalues.size() > readpointer && keyvalues.get(readpointer).containsKey(string);
 	}
 	
 	/**
 	 * Gets an entry from the result
-	 * @param key
 	 */
 	public Object get(String key) 
 	{
@@ -50,7 +47,6 @@ public class QueryResult {
 	
 	/**
 	 * Gets an entry from the result as String
-	 * @param key
 	 */
 	public String getString(String key) 
 	{
@@ -65,19 +61,23 @@ public class QueryResult {
 	{
 		try
 		{
-			return keyvalues.size()>readpointer ? Double.parseDouble(String.valueOf(keyvalues.get(readpointer).get(key))) : null;
+            String raw = String.valueOf(keyvalues.get(readpointer));
+            double val = Double.parseDouble(raw);
+            if(keyvalues.size() > readpointer) {
+                return val;
+            }
 		}
 		catch(Exception e) 
 		{ 
-			System.out.println("[iBank] "+key+" Error while parsing Double!"+e); 
-			return 0.00; 
+			System.out.println("[iBank] "+key+" Error while parsing Double!"+e);
 		}
+
+        return 0.00;
 	}
 	
 	/**
 	 * Gets an entry from the result as BigDecimal
 	 * @param key String
-	 * @return
 	 */
 	public BigDecimal getBigInteger(String key) 
 	{
@@ -140,7 +140,7 @@ public class QueryResult {
 	{
 		try
 		{
-			return keyvalues.size()>readpointer ? Integer.parseInt(String.valueOf(keyvalues.get(readpointer).get(key))) : null;
+			return keyvalues.size()>readpointer ? Integer.parseInt(String.valueOf(keyvalues.get(readpointer).get(key))) : 0;
 		}
 		catch(Exception e) 
 		{ 
@@ -152,7 +152,7 @@ public class QueryResult {
 	{
 		try
 		{
-			return keyvalues.size()>readpointer ? Long.parseLong(String.valueOf(keyvalues.get(readpointer).get(key))) : null;
+			return keyvalues.size()>readpointer ? Long.parseLong(String.valueOf(keyvalues.get(readpointer).get(key))) : 0;
 		}
 		catch(Exception e) 
 		{ 

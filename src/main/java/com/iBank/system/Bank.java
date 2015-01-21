@@ -1,19 +1,18 @@
 package com.ibank.system;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import com.ibank.Database.AndCondition;
+import com.ibank.Database.Condition;
+import com.ibank.Database.Condition.Operators;
+import com.ibank.Database.DataSource;
+import com.ibank.Database.QueryResult;
+import com.ibank.Event.iBankEvent;
+import com.ibank.Event.iEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import com.ibank.Database.AndCondition;
-import com.ibank.Database.Condition;
-import com.ibank.Database.DataSource;
-import com.ibank.Database.QueryResult;
-import com.ibank.Database.Condition.Operators;
-import com.ibank.Event.iBankEvent;
-import com.ibank.Event.iEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * The backend for all background code
@@ -56,7 +55,7 @@ public class Bank
 		List<String> ret = new ArrayList<String>();
 		if(!data.found) return ret;
 		boolean c = true;
-		while(c == true) 
+		while(c)
 		{
 			ret.add(data.getString("name"));
 			c = data.nextEntry();
@@ -85,7 +84,7 @@ public class Bank
 	{
 		//iBank - call Event
 		iBankEvent event = new iBankEvent(iEvent.Types.REGION_CREATE, new Object[] { name, first, second } );
-		Bukkit.getServer().getPluginManager().callEvent(event);
+		Bukkit.getPluginManager().callEvent(event);
 		if(event.isCancelled()) {
 			return;
 		}
@@ -101,7 +100,7 @@ public class Bank
 	{
 		//iBank - call Event
 		iBankEvent event = new iBankEvent(iEvent.Types.REGION_DELETE, name );
-		Bukkit.getServer().getPluginManager().callEvent(event);
+		Bukkit.getPluginManager().callEvent(event);
 		if(event.isCancelled()) return;
 		//iBank - end
 		DataSource.deleteEntry(Configuration.Entry.DatabaseRegionTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
@@ -110,7 +109,6 @@ public class Bank
 	/**
 	 * Converts a location to an iBank Location String
 	 * @param loc The location
-	 * @return
 	 */
 	private static String formLocation(Location loc) 
 	{
@@ -120,7 +118,6 @@ public class Bank
 	/**
 	 * Gets an Bankaccount by Name
 	 * @param name The name
-	 * @return
 	 */
 	public static BankAccount getAccount(String name) 
 	{
@@ -156,7 +153,7 @@ public class Bank
 		List<String> ret = new ArrayList<String>();
 		if(!data.found) return ret;
 		boolean c = true;
-		while(c == true) 
+		while(c)
 		{
 			ret.add(data.getString("name"));
 			c = data.nextEntry();
@@ -175,9 +172,9 @@ public class Bank
 		List<String> ret = new ArrayList<String>();
 		if(!data.found) return ret;
 		boolean c = true;
-		String str = "";
-		List<String> users = null;
-		while(c == true) 
+		String str;
+		List<String> users;
+		while(c)
 		{
 			str = data.getString("users");
 			if(str.contains(","))
@@ -204,9 +201,9 @@ public class Bank
 		List<String> ret = new ArrayList<String>();
 		if(!data.found) return ret;
 		boolean c = true;
-		String str = "";
-		List<String> users = null;
-		while(c == true) 
+		String str;
+		List<String> users;
+		while(c)
 		{
 			str = data.getString("owners");
 			if(str.contains(","))
@@ -230,7 +227,7 @@ public class Bank
 	{
 		//iBank - Call event
 		iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_CREATE, new String[] { name, name2 });
-		Bukkit.getServer().getPluginManager().callEvent(event);
+		Bukkit.getPluginManager().callEvent(event);
 		if(event.isCancelled()) return;
 		//iBank - end
 		DataSource.insertEntry(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"name","balance","owners","users","onper","offper"}, new Object[] {name, Configuration.Entry.StandardBalance.getInteger(), name2, "", "", ""});
@@ -244,7 +241,7 @@ public class Bank
 	{
 		//iBank - call Event
 				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_DELETE, name );
-				Bukkit.getServer().getPluginManager().callEvent(event);
+				Bukkit.getPluginManager().callEvent(event);
 				if(event.isCancelled()) return;
 		//iBank - end
 		DataSource.deleteEntry(Configuration.Entry.DatabaseAccountsTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL)); 
@@ -260,8 +257,8 @@ public class Bank
 		List<Loan> ret = new ArrayList<Loan>();
 		if(!data.found) return ret;
 		boolean c = true;
-		double interest = 0.00;
-		while(c == true)
+		double interest;
+		while(c)
 		{
 			if(data.hasKey("interest")) interest = data.getDouble("interest");
 			else interest = Configuration.Entry.LoanInterest.getDouble();
@@ -273,7 +270,6 @@ public class Bank
 	/**
 	 * Gets a list with all loans of the user
 	 * @param user The user
-	 * @return
 	 */
 	public static List<Loan> getLoansByAccount(String user) 
 	{
@@ -281,8 +277,8 @@ public class Bank
 		List<Loan> ret = new ArrayList<Loan>();
 		if(!data.found) return ret;
 		boolean c = true;
-		double interest = 0.00;
-		while(c == true) 
+		double interest;
+		while(c)
 		{
 			if(data.hasKey("interest")) interest = data.getDouble("interest");
 			else interest = Configuration.Entry.LoanInterest.getDouble();
@@ -301,8 +297,8 @@ public class Bank
 	{
 		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.getValue(), new AndCondition("id", id, Operators.IDENTICAL));
 		if(!data.found) return null;
-		Loan ret = null;
-		double interest = 0.00;
+		Loan ret;
+		double interest;
 		if(data.hasKey("interest")) interest = data.getDouble("interest");
 		else interest = Configuration.Entry.LoanInterest.getDouble();
 		ret = new Loan(data.getString("user"), interest, data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id")); 

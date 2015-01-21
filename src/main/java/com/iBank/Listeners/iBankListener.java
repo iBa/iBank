@@ -1,37 +1,36 @@
 package com.ibank.Listeners;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
-import org.bukkit.block.Sign;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-
-import com.ibank.iBank;
 import com.ibank.Commands.CommandBalance;
 import com.ibank.Commands.CommandDeposit;
 import com.ibank.Commands.CommandLoan;
 import com.ibank.Commands.CommandLoanInfo;
 import com.ibank.Commands.CommandTransfer;
 import com.ibank.Commands.CommandWithdraw;
+import com.ibank.iBank;
 import com.ibank.system.CommandHandler;
 import com.ibank.system.Configuration;
 import com.ibank.system.MessageManager;
 import com.ibank.utils.Mathematics;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The default Listener
@@ -61,7 +60,7 @@ public class iBankListener implements Listener
 						else
 						{
 							Location second = LastMarkedPoint.get(event.getPlayer().getName()).getValue();
-							LastMarkedPoint.remove(LastMarkedPoint.remove(event.getPlayer().getName()));
+							LastMarkedPoint.remove(event.getPlayer().getName());
 							LastMarkedPoint.put(event.getPlayer().getName(), new AbstractMap.SimpleEntry<Location, Location>(event.getClickedBlock().getLocation(), second));
 						}
 						MessageManager.send(event.getPlayer(), "Position 1 set!");
@@ -113,7 +112,7 @@ public class iBankListener implements Listener
 					 {
 						 newindex = order.indexOf(state.getLine(1)) + 1;
 					 }
-					 catch(Exception e) { }
+					 catch(Exception ignored) { }
 
 					 newindex = newindex >= order.size() ? 0 : newindex;
 					 
@@ -126,12 +125,12 @@ public class iBankListener implements Listener
     }
 	
 	@EventHandler (priority = EventPriority.LOWEST)
-	public void playerChat(PlayerChatEvent event) 
+	public void playerChat(AsyncPlayerChatEvent event)
 	{
 		//if logged in catch chat stuff
 		if(iBank.connected.contains(event.getPlayer().getName())) 
 		{
-			String[] arguments = null;
+			String[] arguments;
 			if(event.getMessage().contains(" ")) 
 			{
 				arguments = event.getMessage().split(" ");
@@ -142,14 +141,14 @@ public class iBankListener implements Listener
 			}
 			//validate type
 			String type = iBank.loggedinto.get(event.getPlayer().getName());
-			CommandSender sender = (CommandSender) event.getPlayer();
+			CommandSender sender = event.getPlayer();
 			
-			if(type == "withdraw") new CommandWithdraw().handle(sender, arguments, true);
-			else if(type == "deposit") new CommandDeposit().handle(sender, arguments, true);
-			else if(type == "balance") new CommandBalance().handle(sender, arguments, true);
-			else if(type == "transfer") new CommandTransfer().handle(sender, arguments, true);
-			else if(type == "loaninfo") new CommandLoanInfo().handle(sender, arguments, true);
-			else if(type == "loan") new CommandLoan().handle(sender, arguments, true);
+			if(type.equals("withdraw")) new CommandWithdraw().handle(sender, arguments, true);
+			else if(type.equals("deposit")) new CommandDeposit().handle(sender, arguments, true);
+			else if(type.equals("balance")) new CommandBalance().handle(sender, arguments, true);
+			else if(type.equals("transfer")) new CommandTransfer().handle(sender, arguments, true);
+			else if(type.equals("loaninfo")) new CommandLoanInfo().handle(sender, arguments, true);
+			else if(type.equals("loan")) new CommandLoan().handle(sender, arguments, true);
 			
 			event.setCancelled(true);
 		}
@@ -167,7 +166,7 @@ public class iBankListener implements Listener
 				if(!event.getLine(0).equalsIgnoreCase("[ibank]")) return;
 				if(!iBank.hasPermission(event.getPlayer() , "ibank.sign"))
 				{
-						MessageManager.send((CommandSender) event.getPlayer(), "&r&Permission denied!");
+						MessageManager.send(event.getPlayer(), "&r&Permission denied!");
 						event.setCancelled(true);
 				}
 				else

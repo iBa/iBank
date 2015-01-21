@@ -1,19 +1,18 @@
 package com.ibank.Commands;
 
-import java.math.BigDecimal;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import com.ibank.iBank;
 import com.ibank.Event.iBankEvent;
 import com.ibank.Event.iEvent;
+import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.BankAccount;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.math.BigDecimal;
 
 /**
  *  /bank transfer <SRC> <DEST> <AMOUNT>
@@ -40,12 +39,12 @@ public class CommandTransfer extends Command
 
 		if(arguments.length == 3) 
 		{
-			if(!check && !iBank.canExecuteCommand(((Player)sender))) 
+			if(!check && (console || !iBank.canExecuteCommand(((Player)sender))))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());
 				return;
 			}
-			BigDecimal money = null;
+			BigDecimal money;
 			try
 			{
 				money = new BigDecimal(arguments[2]);
@@ -73,7 +72,7 @@ public class CommandTransfer extends Command
 			BankAccount src = Bank.getAccount(arguments[0]);
 			BankAccount dest = Bank.getAccount(arguments[1]);
 			if(src.getName().equalsIgnoreCase(dest.getName())) dest = src;
-			if(!console && !src.isUser(((Player)sender).getName()) && !src.isOwner(((Player)sender).getName())) 
+			if(!console && !src.isUser(sender.getName()) && !src.isOwner(sender.getName()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
@@ -83,7 +82,7 @@ public class CommandTransfer extends Command
 			{
 				//iBank - call Event
 				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_TRANSFER, new Object[] { arguments[0], arguments[1], money, BigDecimal.ZERO, false } );
-				Bukkit.getServer().getPluginManager().callEvent(event);
+				Bukkit.getPluginManager().callEvent(event);
 				if(event.isCancelled()) {
 					return;
 				}
@@ -93,7 +92,7 @@ public class CommandTransfer extends Command
 			}
 			//iBank - call Event
 			iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_TRANSFER, new Object[] { arguments[0], arguments[1], money, fee, false } );
-			Bukkit.getServer().getPluginManager().callEvent(event);
+			Bukkit.getPluginManager().callEvent(event);
 			if(event.isCancelled()) return;
 			//iBank - end
 			src.subtractBalance(money.add(fee));

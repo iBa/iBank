@@ -1,9 +1,9 @@
 package com.ibank.system;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.math.BigDecimal;
 import java.util.List;
-
-import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  * The configuration class for iBank
@@ -61,7 +61,7 @@ public class Configuration {
 		RealisticInternal("System.RealisticMode.useiBank", true),
 		RealisticAccount("System.RealisticMode.account", "bank");
 		
-		String key;
+		final String key;
 		Object value;
 	
 		/**
@@ -121,7 +121,7 @@ public class Configuration {
          */
         public Double getDouble() 
         {
-            if(value instanceof Integer) return (double) ((Integer) value).intValue();
+            if(value instanceof Integer) return (double) (Integer) value;
 
             return (Double) value;
         }

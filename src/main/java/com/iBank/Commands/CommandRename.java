@@ -37,7 +37,7 @@ public class CommandRename extends Command
 			}
 			BankAccount account = Bank.getAccount(arguments[0]);
 			//Permission check / etc
-			if(!hasPerm && !account.isOwner(((Player)sender).getName())) 
+			if(!hasPerm && !account.isOwner(sender.getName()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;

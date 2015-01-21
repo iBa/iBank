@@ -1,16 +1,15 @@
 package com.ibank.system;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-
 import com.ibank.Database.AndCondition;
 import com.ibank.Database.Condition.Operators;
 import com.ibank.Database.DataSource;
 import com.ibank.utils.StringUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class represents a region
@@ -19,9 +18,9 @@ import com.ibank.utils.StringUtils;
  */
 public class Region 
 {
-	private String name;
-	private Location first;
-	private Location second;
+	private final String name;
+	private final Location first;
+	private final Location second;
 	private List<String> Owners = new ArrayList<String>();
 	private double on = Configuration.Entry.InterestOnPercentage.getDouble();
 	public boolean onDefault = true;
@@ -101,8 +100,8 @@ public class Region
 	
 	/**
 	 * Sets the online percentage of a region
-	 * @param Double The online percentage
-	 * @param boolean Save it?
+	 * @param on The online percentage
+	 * @param write Save it?
 	 */
 	public void setOnPercentage(double on,boolean write) 
 	{
@@ -114,8 +113,8 @@ public class Region
 	
 	/**
 	 * Sets the offline percentage of a region
-	 * @param Double The offline percentage
-	 * @param Boolean save it?
+	 * @param off The offline percentage
+	 * @param write save it?
 	 */
 	public void setOffPercentage(double off,boolean write) 
 	{

@@ -1,17 +1,16 @@
 package com.ibank.Commands;
 
-import java.util.Map.Entry;
-
-import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
+import com.ibank.Listeners.iBankListener;
 import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
-import com.ibank.Listeners.iBankListener;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.Map.Entry;
 
 @CommandInfo(
 		arguments = { "Name" }, 
@@ -54,7 +53,7 @@ public class CommandAddRegion extends Command
 				}
 				if(Configuration.Entry.AllowBuyRegion.getBoolean() && !iBank.hasPermission(sender, "ibank.regions"))
 				{
-					if(!iBank.economy.has(((Player)sender).getName(), Configuration.Entry.RegionsPrice.getDouble())) 
+					if(!iBank.economy.has(sender.getName(), Configuration.Entry.RegionsPrice.getDouble()))
 					{
 						send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 						return;
@@ -62,7 +61,7 @@ public class CommandAddRegion extends Command
 					else
 					{
 						//cashout
-						iBank.economy.withdrawPlayer(((Player)sender).getName(), Configuration.Entry.RegionsPrice.getDouble());
+						iBank.economy.withdrawPlayer(sender.getName(), Configuration.Entry.RegionsPrice.getDouble());
 						send(sender, "[ibank] Balance - " + String.valueOf(Configuration.Entry.RegionsPrice.getBoolean()));
 					}
 				}
@@ -72,8 +71,7 @@ public class CommandAddRegion extends Command
 			else
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.getValue().replace("$name$", "Region "+arguments[0]+" "));
-				return;
-			}
+            }
 		}
 		else
 		{

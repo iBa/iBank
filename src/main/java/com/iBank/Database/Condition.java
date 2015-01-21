@@ -15,7 +15,7 @@ public class Condition
 		BIGGER(">"), 
 		LOWER("<");
 		
-		String chr;
+		final String chr;
 		private Operators(String chars) 
 		{
 			chr = chars;

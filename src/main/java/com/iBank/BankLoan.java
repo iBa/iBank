@@ -1,12 +1,12 @@
 package com.ibank;
 
-import java.math.BigDecimal;
-import java.util.TimerTask;
-
 import com.ibank.system.Bank;
 import com.ibank.system.BankAccount;
 import com.ibank.system.Configuration;
 import com.ibank.system.Loan;
+
+import java.math.BigDecimal;
+import java.util.TimerTask;
 
 public class BankLoan extends TimerTask 
 {
@@ -47,7 +47,7 @@ public class BankLoan extends TimerTask
 				}
 				if(Configuration.Entry.LoanForceBank.getBoolean()) 
 				{
-					BankAccount tmpaccount = null;
+					BankAccount tmpaccount;
 					for(String raw : Bank.getAccountsByOwner(a.getUser())) 
 					{
 						tmpaccount = Bank.getAccount(raw);

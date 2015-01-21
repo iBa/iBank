@@ -44,8 +44,7 @@ public class CommandManager extends Command
 			else
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Account "+arguments[0]+" "));
-				return;
-			}
+            }
 		// modify percentages and settings
 		// todo add possibility to add interval
 		}
@@ -58,7 +57,7 @@ public class CommandManager extends Command
 			}
 			if(arguments[1].equalsIgnoreCase("online") || arguments[1].equalsIgnoreCase("on")) 
 			{
-				Double percentage = 0.00;
+				Double percentage;
 				try
 				{
 					percentage = Double.parseDouble(arguments[2]);
@@ -72,7 +71,7 @@ public class CommandManager extends Command
 			}
 			else if(arguments[1].equalsIgnoreCase("offline") || arguments[1].equalsIgnoreCase("off")) 
 			{
-				Double percentage = 0.00;
+				Double percentage;
 				try
 				{
 					percentage = Double.parseDouble(arguments[2]);
@@ -86,7 +85,7 @@ public class CommandManager extends Command
 			}
 			else if(arguments[1].equalsIgnoreCase("interval")) 
 			{				
-				int data  = 0;
+				int data;
 				try
 				{
 					data = Integer.parseInt(arguments[2]);

@@ -1,11 +1,11 @@
 package com.ibank.Database;
 
-import java.io.File;
-import java.sql.ResultSet;
-
 import com.ibank.iBank;
 import com.ibank.system.Configuration;
 import com.ibank.utils.StreamUtils;
+
+import java.io.File;
+import java.sql.ResultSet;
 
 /**
  * Providing simple access to all datasources
@@ -23,8 +23,8 @@ public class DataSource
 		MYSQL("mysql.jar", "com.mysql.jdbc.Driver"),
 		SQLite("sqlite.jar", "org.sqlite.JDBC");
 		
-		String filename;
-		String classname;
+		final String filename;
+		final String classname;
 		
 		private Drivers(String filename, String classname) 
 		{
@@ -59,8 +59,8 @@ public class DataSource
 				type = driver;
 				if(type == Drivers.SQLite)
 					db = new SQLite(new File(main.getDataFolder(), url));
-				else if(type == Drivers.MYSQL) 
-					db = new Mysql(url, Configuration.Entry.DatabaseUser.getValue(), Configuration.Entry.DatabasePW.getValue(), Configuration.Entry.DatabaseName.getValue());
+				else
+                    db = new Mysql(url, Configuration.Entry.DatabaseUser.getValue(), Configuration.Entry.DatabasePW.getValue(), Configuration.Entry.DatabaseName.getValue());
 				
 				if(!db.success()) return false;
 				
@@ -137,10 +137,6 @@ public class DataSource
 	}
 	
 	/**
-	 * 
-	 * @param fields
-	 * @param table
-	 * @param condition
 	 * @return QueryResult
 	 */
 	public static QueryResult query(String[] fields, String table, Condition... condition) 
@@ -152,7 +148,7 @@ public class DataSource
 			ResultSet result = null;
 			try
 			{
-				if(type==Drivers.SQLite || type == Drivers.MYSQL) result = db.query(query);
+                result = db.query(query);
 			}
 			catch(Exception e) 
 			{
@@ -210,7 +206,7 @@ public class DataSource
 	{
 		if(type == Drivers.MYSQL || type == Drivers.SQLite) {
 			String query = SQLBuilder.insert(fields,table, values);
-			int ret = 0;
+			int ret;
 				if(returnId) 
 					ret = db.insert(query);
 				else
@@ -227,7 +223,7 @@ public class DataSource
 	/**
 	 * Deletes an entry from a table
 	 * @param table The table
-	 * @param Condition The condition (set)
+	 * @param condition The condition (set)
 	 */
 	public static void deleteEntry(String table, Condition... condition) 
 	{
