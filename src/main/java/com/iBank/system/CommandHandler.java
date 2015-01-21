@@ -1,15 +1,14 @@
 package com.ibank.system;
 
+import com.ibank.iBank;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import com.ibank.iBank;
 
 
 /**
@@ -27,8 +26,8 @@ public class CommandHandler
 	 */
 	public static void register(Command a) 
 	{
-		CommandInfo tmp = null;
-		if(!((tmp = a.getClass().getAnnotation(CommandInfo.class)) instanceof CommandInfo)) 
+		CommandInfo tmp;
+		if((tmp = a.getClass().getAnnotation(CommandInfo.class)) == null)
 		{
 			System.out.println("[iBank] Error while enabling Command!");
 			return;
@@ -48,10 +47,6 @@ public class CommandHandler
 	
 	/**
 	 * Handles a command
-	 * @param sender
-	 * @param root
-	 * @param args
-	 * @return
 	 */
 	public static boolean handle(CommandSender sender, String root, String[] args) 
 	{
@@ -61,7 +56,7 @@ public class CommandHandler
 		 //remove first arg from args
 		 List<String> argtmp = new ArrayList<String>(Arrays.asList(args));
 		 if(argtmp.size()>0) argtmp.remove(0);
-		 args = argtmp.toArray(new String[0]);
+		 args = argtmp.toArray(new String[argtmp.size()]);
 		 //check existance of sub command
 		 if(!cmds.get(root).containsKey(sub) || !info.get(root).containsKey(sub)) return false;
 		 //console/player check
@@ -82,9 +77,6 @@ public class CommandHandler
 	
 	/**
 	 * Return the arg info of a method
-	 * @param root
-	 * @param name
-	 * @return
 	 */
 	public static String getArgInfo(String root, String name) 
 	{
@@ -103,22 +95,14 @@ public class CommandHandler
 	
 	/**
 	 * Return if 2 call
-	 * @param p
-	 * @param root
-	 * @param sub
-	 * @return
 	 */
-	public static boolean isCallable(Player p, String root, String sub) 
-	{
-		String perm = CommandHandler.info.get(root).get(sub).permission();
-		if(perm == null || perm == "") return true;
-		return iBank.hasPermission(p, CommandHandler.info.get(root).get(sub).permission());
-	}
+	public static boolean isCallable(Player p, String root, String sub) {
+        String perm = CommandHandler.info.get(root).get(sub).permission();
+        return perm == null || perm.equals("") || iBank.hasPermission(p, CommandHandler.info.get(root).get(sub).permission());
+    }
 	
 	/**
 	 * Get commands by root command
-	 * @param string
-	 * @return
 	 */
 	public static List<String> getCommands(String string) 
 	{
@@ -133,9 +117,6 @@ public class CommandHandler
 	
 	/**
 	 * Returns the help entry from this command
-	 * @param root The root command
-	 * @param name The subcommand
-	 * @return
 	 */
 	public static String getHelp(String root, String name) 
 	{

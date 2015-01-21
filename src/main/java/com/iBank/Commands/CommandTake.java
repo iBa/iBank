@@ -1,18 +1,17 @@
 package com.ibank.Commands;
 
-import java.math.BigDecimal;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-
-import com.ibank.iBank;
 import com.ibank.Event.iBankEvent;
 import com.ibank.Event.iEvent;
+import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.BankAccount;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+
+import java.math.BigDecimal;
 
 /**
  *  /bank take <ACCOUNT> <MONEY> - Take money from account
@@ -37,7 +36,7 @@ public class CommandTake extends Command {
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 				return;
 			}
-			BigDecimal todp = null;
+			BigDecimal todp;
 			BankAccount account = Bank.getAccount(arguments[0]);
 			// the needed checks
 			try
@@ -59,7 +58,7 @@ public class CommandTake extends Command {
 			{
 				//iBank - call Event
 				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_TAKE, new Object[] { arguments[0], todp, true} );
-				Bukkit.getServer().getPluginManager().callEvent(event);
+				Bukkit.getPluginManager().callEvent(event);
 				if(event.isCancelled()) return;
 				//iBank - end
 				account.subtractBalance(todp);
@@ -68,7 +67,7 @@ public class CommandTake extends Command {
 			{
 				//iBank - call Event
 				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_TAKE, new Object[] { arguments[0], todp, false} );
-				Bukkit.getServer().getPluginManager().callEvent(event);
+				Bukkit.getPluginManager().callEvent(event);
 				if(event.isCancelled()) {
 					return;
 				}

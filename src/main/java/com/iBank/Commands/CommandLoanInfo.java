@@ -1,18 +1,17 @@
 package com.ibank.Commands;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
 import com.ibank.system.Loan;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  *  /bank loaninfo <PLAYER> - loan info of others
@@ -48,14 +47,14 @@ public class CommandLoanInfo extends Command
 				send(sender, Configuration.StringEntry.ErrorNoPlayer.getValue());
 				return;
 			}
-			showLoanInfo(((Player)sender).getName(), sender, 0);
+			showLoanInfo(sender.getName(), sender, 0);
 		}
 		else if(arguments.length == 1 || arguments.length == 2) 
 		{
 			char tmp;
 			if((tmp = arguments[0].charAt(0)) >= '0' && tmp <= '9') 
 			{
-				showLoanInfo(((Player)sender).getName(), sender, Integer.parseInt(arguments[0]));
+				showLoanInfo(sender.getName(), sender, Integer.parseInt(arguments[0]));
 				return;
 			}
 			boolean allowed = (!(sender instanceof Player)) || iBank.hasPermission(sender, "ibank.loaninfo");
@@ -76,11 +75,10 @@ public class CommandLoanInfo extends Command
 	 * Shows the loan info to destination
 	 * @param user The to-info user
 	 * @param destination The destination user
-	 * @site which dataset shall be showed?
 	 */
 	public void showLoanInfo(String user, CommandSender destination,int site) 
 	{
-		List<Loan> allLoans = null;
+		List<Loan> allLoans;
 		if(user.equalsIgnoreCase("all!")) 
 		{ 
 			allLoans = Bank.getLoans();

@@ -1,16 +1,15 @@
 package com.ibank.system;
 
+import com.ibank.Database.AndCondition;
+import com.ibank.Database.Condition.Operators;
+import com.ibank.Database.DataSource;
+import com.ibank.utils.StringUtils;
+import org.bukkit.Bukkit;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.bukkit.Bukkit;
-
-import com.ibank.Database.AndCondition;
-import com.ibank.Database.DataSource;
-import com.ibank.Database.Condition.Operators;
-import com.ibank.utils.StringUtils;
 
 /**
  * This object represents a BankAccount
@@ -39,7 +38,6 @@ public class BankAccount
 	
 	/**
 	 * Inits all owners as string
-	 * @param str
 	 */
 	public void Owners(String str) 
 	{
@@ -54,7 +52,6 @@ public class BankAccount
 	
 	/**
 	 * Inits all users as string
-	 * @param str
 	 */
 	public void Users(String str) 
 	{
@@ -234,8 +231,6 @@ public class BankAccount
 	
 	/**
 	 * Returns if the user is an user of this account
-	 * @param user 
-	 * @return
 	 */
 	public boolean isUser(String user) 
 	{
@@ -244,7 +239,7 @@ public class BankAccount
 	
 	/**
 	 * Returns a string array with all users online
-	 * @param int limit The max count of users who shall got
+	 * @param limit The max count of users who shall got
 	 * @return String[] Contains the usernames
 	 */
 	public String[] getOnlines(int limit) 
@@ -253,7 +248,7 @@ public class BankAccount
 		int c = 0;
 		for(String p : owners) 
 		{
-			if(Bukkit.getServer().getPlayer(p) != null) 
+			if(Bukkit.getPlayer(p) != null)
 				if(limit == -1 || c < limit) 
 				{
 				    if(!b.contains(p)) b.add(p); 
@@ -263,7 +258,7 @@ public class BankAccount
 		}
 		for(String p : users) 
 		{
-			if(Bukkit.getServer().getPlayer(p) != null)
+			if(Bukkit.getPlayer(p) != null)
 				if(limit == -1 || c < limit) 
 				{
 					if(!b.contains(p)) b.add(p);
@@ -271,7 +266,7 @@ public class BankAccount
 				}
 				else break;
 		}
-		return b.toArray(new String[0]);
+		return b.toArray(new String[b.size()]);
 	}
 	
 	/**
@@ -304,7 +299,7 @@ public class BankAccount
 	/**
 	 * Set the interval
 	 * @param interval The interval
-	 * @param if to write in Storage
+	 * @param write if to write in Storage
  	 */
 	public void setInterval(int interval,boolean write) 
 	{
@@ -334,9 +329,7 @@ public class BankAccount
 	}
 	
 	/**
-	 * Updates an field in this account to value
-	 * @param string
-	 * @param string2
+	 * Updates an field in this account to value2
 	 */
 	public void Update(String key, String value) 
 	{

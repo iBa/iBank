@@ -11,9 +11,6 @@ public class SQLBuilder
 {
 	/**
 	 * Generates a sql code
-	 * @param fields
-	 * @param table
-	 * @param condition
 	 */
 	public static String select(String[] fields, String table, Condition... condition) 
 	{
@@ -31,13 +28,12 @@ public class SQLBuilder
 	/**
 	 * Parses the conditions to a String (WHERE .. )
 	 * @param condition The Condition Array
-	 * @return
 	 */
 	private static String parseConditions(Condition[] condition) 
 	{
 		if(condition.length == 0) return "";
 		String condstring = " WHERE ";
-		String operator = "";
+		String operator;
 		int c = 0;
 		for(Condition a : condition) 
 		{
@@ -61,12 +57,11 @@ public class SQLBuilder
 	 * @param fields The fields
 	 * @param table The table
 	 * @param values The values
-	 * @return
 	 */
 	public static String insert(String[] fields, String table, Object[] values) 
 	{
 		String sqlcode = "INSERT INTO "+table+"(";
-		int c = 0;
+		int c;
 		if(fields.length != values.length) 
 		{ 
 			System.out.println("[iBank] Insert in "+table+" failed! LENGTH_ERROR!");
@@ -119,7 +114,6 @@ public class SQLBuilder
 	 * Deletes from a table
 	 * @param table The table
 	 * @param condition The conditions
-	 * @return
 	 */
 	public static String delete(String table, Condition... condition) 
 	{
@@ -131,8 +125,6 @@ public class SQLBuilder
 	 * @param table The table
 	 * @param add Add or DROP?
 	 * @param field The field
-	 * @param type The type
-	 * @return
 	 */
 	public static String alter(String table, boolean add, String field, String type, boolean change) 
 	{

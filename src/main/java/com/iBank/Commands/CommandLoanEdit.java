@@ -1,14 +1,13 @@
 package com.ibank.Commands;
 
-import java.math.BigDecimal;
-
-import org.bukkit.command.CommandSender;
-
 import com.ibank.system.Bank;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
 import com.ibank.system.Loan;
+import org.bukkit.command.CommandSender;
+
+import java.math.BigDecimal;
 
 /**
  *  /bank loanedit <ID> (KEY) (VALUE)
@@ -30,7 +29,7 @@ public class CommandLoanEdit extends Command
 	{
 		if(arguments.length == 3) 
 		{
-			int id = 0;
+			int id;
 			try
 			{
 				id = Integer.parseInt(arguments[0]);
@@ -40,7 +39,7 @@ public class CommandLoanEdit extends Command
 				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Id]");
 				return;
 			}
-			Loan loan = null;
+			Loan loan;
 			if((loan = Bank.getLoanById(id)) == null) 
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name", String.valueOf(id)));
@@ -53,7 +52,7 @@ public class CommandLoanEdit extends Command
 			 */
 			if(arguments[1].equalsIgnoreCase("interval")) 
 			{
-				int param = 0;
+				int param;
 				try
 				{
 					param = Integer.parseInt(arguments[2]);
@@ -72,7 +71,7 @@ public class CommandLoanEdit extends Command
 			 */
 			else if(arguments[1].equalsIgnoreCase("percentage")) 
 			{
-				double param = 0.00;
+				double param;
 				try
 				{
 					param = Double.parseDouble(arguments[2]);
@@ -90,7 +89,7 @@ public class CommandLoanEdit extends Command
 			 */
 			else if(arguments[1].equalsIgnoreCase("amount")) 
 			{
-				BigDecimal param = BigDecimal.ZERO;
+				BigDecimal param;
 				String mode = "normal";
 				if(arguments[2].startsWith("+") || arguments[2].startsWith("-")) 
 				{
@@ -106,11 +105,11 @@ public class CommandLoanEdit extends Command
 					send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [Value]");
 					return;
 				}
-				if(mode == "normal") 
+				if(mode.equals("normal"))
 					loan.setAmount(param);
-				else if(mode == "+") 
+				else if(mode.equals("+"))
 					loan.setAmount(loan.getAmount().add(param));
-				else if(mode == "-") 
+				else if(mode.equals("-"))
 				{
 					loan.setAmount(loan.getAmount().subtract(param));
 					// loan > param
@@ -148,22 +147,22 @@ public class CommandLoanEdit extends Command
 					}
 					else
 					{
-						if(((String)""+tmp).equalsIgnoreCase("d")) 
+						if(("" +tmp).equalsIgnoreCase("d"))
 						{
 							leftMinutes += Integer.parseInt(cache) * 24 * 60;
 							flush = true;
 						}
-						else if(((String)""+tmp).equals("m")) 
+						else if(("" +tmp).equals("m"))
 						{
 							leftMinutes += Integer.parseInt(cache);
 							flush = true;
 						}
-						else if(((String)""+tmp).equals("M")) 
+						else if(("" +tmp).equals("M"))
 						{
 							leftMinutes += Integer.parseInt(cache) * 24 * 60 * 30;
 							flush = true;
 						}
-						else if(((String)""+tmp).equalsIgnoreCase("h")) 
+						else if(("" +tmp).equalsIgnoreCase("h"))
 						{
 							leftMinutes += Integer.parseInt(cache) * 60;
 							flush = true;
@@ -175,7 +174,7 @@ public class CommandLoanEdit extends Command
 						}
 					}
 				}
-				if(((String)""+param.charAt(0)).equals("+")) 
+				if(("" +param.charAt(0)).equals("+"))
 				{
 					loan.setLeftTime(loan.getLeftMinutes() + leftMinutes);
 				}

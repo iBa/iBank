@@ -1,11 +1,11 @@
 package com.ibank;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.TimerTask;
-
 import com.ibank.system.Bank;
 import com.ibank.system.BankAccount;
 import com.ibank.system.Configuration;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.TimerTask;
 
 public class BankInterest extends TimerTask 
 {
@@ -14,8 +14,8 @@ public class BankInterest extends TimerTask
 	public void run() {
 		if(Configuration.Entry.Debug.getBoolean()) System.out.println("Interest loaded");
 		int needed = Configuration.Entry.InterestOnline.getInteger();
-		BigDecimal on =  new BigDecimal(Configuration.Entry.InterestOnPercentage.getDouble() / 100);
-		BigDecimal off = new BigDecimal(Configuration.Entry.InterestOffPercentage.getDouble() / 100);
+		BigDecimal on;
+		BigDecimal off;
 		
 		//get all bank accounts
 		

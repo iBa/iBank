@@ -1,20 +1,19 @@
 package com.ibank.Commands;
 
-import java.math.BigDecimal;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import com.ibank.iBank;
 import com.ibank.Event.iBankEvent;
 import com.ibank.Event.iEvent;
+import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.BankAccount;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
 import com.ibank.utils.Mathematics;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.math.BigDecimal;
 
 /**
  *  /bank withdraw <NAME> <AMOUNT>
@@ -55,13 +54,13 @@ public class CommandWithdraw extends Command
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 			}
 			BankAccount account = Bank.getAccount(arguments[0]);
-			if(!account.isOwner(((Player)sender).getName()) && !account.isUser(((Player)sender).getName())) 
+			if(!account.isOwner(sender.getName()) && !account.isUser(sender.getName()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
 			}
-			BigDecimal todp = null;
-			if((todp = Mathematics.parseString(arguments[1])) == null) 
+			BigDecimal todp;
+			if((todp = Mathematics.parseString(arguments[1])) == null)
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorWrongArguments.getValue()+" [AMOUNT]");
 				return;
@@ -77,7 +76,7 @@ public class CommandWithdraw extends Command
 				send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));
 				//iBank - call Event
 				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_WITHDRAW, new Object[] { arguments[0], todp, fee, true } );
-				Bukkit.getServer().getPluginManager().callEvent(event);
+				Bukkit.getPluginManager().callEvent(event);
 				if(event.isCancelled()) {
 					return;
 				}
@@ -92,7 +91,7 @@ public class CommandWithdraw extends Command
 				return;
 			}
 			BankAccount account = Bank.getAccount(arguments[0]);
-			if(!account.isOwner(((Player)sender).getName()) && !account.isUser(((Player)sender).getName())) 
+			if(!account.isOwner(sender.getName()) && !account.isUser(sender.getName()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
@@ -104,7 +103,7 @@ public class CommandWithdraw extends Command
 			amount = amount.subtract(fee);
 			//iBank - call Event
 			iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_WITHDRAW, new Object[] { arguments[0], amount, fee, true } );
-			Bukkit.getServer().getPluginManager().callEvent(event);
+			Bukkit.getPluginManager().callEvent(event);
 			if(event.isCancelled()) {
 				return;
 			}
@@ -126,7 +125,7 @@ public class CommandWithdraw extends Command
 	public void doWithdraw(CommandSender sender, BigDecimal todp, BigDecimal deposit, BankAccount account) 
 	{
 			account.subtractBalance(todp);
-			iBank.economy.depositPlayer(((Player)sender).getName(), deposit.doubleValue());
+			iBank.economy.depositPlayer(sender.getName(), deposit.doubleValue());
 			send(sender, "&g&"+Configuration.StringEntry.SuccessWithdraw.getValue().replace("$name$", account.getName()).replace("$amount$", iBank.format(todp)));
 	}
 	

@@ -1,17 +1,16 @@
 package com.ibank.Commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
 import com.ibank.utils.StringUtils;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  /bank - Shows the accounts of the executor
@@ -45,15 +44,14 @@ public class BankRootCommand extends Command
 			return;
 		}
 		// Show list of accounts
-		List<String> owner = Bank.getAccountsByOwner(((Player)sender).getName());
-		List<String> user = Bank.getAccountsByUser(((Player)sender).getName());
+		List<String> owner = Bank.getAccountsByOwner(sender.getName());
+		List<String> user = Bank.getAccountsByUser(sender.getName());
 		if(owner.size() == 0 && user.size() == 0) 
 		{
 			send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
 			return;
 		}
 		send(sender, "&blue&Owner &y&User");
-		owner = owner == null ? new ArrayList<String>() : owner;
 		user = user == null ? new ArrayList<String>() : user;
 		send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
 		send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");

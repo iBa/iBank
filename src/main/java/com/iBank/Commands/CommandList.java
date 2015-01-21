@@ -1,17 +1,16 @@
 package com.ibank.Commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
 import com.ibank.utils.StringUtils;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  /bank LIST (NAME)
@@ -56,7 +55,6 @@ public class CommandList extends Command
 			send(sender, "&r&" + Configuration.StringEntry.GeneralNoAccounts.getValue());
 			return;
 		}
-		owner = owner == null ? new ArrayList<String>() : owner;
 		user = user == null ? new ArrayList<String>() : user;
 		send(sender, "&blue&"+StringUtils.join(owner, "&w&,&blue&"), "");
 		send(sender, "&y&"+StringUtils.join(user, "&w&,&y&"), "");

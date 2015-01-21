@@ -36,8 +36,7 @@ public class SQLite implements Database
 	{
 		try{
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);  
-			return resultSet;
+            return statement.executeQuery(query);
 		}
 		catch(Exception e) 
 		{
@@ -49,7 +48,6 @@ public class SQLite implements Database
 	/**
 	 * Returns the id
 	 * @param query The command
-	 * @return
 	 */
 	public int insert(String query) 
 	{
@@ -78,7 +76,6 @@ public class SQLite implements Database
 	}
 	/**
 	 * Returns if an exception was thrown
-	 * @return
 	 */
 	public boolean success() 
 	{
@@ -87,7 +84,6 @@ public class SQLite implements Database
 	
 	/**
 	 * Executes a command
-	 * @param query
 	 */
 	public boolean execute(String query) 
 	{
@@ -129,7 +125,7 @@ public class SQLite implements Database
 		{
 			connection.commit();
 		} 
-		catch (SQLException e) { }
+		catch (SQLException ignored) { }
 	}
 	
 	public void close() 

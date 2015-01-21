@@ -43,7 +43,7 @@ public class CommandUsers extends Command
 		{
 			BankAccount tmp = Bank.getAccount(arguments[0]);
 			
-			if(!console && !tmp.isOwner(((Player)sender).getName())) {
+			if(!console && !tmp.isOwner(sender.getName())) {
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
 			}

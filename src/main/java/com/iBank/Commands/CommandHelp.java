@@ -38,7 +38,7 @@ public class CommandHelp extends Command
 		if(!(sender instanceof Player)) 
 		{
 			send(sender, "ibank "+iBank.description.getVersion());
-			String args = "";
+			String args;
 			for(String name : CommandHandler.getCommands("bank"))
 			{
 					args = CommandHandler.getArgInfo(root, name);
@@ -53,9 +53,9 @@ public class CommandHelp extends Command
 		{
 			curSite = arguments.length == 0 ? 0 : Integer.parseInt(arguments[0]) -1;
 		}
-		catch(Exception e) { }
+		catch(Exception ignored) { }
 		send(sender, "ibank "+iBank.description.getVersion()+" ("+(curSite+1)+"/"+sites+")", "");
-		String args = "";
+		String args ;
 		int counter = 0;
 		//from = site * 12 
 		//to = site * 12 + 12

@@ -46,18 +46,18 @@ public class CommandBalance extends Command
 			}
 			//iBank - call Event
 			iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_BALANCE, new Object[] { arguments[0], false} );
-			Bukkit.getServer().getPluginManager().callEvent(event);
+			Bukkit.getPluginManager().callEvent(event);
 			if(event.isCancelled()) return;
 			//iBank - end
 			BankAccount acc = Bank.getAccount(arguments[0]);
-			if(console || (acc.isOwner(((Player)sender).getName()) || acc.isUser(((Player)sender).getName())) || iBank.hasPermission(sender, "ibank.balance"))
+			if(console || (acc.isOwner(sender.getName()) || acc.isUser(sender.getName())) || iBank.hasPermission(sender, "ibank.balance"))
 			{
 				String formattedBalance = iBank.economy.format(acc.getBalance().doubleValue());
 				if(!console && !check && !iBank.canExecuteCommand(((Player)sender))) 
 				{
 					//iBank - call Event
 					event = new iBankEvent(iEvent.Types.ACCOUNT_BALANCE, new Object[] { arguments[0], true} );
-					Bukkit.getServer().getPluginManager().callEvent(event);
+					Bukkit.getPluginManager().callEvent(event);
 					if(event.isCancelled()) return;
 					//iBank - end
 					send(sender, "&r&"+Configuration.StringEntry.ErrorNotRegion.getValue());

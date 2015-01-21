@@ -19,11 +19,11 @@ public class StreamUtils
     {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
 		StringBuilder stringBuilder = new StringBuilder();
-		String line = null;
+		String line;
 		
 		try 
 		{
-			while ((line = bufferedReader.readLine()) != null) stringBuilder.append(line + "\n");
+			while ((line = bufferedReader.readLine()) != null) stringBuilder.append(line).append("\n");
 			bufferedReader.close();
 		} 
 		catch (IOException e) 

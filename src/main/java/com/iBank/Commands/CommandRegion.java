@@ -49,7 +49,6 @@ public class CommandRegion extends Command
                 send(sender, "&w&Location 2:&gray&"+loc2.toString(), "");
             }else{
                 send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Region "+arguments[0]+" "));
-                return;
             }
         } 
         else if(arguments.length == 3) 
@@ -59,14 +58,14 @@ public class CommandRegion extends Command
             	send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Region "+arguments[0]+" "));
                 return;
             }
-            if(sender instanceof Player && !iBank.hasPermission(sender, "ibank.regions") && !Bank.getRegion(arguments[0]).getOwners().contains(((Player)sender).getName()))
+            if(sender instanceof Player && !iBank.hasPermission(sender, "ibank.regions") && !Bank.getRegion(arguments[0]).getOwners().contains((sender).getName()))
             {
                 send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
                 return;
             }
             if(arguments[1].equalsIgnoreCase("online") || arguments[1].equalsIgnoreCase("on")) 
             {
-                Double percentage = 0.00;
+                Double percentage;
                 try
                 {
                     percentage = Double.parseDouble(arguments[2]);
@@ -80,7 +79,7 @@ public class CommandRegion extends Command
             }
             else if(arguments[1].equalsIgnoreCase("offline") || arguments[1].equalsIgnoreCase("off")) 
             {
-                Double percentage = 0.00;
+                Double percentage;
                 try
                 {
                     percentage = Double.parseDouble(arguments[2]);

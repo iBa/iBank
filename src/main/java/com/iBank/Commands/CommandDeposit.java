@@ -1,19 +1,18 @@
 package com.ibank.Commands;
 
-import java.math.BigDecimal;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import com.ibank.iBank;
 import com.ibank.Event.iBankEvent;
 import com.ibank.Event.iEvent;
+import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.BankAccount;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.math.BigDecimal;
 
 /**
  *  /bank deposit <NAME> <AMOUNT>
@@ -54,9 +53,9 @@ public class CommandDeposit extends Command
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", arguments[0]));
 				return;
 			}
-			BigDecimal todp = null;
+			BigDecimal todp;
 			BankAccount account = Bank.getAccount(arguments[0]);
-			if(!account.isOwner(((Player)sender).getName()) && !account.isUser(((Player)sender).getName())) 
+			if(!account.isOwner((sender).getName()) && !account.isUser((sender).getName()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNoAccess.getValue());
 				return;
@@ -78,11 +77,11 @@ public class CommandDeposit extends Command
 			// check if current player has that amount
 			//double needed = 0.00;
 			BigDecimal fee = iBank.parseFee(Configuration.Entry.FeeDeposit.getValue(), todp);
-			if(!iBank.economy.has(((Player)sender).getName(), todp.doubleValue() + fee.doubleValue())) 
+			if(!iBank.economy.has(sender.getName(), todp.doubleValue() + fee.doubleValue()))
 			{
 				//iBank - call Event
 				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_DEPOSIT, new Object[] { arguments[0], todp, fee, false } );
-				Bukkit.getServer().getPluginManager().callEvent(event);
+				Bukkit.getPluginManager().callEvent(event);
 				if(event.isCancelled()) {
 					return;
 				}
@@ -92,10 +91,10 @@ public class CommandDeposit extends Command
 			}
 			//iBank - call Event
 			iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_DEPOSIT, new Object[] { arguments[0], todp, fee, true } );
-			Bukkit.getServer().getPluginManager().callEvent(event);
+			Bukkit.getPluginManager().callEvent(event);
 			if(event.isCancelled()) return;
 			//iBank - end
-			iBank.economy.withdrawPlayer(((Player)sender).getName(), todp.doubleValue() + fee.doubleValue());
+			iBank.economy.withdrawPlayer(sender.getName(), todp.doubleValue() + fee.doubleValue());
 			account.addBalance(todp);
 			send(sender, "&g&"+Configuration.StringEntry.SuccessDeposit.getValue().replace("$name$", arguments[0]).replace("$amount$", iBank.format(todp)));
 			if(fee.compareTo(BigDecimal.ZERO)>0) send(sender, "&g&"+Configuration.StringEntry.PaidFee.getValue().replace("$amount$", iBank.format(fee)));	

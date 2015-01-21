@@ -1,24 +1,24 @@
 package com.ibank.Commands;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
 import com.ibank.system.Region;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * [1] /bank open <ACCOUNTNAME>
  * @author steffengy
  * [1] Can't be run from console
- * @todo Add parameter for other owners
  */
+
+//todo Add parameter for other owners
 @CommandInfo(
 		arguments = { "Name" }, 
 		permission = "ibank.access",
@@ -51,35 +51,35 @@ public class CommandOpenAccount extends Command
 			}
 			// fee stuff
 			String fee = Configuration.Entry.FeeCreate.getValue();
-			BigDecimal extra = BigDecimal.ZERO;
+			BigDecimal extra;
 			if(!fee.contains(";")) 
-				extra = iBank.parseFee(fee, new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
+				extra = iBank.parseFee(fee, new BigDecimal(iBank.economy.getBalance(sender.getName())));
 			else
 			{
 				String[] costs = fee.split(";");
-				int account = Bank.getAccountsByOwner(((Player)sender).getName()).size();
+				int account = Bank.getAccountsByOwner(sender.getName()).size();
 			
 				if(costs.length > account) 
-					extra = iBank.parseFee(costs[account], new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
+					extra = iBank.parseFee(costs[account], new BigDecimal(iBank.economy.getBalance(sender.getName())));
 				else
-					extra = iBank.parseFee(costs[costs.length - 1], new BigDecimal(iBank.economy.getBalance(((Player)sender).getName())));
+					extra = iBank.parseFee(costs[costs.length - 1], new BigDecimal(iBank.economy.getBalance(sender.getName())));
 			}
-			List<String> tmp = Bank.getAccountsByOwner(((Player)sender).getName());
+			List<String> tmp = Bank.getAccountsByOwner(sender.getName());
 			//skip if max is higher/equal to precision
 			if(Configuration.Entry.MaxAccountsPerUser.getInteger() != -1 && tmp.size() >= Configuration.Entry.MaxAccountsPerUser.getInteger()) 
 			{
 				send(sender, "&r&" + Configuration.StringEntry.ErrorMaxAcc.getValue().replace("$max$", Configuration.Entry.MaxAccountsPerUser.getValue()));
 				return;
 			}
-			if(!iBank.economy.has(((Player)sender).getName(), extra.doubleValue())) 
+			if(!iBank.economy.has(sender.getName(), extra.doubleValue()))
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnough.getValue());
 				return;
 			}
-			iBank.economy.withdrawPlayer(((Player)sender).getName(), extra.doubleValue());
-			Bank.createAccount(arguments[0], ((Player)sender).getName());
+			iBank.economy.withdrawPlayer(sender.getName(), extra.doubleValue());
+			Bank.createAccount(arguments[0], sender.getName());
 			// check for custom percentages
-			if(region != " ") 
+			if(!region.equals(" "))
 			{
 				Region reg = Bank.getRegion(region);
 				if(!reg.onDefault) Bank.getAccount(arguments[0]).setOnPercentage(reg.getOnPercentage(), true);

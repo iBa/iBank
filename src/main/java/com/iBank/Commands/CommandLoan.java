@@ -1,16 +1,15 @@
 package com.ibank.Commands;
 
-import java.math.BigDecimal;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.ibank.iBank;
 import com.ibank.system.Bank;
 import com.ibank.system.Command;
 import com.ibank.system.CommandInfo;
 import com.ibank.system.Configuration;
 import com.ibank.system.Loan;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.math.BigDecimal;
 
 /**
  *  /bank loan <AMOUNT>
@@ -46,8 +45,8 @@ public class CommandLoan extends Command
 		}
 		if(arguments.length == 1) 
 		{
-			BigDecimal amount = null;
-			String player = ((Player) sender).getName();
+			BigDecimal amount;
+			String player = sender.getName();
 			try{
 				amount = new BigDecimal(arguments[0]);
 			}
@@ -112,8 +111,8 @@ public class CommandLoan extends Command
 		        }
 		    }
 			//all validated (player and account)
-			new Loan(player, Configuration.Entry.LoanInterest.getInteger(), Configuration.Entry.LoanInterestTime.getInteger() , (60 * Configuration.Entry.LoanTime.getInteger()) , amount, true);
-			iBank.economy.depositPlayer(((Player)sender).getName(), amount.doubleValue());
+			new Loan(player, Configuration.Entry.LoanInterest.getInteger(), Configuration.Entry.LoanInterestTime.getInteger() , (60 * Configuration.Entry.LoanTime.getInteger()) , amount);
+			iBank.economy.depositPlayer(sender.getName(), amount.doubleValue());
 			send(sender, "&g&"+Configuration.StringEntry.SuccessLoan.getValue().replace("$amount$", amount.toString()));
 		}
 		else
