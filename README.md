@@ -16,7 +16,7 @@ Current Features
 
 ToDo
 -------
-- [ ] Support migrating/converting names to uuids  
+- [x] Support migrating/converting names to uuids  
 
 License
 -------
