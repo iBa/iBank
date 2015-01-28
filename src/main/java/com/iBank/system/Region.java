@@ -49,6 +49,9 @@ public class Region
 	{
         owners = new ArrayList<UUID>();
 		for(String s : str.split(",")) {
+            if(s == null || s.trim().isEmpty()) {
+                continue;
+            }
             owners.add(UUID.fromString(s));
         }
 	}

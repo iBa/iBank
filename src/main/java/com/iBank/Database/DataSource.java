@@ -54,7 +54,7 @@ public class DataSource
 	{
 		if(driver == Drivers.SQLite || driver == Drivers.MYSQL)
 		{
-			if(Drivers.SQLite.useable() || Drivers.MYSQL.useable()) 
+			if(driver.useable())
 			{
 				type = driver;
 				if(type == Drivers.SQLite)
@@ -250,5 +250,9 @@ public class DataSource
 			if(type==Drivers.SQLite) ((SQLite)db).commit();
 		}
 	}
+
+    public static Database getDatabase(){
+        return db;
+    }
 
 }
