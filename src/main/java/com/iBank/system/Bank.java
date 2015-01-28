@@ -179,6 +179,9 @@ public class Bank
 			str = data.getString("users");
             users = new ArrayList<UUID>();
             for(String s : str.split(",")) {
+                if(s == null || s.trim().isEmpty()) {
+                    continue;
+                }
                 users.add(UUID.fromString(s));
             }
 			if(users.contains(user)) accounts.add(data.getString("name"));
@@ -205,6 +208,9 @@ public class Bank
 			str = data.getString("owners");
             users = new ArrayList<UUID>();
             for(String s : str.split(",")) {
+                if(s == null || s.trim().isEmpty()) {
+                    continue;
+                }
                 users.add(UUID.fromString(s));
             }
 			if(users.contains(user)) ret.add(data.getString("name"));

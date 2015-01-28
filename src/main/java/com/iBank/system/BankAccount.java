@@ -44,6 +44,9 @@ public class BankAccount
         owners = new ArrayList<UUID>();
         String rawStrings[] = rawString.split(",");
         for(String s : rawStrings) {
+            if(s == null ||s.trim().isEmpty()) {
+                continue;
+            }
             owners.add(UUID.fromString(s));
         }
 	}
@@ -56,6 +59,9 @@ public class BankAccount
         users = new ArrayList<UUID>();
         String rawStrings[] = rawString.split(",");
         for(String s : rawStrings) {
+            if(s == null ||s.trim().isEmpty()) {
+                continue;
+            }
             users.add(UUID.fromString(s));
         }
 	}
