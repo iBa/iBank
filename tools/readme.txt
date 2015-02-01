@@ -1,1 +1,0 @@
-Download Vault.jar from http://dev.bukkit.org/bukkit-plugins/vault/ and install it with a updated version of this batch
