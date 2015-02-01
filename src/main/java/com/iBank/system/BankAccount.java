@@ -41,14 +41,14 @@ public class BankAccount
 	 */
 	public void initOwners(String rawString)
 	{
-        owners = new ArrayList<UUID>();
-        String rawStrings[] = rawString.split(",");
-        for(String s : rawStrings) {
-            if(s == null ||s.trim().isEmpty()) {
-                continue;
-            }
-            owners.add(UUID.fromString(s));
-        }
+		owners = new ArrayList<UUID>();
+		String rawStrings[] = rawString.split(",");
+		for(String s : rawStrings) {
+			if(s == null ||s.trim().isEmpty()) {
+				continue;
+			}
+			owners.add(UUID.fromString(s));
+		}
 	}
 	
 	/**
@@ -56,14 +56,14 @@ public class BankAccount
 	 */
 	public void initUsers(String rawString)
 	{
-        users = new ArrayList<UUID>();
-        String rawStrings[] = rawString.split(",");
-        for(String s : rawStrings) {
-            if(s == null ||s.trim().isEmpty()) {
-                continue;
-            }
-            users.add(UUID.fromString(s));
-        }
+		users = new ArrayList<UUID>();
+		String rawStrings[] = rawString.split(",");
+		for(String s : rawStrings) {
+			if(s == null ||s.trim().isEmpty()) {
+				continue;
+			}
+			users.add(UUID.fromString(s));
+		}
 	}
 	
 	/**
@@ -75,8 +75,8 @@ public class BankAccount
 	{
 		this.on = onper;
 		//Write to db
-	    if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"onper"}, new Object[]{String.valueOf(on)}, new AndCondition("name", name, Operators.IDENTICAL));
-	    onDefault = false;
+		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"onper"}, new Object[]{String.valueOf(on)}, new AndCondition("name", name, Operators.IDENTICAL));
+		onDefault = false;
 	}
 	
 	/**
@@ -88,8 +88,8 @@ public class BankAccount
 	{
 		this.off = offper;
 		//Write to db
-	    if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"offper"}, new Object[]{String.valueOf(off)}, new AndCondition("name", name, Operators.IDENTICAL));
-	    offDefault = false;
+		if(write) DataSource.update(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"offper"}, new Object[]{String.valueOf(off)}, new AndCondition("name", name, Operators.IDENTICAL));
+		offDefault = false;
 	}
 	
 	/**
@@ -253,7 +253,7 @@ public class BankAccount
 			if(Bukkit.getPlayer(p) != null)
 				if(limit == -1 || c < limit) 
 				{
-				    if(!b.contains(p)) b.add(p); 
+					if(!b.contains(p)) b.add(p); 
 					c++;
 				}
 				else break;	

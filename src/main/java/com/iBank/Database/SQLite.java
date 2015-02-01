@@ -36,7 +36,7 @@ public class SQLite implements Database
 	{
 		try{
 			Statement statement = connection.createStatement();
-            return statement.executeQuery(query);
+			return statement.executeQuery(query);
 		}
 		catch(Exception e) 
 		{

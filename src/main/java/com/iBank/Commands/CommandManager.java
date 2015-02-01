@@ -44,7 +44,7 @@ public class CommandManager extends Command
 			else
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorNotExist.getValue().replace("$name$", "Account "+arguments[0]+" "));
-            }
+			}
 		// modify percentages and settings
 		// todo add possibility to add interval
 		}

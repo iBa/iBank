@@ -47,13 +47,13 @@ public class Region
 	 */
 	public void initOwners(String str)
 	{
-        owners = new ArrayList<UUID>();
+		owners = new ArrayList<UUID>();
 		for(String s : str.split(",")) {
-            if(s == null || s.trim().isEmpty()) {
-                continue;
-            }
-            owners.add(UUID.fromString(s));
-        }
+			if(s == null || s.trim().isEmpty()) {
+				continue;
+			}
+			owners.add(UUID.fromString(s));
+		}
 	}
 	/**
 	 * Adds an owner
@@ -108,8 +108,8 @@ public class Region
 	{
 		this.on = on;
 		//Write to db
-	    if(write) DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"onper"}, new Object[]{String.valueOf(on)}, new AndCondition("name", name, Operators.IDENTICAL));
-	    onDefault = false;
+		if(write) DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"onper"}, new Object[]{String.valueOf(on)}, new AndCondition("name", name, Operators.IDENTICAL));
+		onDefault = false;
 	}
 	
 	/**
@@ -121,8 +121,8 @@ public class Region
 	{
 		this.off = off;
 		//Write to db
-	    if(write) DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"offper"}, new Object[]{String.valueOf(off)}, new AndCondition("name", name, Operators.IDENTICAL));
-	    offDefault = false;
+		if(write) DataSource.update(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"offper"}, new Object[]{String.valueOf(off)}, new AndCondition("name", name, Operators.IDENTICAL));
+		offDefault = false;
 	}
 	
 	/**

@@ -46,7 +46,7 @@ public class iBankListener implements Listener
 	
 	@EventHandler
 	public void playerInteract(PlayerInteractEvent event)
-    {
+	{
 		   /* REGION_SELECTION RIGHT|LEFT */
 		if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK)
 		{
@@ -102,7 +102,7 @@ public class iBankListener implements Listener
 		 if(event.getAction() == Action.RIGHT_CLICK_BLOCK && Configuration.Entry.EnableSign.getBoolean()) 
 		 {
 			 if(event.getClickedBlock().getType() == Material.SIGN || event.getClickedBlock().getType() == Material.SIGN_POST || 
-			    event.getClickedBlock().getType() == Material.WALL_SIGN) 
+				event.getClickedBlock().getType() == Material.WALL_SIGN) 
 			 {
 				 Sign state = (Sign) event.getClickedBlock().getState();
 				 if(state.getLine(0).equalsIgnoreCase("[ibank]")) 
@@ -122,7 +122,7 @@ public class iBankListener implements Listener
 				 }
 			 }
 		 }
-    }
+	}
 	
 	@EventHandler (priority = EventPriority.LOWEST)
 	public void playerChat(AsyncPlayerChatEvent event)

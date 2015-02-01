@@ -17,7 +17,7 @@ import java.math.BigDecimal;
  *
  */
 @CommandInfo(
-		arguments = { "Name", "(Key)", "(Val)" },  
+		arguments = { "Name", "(Key)", "(Val)" },
 		permission = "ibank.loanedit",
 		root = "bank", 
 		sub = "loanedit"

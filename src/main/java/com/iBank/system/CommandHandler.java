@@ -97,9 +97,9 @@ public class CommandHandler
 	 * Return if 2 call
 	 */
 	public static boolean isCallable(Player p, String root, String sub) {
-        String perm = CommandHandler.info.get(root).get(sub).permission();
-        return perm == null || perm.equals("") || iBank.hasPermission(p, CommandHandler.info.get(root).get(sub).permission());
-    }
+		String perm = CommandHandler.info.get(root).get(sub).permission();
+		return perm == null || perm.equals("") || iBank.hasPermission(p, CommandHandler.info.get(root).get(sub).permission());
+	}
 	
 	/**
 	 * Get commands by root command

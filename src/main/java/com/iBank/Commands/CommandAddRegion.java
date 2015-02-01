@@ -71,7 +71,7 @@ public class CommandAddRegion extends Command
 			else
 			{
 				send(sender, "&r&"+Configuration.StringEntry.ErrorAlreadyExists.getValue().replace("$name$", "Region "+arguments[0]+" "));
-            }
+			}
 		}
 		else
 		{

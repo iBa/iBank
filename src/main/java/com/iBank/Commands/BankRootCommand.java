@@ -52,7 +52,7 @@ public class BankRootCommand extends Command
 			return;
 		}
 		send(sender, "&blue&Owner &y&User");
-        userAccounts = userAccounts == null ? new ArrayList<String>() : userAccounts;
+		userAccounts = userAccounts == null ? new ArrayList<String>() : userAccounts;
 		send(sender, "&blue&"+StringUtils.join(ownerAccounts, "&w&,&blue&"), "");
 		send(sender, "&y&"+StringUtils.join(userAccounts, "&w&,&y&"), "");
 	}

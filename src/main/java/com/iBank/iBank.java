@@ -77,28 +77,28 @@ import java.util.logging.Logger;
 public class iBank extends JavaPlugin 
 {
 	public static iBank mainInstance = null;
-    private static YamlConfiguration StringConfig = null;
-    private static YamlConfiguration Config = null;
-    private static File ConfigFile = null;
-    private static File StringFile = null;
-    private static final Logger log = Logger.getLogger("Minecraft");
-    public static PluginDescriptionFile description = null;
-    public static Listener Listener = new iBankListener();
-    private static Permission permission = null;
-    public static Economy economy = null;
-    public static DataSource data = new DataSource();
-    private Timer Loan = null;
-    private Timer Interest = null;
-    public static final List<String> connected = new ArrayList<String>();
-    public static HashMap<String, String> loggedinto = new HashMap<String, String>();
-    
+	private static YamlConfiguration StringConfig = null;
+	private static YamlConfiguration Config = null;
+	private static File ConfigFile = null;
+	private static File StringFile = null;
+	private static final Logger log = Logger.getLogger("Minecraft");
+	public static PluginDescriptionFile description = null;
+	public static Listener Listener = new iBankListener();
+	private static Permission permission = null;
+	public static Economy economy = null;
+	public static DataSource data = new DataSource();
+	private Timer Loan = null;
+	private Timer Interest = null;
+	public static final List<String> connected = new ArrayList<String>();
+	public static HashMap<String, String> loggedinto = new HashMap<String, String>();
+	
 	@Override
 	public void onEnable() {
 		//dirty hack :(
 		mainInstance = this;
 		if(!(getDataFolder().exists()) && !getDataFolder().mkdir()) {
-            throw new RuntimeException("Couldn't create datafolder: " + getDataFolder().getName());
-        }
+			throw new RuntimeException("Couldn't create datafolder: " + getDataFolder().getName());
+		}
 		// Load configuration + strings
 		reloadConfig();
 		loadStrings();
@@ -116,39 +116,39 @@ public class iBank extends JavaPlugin
 		if(!setupEconomy())
 		{
 			log.log(Level.SEVERE, String.format("[%s] - Disabled due to no Vault/economy dependency found!", getDescription().getName()));
-		    getServer().getPluginManager().disablePlugin(this);
-		    return;
+			getServer().getPluginManager().disablePlugin(this);
+			return;
 		}
 		setupPermissions();
 		
-	    //register commands
+		//register commands
 		CommandHandler.register(new BankRootCommand());
-	    CommandHandler.register(new CommandHelp("bank"));
-	    CommandHandler.register(new CommandAddRegion());
-	    CommandHandler.register(new CommandDelRegion());
-	    CommandHandler.register(new CommandRegion());
-	    CommandHandler.register(new CommandOpenAccount());
-	    CommandHandler.register(new CommandBalance());
-	    CommandHandler.register(new CommandList());
-	    CommandHandler.register(new CommandDeposit());
-	    CommandHandler.register(new CommandWithdraw());
-	    CommandHandler.register(new CommandTransfer());
-	    CommandHandler.register(new CommandManager());
-	    CommandHandler.register(new CommandOwners());
-	    CommandHandler.register(new CommandUsers());
-	    CommandHandler.register(new CommandGive());
-	    CommandHandler.register(new CommandTake());
-	    CommandHandler.register(new CommandDelete());
-	    CommandHandler.register(new CommandClose());
-	    CommandHandler.register(new CommandRename());
-	    CommandHandler.register(new CommandReload());
-	    //register loan help
-	      if(Configuration.Entry.Loan.getBoolean()) {
-	    	  CommandHandler.register(new CommandLoan());
-	    	  CommandHandler.register(new CommandLoanInfo());
-	    	  CommandHandler.register(new CommandLoanEdit());
-	    	  CommandHandler.register(new CommandPayBack());
-	      }
+		CommandHandler.register(new CommandHelp("bank"));
+		CommandHandler.register(new CommandAddRegion());
+		CommandHandler.register(new CommandDelRegion());
+		CommandHandler.register(new CommandRegion());
+		CommandHandler.register(new CommandOpenAccount());
+		CommandHandler.register(new CommandBalance());
+		CommandHandler.register(new CommandList());
+		CommandHandler.register(new CommandDeposit());
+		CommandHandler.register(new CommandWithdraw());
+		CommandHandler.register(new CommandTransfer());
+		CommandHandler.register(new CommandManager());
+		CommandHandler.register(new CommandOwners());
+		CommandHandler.register(new CommandUsers());
+		CommandHandler.register(new CommandGive());
+		CommandHandler.register(new CommandTake());
+		CommandHandler.register(new CommandDelete());
+		CommandHandler.register(new CommandClose());
+		CommandHandler.register(new CommandRename());
+		CommandHandler.register(new CommandReload());
+		//register loan help
+		  if(Configuration.Entry.Loan.getBoolean()) {
+			  CommandHandler.register(new CommandLoan());
+			  CommandHandler.register(new CommandLoanInfo());
+			  CommandHandler.register(new CommandLoanEdit());
+			  CommandHandler.register(new CommandPayBack());
+		  }
 		description = this.getDescription();  
 		  
 		//DB
@@ -190,7 +190,7 @@ public class iBank extends JavaPlugin
 				return;
 			}
 		}
-	    
+		
 		//Register events
 		getServer().getPluginManager().registerEvents(Listener, this);
 		
@@ -202,7 +202,7 @@ public class iBank extends JavaPlugin
 				public void run() {
 					 long time = 60L * 1000L;
 					 Interest = new Timer();
-	                 Interest.scheduleAtFixedRate(new BankInterest(), time, time);
+					 Interest.scheduleAtFixedRate(new BankInterest(), time, time);
 				}
 			}).start();
 		}
@@ -220,40 +220,40 @@ public class iBank extends JavaPlugin
 		}
 		if(Configuration.Entry.RealisticMode.getBoolean())
 		{
-		    System.out.println("[iBank] starting with enabled realistic mode!");
-		    // Check if negative amounts are supported, if configured
-		    if(Configuration.Entry.RealisticNegative.getBoolean())
-		    {
-		        if(Configuration.Entry.RealisticInternal.getBoolean())
-		        {
-		            if(!Bank.hasAccount(Configuration.Entry.RealisticAccount.getValue()))
-		            {
-		                System.out.println("[iBank][RealisticMode] Internal account created!");
-		                Bank.createAccount(Configuration.Entry.RealisticAccount.getValue(), UUID.randomUUID()); //Todo ??
-		            }
-		            /* Negative amount test xD */
-		            com.ibank.system.BankAccount test = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
-		            BigDecimal tmp = test.getBalance().add(new BigDecimal(100));
-		            test.subtractBalance(tmp);
-		            if(test.getBalance().compareTo(BigDecimal.ZERO) < 0) 
-		            {
-		                System.out.println("[iBank][RealisticMode] Negative amounts supported! (new Balance:" + test.getBalance().toString() + ")");
-		                test.addBalance(tmp);
-		            }
-		            else
-		            {
-		                System.out.println("[iBank][RealisticMode] Negative amounts not supported! (new Balance:" + test.getBalance().toString() + ")");
-		            }
-		        }
-		        else
-		        {
-		            setupEconomyRealisticNegative(120000);
-		        }
-		    }
+			System.out.println("[iBank] starting with enabled realistic mode!");
+			// Check if negative amounts are supported, if configured
+			if(Configuration.Entry.RealisticNegative.getBoolean())
+			{
+				if(Configuration.Entry.RealisticInternal.getBoolean())
+				{
+					if(!Bank.hasAccount(Configuration.Entry.RealisticAccount.getValue()))
+					{
+						System.out.println("[iBank][RealisticMode] Internal account created!");
+						Bank.createAccount(Configuration.Entry.RealisticAccount.getValue(), UUID.randomUUID()); //Todo ??
+					}
+					/* Negative amount test xD */
+					com.ibank.system.BankAccount test = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
+					BigDecimal tmp = test.getBalance().add(new BigDecimal(100));
+					test.subtractBalance(tmp);
+					if(test.getBalance().compareTo(BigDecimal.ZERO) < 0) 
+					{
+						System.out.println("[iBank][RealisticMode] Negative amounts supported! (new Balance:" + test.getBalance().toString() + ")");
+						test.addBalance(tmp);
+					}
+					else
+					{
+						System.out.println("[iBank][RealisticMode] Negative amounts not supported! (new Balance:" + test.getBalance().toString() + ")");
+					}
+				}
+				else
+				{
+					setupEconomyRealisticNegative(120000);
+				}
+			}
 		}
 		else
 		{
-		    System.out.println("[iBank] starting without realistic mode!");
+			System.out.println("[iBank] starting without realistic mode!");
 		}
 		System.out.println("[iBank] Version " + description.getVersion() + " loaded successfully!");
 	}
@@ -316,9 +316,9 @@ public class iBank extends JavaPlugin
 		//Kill timers
 		if(Interest != null) 
 		{
-                Interest.cancel();
-                Interest.purge();
-                Interest = null;
+				Interest.cancel();
+				Interest.purge();
+				Interest = null;
 		}
 		if(Loan != null) 
 		{
@@ -334,119 +334,119 @@ public class iBank extends JavaPlugin
 	 */
 	public void reloadConfig() 
 	{
-	    if(ConfigFile == null) ConfigFile = new File(getDataFolder(), "config.yml");
-	    if(ConfigFile.exists()) Config = YamlConfiguration.loadConfiguration(ConfigFile);
-	    else
-	    {
-	    	if(StreamUtils.copy(getResource("config.yml"), ConfigFile)) {
-	    		Config = YamlConfiguration.loadConfiguration(ConfigFile);
-	    	}
-	    	else
-	    	{
-	    		System.out.println("[iBank] OOPS! Failed loading config!");
-	    	}
-	    }
+		if(ConfigFile == null) ConfigFile = new File(getDataFolder(), "config.yml");
+		if(ConfigFile.exists()) Config = YamlConfiguration.loadConfiguration(ConfigFile);
+		else
+		{
+			if(StreamUtils.copy(getResource("config.yml"), ConfigFile)) {
+				Config = YamlConfiguration.loadConfiguration(ConfigFile);
+			}
+			else
+			{
+				System.out.println("[iBank] OOPS! Failed loading config!");
+			}
+		}
 	}
 	/**
 	 * Loads the strings file
 	 */
 	private void loadStrings() 
 	{
-	    if(StringFile == null) StringFile = new File(getDataFolder(), "strings.yml");
-	    
-	    StringConfig = YamlConfiguration.loadConfiguration(StringFile);
-	    //Get default config
-	    InputStream defConfigStream = getResource("strings.yml");
-	    if (defConfigStream != null) 
-	    {
-	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-	        StringConfig.setDefaults(defConfig);
-	    }
+		if(StringFile == null) StringFile = new File(getDataFolder(), "strings.yml");
+		
+		StringConfig = YamlConfiguration.loadConfiguration(StringFile);
+		//Get default config
+		InputStream defConfigStream = getResource("strings.yml");
+		if (defConfigStream != null) 
+		{
+			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+			StringConfig.setDefaults(defConfig);
+		}
 	}
 	/**
 	 * Vault Function to setup the permissions
 	 */
 	private Boolean setupPermissions()
-    {
-        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-        if (permissionProvider != null) {
-            permission = permissionProvider.getProvider();
-        }
-        return (permission != null);
-    }
+	{
+		RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+		if (permissionProvider != null) {
+			permission = permissionProvider.getProvider();
+		}
+		return (permission != null);
+	}
 	/**0
 	 * Vault function to setup Economy
 	 */
-    private Boolean setupEconomy()
-    {
-    	if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-        if (economyProvider != null) {
-            economy = economyProvider.getProvider();
-        }
+	private Boolean setupEconomy()
+	{
+		if (getServer().getPluginManager().getPlugin("Vault") == null) {
+			return false;
+		}
+		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+		if (economyProvider != null) {
+			economy = economyProvider.getProvider();
+		}
 
-        return (economy != null);
-    }
-    
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { 	
-    	String cmdWrapped = "bank";
-    	if(!cmd.getName().equalsIgnoreCase(cmdWrapped) && !cmd.getName().equalsIgnoreCase("ibank")) cmdWrapped = cmd.getName();
-    	return CommandHandler.handle(sender, cmdWrapped, args);
-    }
-    
-    /**
-     * Checks if a player can execute this command
-     * !NO PERMISSION CHECK!
-     * @param p The player
-     * @return boolean
-     */
-    public static boolean canExecuteCommand(Player p) 
-    {
-    	if(!Configuration.Entry.BoundToRegion.getBoolean()) return true;
-    	if(hasPermission(p, "ibank.global")) return true;
-    	Location l = p.getLocation();
-    	return regionAt(l) != null;
-    }
-    /**
-     * Gets a region at given location 
-     * @param l The location
-     * @return Name of region or null
-     */
-    public static String regionAt(Location l) 
-    {
-    	double x = l.getX();
-    	double y = l.getY();
-    	double z = l.getZ();
-    	Region tmp;
-    	for(String i : Bank.getRegions()) 
-    	{
-    		tmp = Bank.getRegion(i);
-    		if(l.getWorld() == tmp.getFirstLocation().getWorld()) 
-    		{
-    			if(Mathematics.isInBox(x,y,z,tmp.getFirstLocation().getX(),tmp.getFirstLocation().getY(),tmp.getFirstLocation().getZ(),tmp.getSecondLocation().getX(),tmp.getSecondLocation().getY(),tmp.getSecondLocation().getZ())) 
-    				return i;  
-    		}
-    	}
-    	return null;
-    }
-    /**
-     * Formats an big Integer
-     * @param todp The amount
-     * @return String
-     * (probalby wrong formated due to BigInteger/double limits
-     */
-    public static String format(BigDecimal todp) 
-    {
-         return economy.format(todp.doubleValue());
-    }
-    /**
-     * Calculates the fee by a given fee and a config-string
-     * @param fee The to apply fee
-     * @param due The value, which shall be applied to 
-     * @return BigDecimal The fee value
-     */
+		return (economy != null);
+	}
+	
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { 	
+		String cmdWrapped = "bank";
+		if(!cmd.getName().equalsIgnoreCase(cmdWrapped) && !cmd.getName().equalsIgnoreCase("ibank")) cmdWrapped = cmd.getName();
+		return CommandHandler.handle(sender, cmdWrapped, args);
+	}
+	
+	/**
+	 * Checks if a player can execute this command
+	 * !NO PERMISSION CHECK!
+	 * @param p The player
+	 * @return boolean
+	 */
+	public static boolean canExecuteCommand(Player p) 
+	{
+		if(!Configuration.Entry.BoundToRegion.getBoolean()) return true;
+		if(hasPermission(p, "ibank.global")) return true;
+		Location l = p.getLocation();
+		return regionAt(l) != null;
+	}
+	/**
+	 * Gets a region at given location 
+	 * @param l The location
+	 * @return Name of region or null
+	 */
+	public static String regionAt(Location l) 
+	{
+		double x = l.getX();
+		double y = l.getY();
+		double z = l.getZ();
+		Region tmp;
+		for(String i : Bank.getRegions()) 
+		{
+			tmp = Bank.getRegion(i);
+			if(l.getWorld() == tmp.getFirstLocation().getWorld()) 
+			{
+				if(Mathematics.isInBox(x,y,z,tmp.getFirstLocation().getX(),tmp.getFirstLocation().getY(),tmp.getFirstLocation().getZ(),tmp.getSecondLocation().getX(),tmp.getSecondLocation().getY(),tmp.getSecondLocation().getZ())) 
+					return i;  
+			}
+		}
+		return null;
+	}
+	/**
+	 * Formats an big Integer
+	 * @param todp The amount
+	 * @return String
+	 * (probalby wrong formated due to BigInteger/double limits
+	 */
+	public static String format(BigDecimal todp) 
+	{
+		 return economy.format(todp.doubleValue());
+	}
+	/**
+	 * Calculates the fee by a given fee and a config-string
+	 * @param fee The to apply fee
+	 * @param due The value, which shall be applied to 
+	 * @return BigDecimal The fee value
+	 */
 	public static BigDecimal parseFee(String fee, BigDecimal due) 
 	{
 		BigDecimal val = BigDecimal.ZERO;
@@ -509,8 +509,8 @@ public class iBank extends JavaPlugin
 	 * @return boolean
 	 */
 	public static boolean hasPermission(CommandSender user, String permission) {
-        return !(user instanceof Player) || hasPermission((Player) user, permission);
-    }
+		return !(user instanceof Player) || hasPermission((Player) user, permission);
+	}
 	/**
 	 * Disables all commands of a player, and connects him with 
 	 * the directbank

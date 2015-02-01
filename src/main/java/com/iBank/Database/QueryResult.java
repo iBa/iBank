@@ -61,18 +61,18 @@ public class QueryResult {
 	{
 		try
 		{
-            String raw = String.valueOf(keyvalues.get(readpointer));
-            double val = Double.parseDouble(raw);
-            if(keyvalues.size() > readpointer) {
-                return val;
-            }
+			String raw = String.valueOf(keyvalues.get(readpointer));
+			double val = Double.parseDouble(raw);
+			if(keyvalues.size() > readpointer) {
+				return val;
+			}
 		}
 		catch(Exception e) 
 		{ 
 			System.out.println("[iBank] "+key+" Error while parsing Double!"+e);
 		}
 
-        return 0.00;
+		return 0.00;
 	}
 	
 	/**
@@ -91,9 +91,9 @@ public class QueryResult {
 		}
 	}
 	
-    /**
-     * Creates an new entry and counts up
-     */
+	/**
+	 * Creates an new entry and counts up
+	 */
 	public void newEntry() 
 	{
 		keyvalues.put(pointer, new HashMap<String, Object>());

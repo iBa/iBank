@@ -18,7 +18,7 @@ import java.math.BigDecimal;
  *
  */
 @CommandInfo(
-		arguments = { "(ID)", "Amount" },  
+		arguments = { "(ID)", "Amount" },
 		permission = "ibank.loan",
 		root = "bank", 
 		sub = "payback"
@@ -89,18 +89,18 @@ public class CommandPayBack extends Command
 					return;
 				}
 				loan.setAmount(loan.getAmount().subtract(todp));
-			    iBank.economy.withdrawPlayer((Player)sender, todp.doubleValue());
+				iBank.economy.withdrawPlayer((Player)sender, todp.doubleValue());
 				//<= to prevent MAGIC exceptions
 				if(loan.getAmount().compareTo(BigDecimal.ZERO)<=0) loan.remove();
 				if(Configuration.Entry.RealisticMode.getBoolean())
 				{
-				    if(Configuration.Entry.RealisticInternal.getBoolean())
-				    {
-				        com.ibank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
-				        tmp.addBalance(todp);
-				    }
-				    else
-				        iBank.economy.depositPlayer(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), todp.doubleValue());
+					if(Configuration.Entry.RealisticInternal.getBoolean())
+					{
+						com.ibank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
+						tmp.addBalance(todp);
+					}
+					else
+						iBank.economy.depositPlayer(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), todp.doubleValue());
 				}
 				send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(todp)));
 			}
@@ -146,15 +146,15 @@ public class CommandPayBack extends Command
 				}
 			}
 			if(Configuration.Entry.RealisticMode.getBoolean())
-            		{
-            			if(Configuration.Entry.RealisticInternal.getBoolean())
+					{
+						if(Configuration.Entry.RealisticInternal.getBoolean())
 				{
-				        com.ibank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
-				        tmp.addBalance(todp);
+						com.ibank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
+						tmp.addBalance(todp);
 				}
 				else
-                			iBank.economy.depositPlayer(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), todp.doubleValue());
-            		}
+							iBank.economy.depositPlayer(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), todp.doubleValue());
+					}
 			send(sender, "&g&"+Configuration.StringEntry.SuccessPayback.getValue().replace("$amount$", iBank.format(paiedback)));
 		}
 		else

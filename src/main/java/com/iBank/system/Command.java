@@ -19,15 +19,15 @@ public class Command
 	 */
 	public String getHelp() 
 	{ 
-	    return "[NO HELP AVAILABLE - PLEASE REPORT THIS]"; 
-    }
+		return "[NO HELP AVAILABLE - PLEASE REPORT THIS]"; 
+	}
 	
 	/*
 	 * Wrapper to first MessageManager send
 	 */
 	public void send(CommandSender sender, String message)
 	{
-	    MessageManager.send(sender, message);
+		MessageManager.send(sender, message);
 	}
 	
 	/**
@@ -35,6 +35,6 @@ public class Command
 	 */
 	public void send(CommandSender sender, String message, String Tag)
 	{
-	    MessageManager.send(sender, message, Tag);
+		MessageManager.send(sender, message, Tag);
 	}
 }

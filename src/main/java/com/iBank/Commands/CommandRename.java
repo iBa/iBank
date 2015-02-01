@@ -16,7 +16,7 @@ import com.ibank.system.Configuration;
  *
  */
 @CommandInfo(
-		arguments = { "Name", "New Name"},  
+		arguments = { "Name", "New Name"},
 		permission = "ibank.access",
 		root = "bank", 
 		sub = "rename"
@@ -27,7 +27,7 @@ public class CommandRename extends Command
 	@Override
 	public void handle(CommandSender sender, String[] arguments) 
 	{
-        boolean console = !(sender instanceof Player);
+		boolean console = !(sender instanceof Player);
 		boolean hasPerm = console || iBank.hasPermission(((Player)sender), "ibank.manage");
 		if(arguments.length == 2) 
 		{

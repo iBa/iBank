@@ -60,7 +60,7 @@ public class DataSource
 				if(type == Drivers.SQLite)
 					db = new SQLite(new File(main.getDataFolder(), url));
 				else
-                    db = new Mysql(url, Configuration.Entry.DatabaseUser.getValue(), Configuration.Entry.DatabasePW.getValue(), Configuration.Entry.DatabaseName.getValue());
+					db = new Mysql(url, Configuration.Entry.DatabaseUser.getValue(), Configuration.Entry.DatabasePW.getValue(), Configuration.Entry.DatabaseName.getValue());
 				
 				if(!db.success()) return false;
 				
@@ -148,7 +148,7 @@ public class DataSource
 			ResultSet result = null;
 			try
 			{
-                result = db.query(query);
+				result = db.query(query);
 			}
 			catch(Exception e) 
 			{
@@ -251,8 +251,8 @@ public class DataSource
 		}
 	}
 
-    public static Database getDatabase(){
-        return db;
-    }
+	public static Database getDatabase(){
+		return db;
+	}
 
 }

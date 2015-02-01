@@ -13,7 +13,7 @@ import com.ibank.system.Configuration;
  *
  */
 @CommandInfo(
-		arguments = { "Name" },  
+		arguments = { "Name" },
 		permission = "ibank.manage",
 		root = "bank", 
 		sub = "delete"

@@ -177,13 +177,13 @@ public class Bank
 		while(c)
 		{
 			str = data.getString("users");
-            users = new ArrayList<UUID>();
-            for(String s : str.split(",")) {
-                if(s == null || s.trim().isEmpty()) {
-                    continue;
-                }
-                users.add(UUID.fromString(s));
-            }
+			users = new ArrayList<UUID>();
+			for(String s : str.split(",")) {
+				if(s == null || s.trim().isEmpty()) {
+					continue;
+				}
+				users.add(UUID.fromString(s));
+			}
 			if(users.contains(user)) accounts.add(data.getString("name"));
 			c = data.nextEntry();
 		}
@@ -206,13 +206,13 @@ public class Bank
 		while(c)
 		{
 			str = data.getString("owners");
-            users = new ArrayList<UUID>();
-            for(String s : str.split(",")) {
-                if(s == null || s.trim().isEmpty()) {
-                    continue;
-                }
-                users.add(UUID.fromString(s));
-            }
+			users = new ArrayList<UUID>();
+			for(String s : str.split(",")) {
+				if(s == null || s.trim().isEmpty()) {
+					continue;
+				}
+				users.add(UUID.fromString(s));
+			}
 			if(users.contains(user)) ret.add(data.getString("name"));
 			c = data.nextEntry();
 		}
@@ -284,7 +284,7 @@ public class Bank
 			if(data.hasKey("interest")) interest = data.getDouble("interest");
 			else interest = Configuration.Entry.LoanInterest.getDouble();
 			ret.add(new Loan(UUID.fromString(data.getString("user")), interest, data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger(
-                    "id")));
+					"id")));
 			c = data.nextEntry();
 		}
 		return ret;

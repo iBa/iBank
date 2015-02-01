@@ -70,48 +70,48 @@ public class CommandLoan extends Command
 				send(sender, "&r&"+Configuration.StringEntry.ErrorLoanLimit.getValue().replace("$max$", iBank.format(Configuration.Entry.LoanAmount.getBigDecimal())));
 				return;
 			}
-        	/* Realistic mode check */
+			/* Realistic mode check */
 			if(Configuration.Entry.RealisticMode.getBoolean())
-		    {
-		        // Check if enough money is on the bank-account
-		        if(Configuration.Entry.RealisticInternal.getBoolean())
-		        {
-		            if(!Configuration.Entry.RealisticNegative.getBoolean())
-		            {
-		                send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
-                        return;
-		            }
-		            com.ibank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
-		            BigDecimal newAmount = tmp.getBalance().subtract(amount);
-		            //Can be either equal to the max*-1 or it needs to be bigger
-                    if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
-                    {
-                        send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
-                        return;
-                    }
-                    tmp.subtractBalance(amount);
-		        }
-	        	else
-		        {
-		            if(!iBank.economy.has(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), amount.doubleValue()))
-		            {
-		                if(!Configuration.Entry.RealisticNegative.getBoolean())
-		                {
-		                    send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
-		                    return;
-		                }
-		                BigDecimal newAmount = new BigDecimal(iBank.economy.getBalance(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()))).subtract(amount);
-		                //Can be either equal to the max*-1 or it needs to be bigger
-		                if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
-		                {
-		                    send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
-		                    return;
-		                }
-		            }
-		            //All fine
-		            iBank.economy.withdrawPlayer(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), amount.doubleValue());
-		        }
-		    }
+			{
+				// Check if enough money is on the bank-account
+				if(Configuration.Entry.RealisticInternal.getBoolean())
+				{
+					if(!Configuration.Entry.RealisticNegative.getBoolean())
+					{
+						send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
+						return;
+					}
+					com.ibank.system.BankAccount tmp = Bank.getAccount(Configuration.Entry.RealisticAccount.getValue());
+					BigDecimal newAmount = tmp.getBalance().subtract(amount);
+					//Can be either equal to the max*-1 or it needs to be bigger
+					if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
+					{
+						send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
+						return;
+					}
+					tmp.subtractBalance(amount);
+				}
+				else
+				{
+					if(!iBank.economy.has(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), amount.doubleValue()))
+					{
+						if(!Configuration.Entry.RealisticNegative.getBoolean())
+						{
+							send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
+							return;
+						}
+						BigDecimal newAmount = new BigDecimal(iBank.economy.getBalance(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()))).subtract(amount);
+						//Can be either equal to the max*-1 or it needs to be bigger
+						if(newAmount.compareTo(new BigDecimal((Configuration.Entry.RealisticMaxNeg.getDouble() * -1))) < 0)
+						{
+							send(sender, "&r&"+Configuration.StringEntry.ErrorNotEnoughBank.getValue());
+							return;
+						}
+					}
+					//All fine
+					iBank.economy.withdrawPlayer(Bukkit.getOfflinePlayer(Configuration.Entry.RealisticAccount.getValue()), amount.doubleValue());
+				}
+			}
 			//all validated (player and account)
 			new Loan(player, Configuration.Entry.LoanInterest.getInteger(), Configuration.Entry.LoanInterestTime.getInteger() , (60 * Configuration.Entry.LoanTime.getInteger()) , amount);
 			iBank.economy.depositPlayer((Player)sender, amount.doubleValue());

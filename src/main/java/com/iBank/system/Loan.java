@@ -25,12 +25,12 @@ public class Loan
 	
 	/**
 	 * Creates a new loan
-     * @param user The users uuid
-     * @param interest The interest (f.e. 1 would be handled as 1 %)
-     * @param interval The interval, his interest-product grows
-     * @param time How much time (in seconds) the "loan-taker" has to pay-back
-     * @param amount The amount which he received
-     */
+	 * @param user The users uuid
+	 * @param interest The interest (f.e. 1 would be handled as 1 %)
+	 * @param interval The interval, his interest-product grows
+	 * @param time How much time (in seconds) the "loan-taker" has to pay-back
+	 * @param amount The amount which he received
+	 */
 	public Loan(UUID user, double interest, int interval, int time, BigDecimal amount)
 	{
 		this(user, interest, interval, time, amount, 0, -1);

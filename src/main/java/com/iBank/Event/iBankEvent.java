@@ -15,31 +15,31 @@ public class iBankEvent extends Event implements Cancellable
 {
 	private static final HandlerList handlers = new HandlerList();
  	private Types type;
-    private Object data;
+	private Object data;
  	private boolean cancelled = false;
  	
-    public iBankEvent(Types type, Object data)
-    {
-        this.type = type;
-        this.data = data;
-    }
+	public iBankEvent(Types type, Object data)
+	{
+		this.type = type;
+		this.data = data;
+	}
  
-    public HandlerList getHandlers() 
-    {
-        return handlers;
-    }
+	public HandlerList getHandlers() 
+	{
+		return handlers;
+	}
  
-    public static HandlerList getHandlerList() 
-    {
-        return handlers;
-    }
-    /**
-     * Returns the iEvent.Types of this event
-     */
-    public Types getiBankType() 
-    {
-    	return type;
-    }
+	public static HandlerList getHandlerList() 
+	{
+		return handlers;
+	}
+	/**
+	 * Returns the iEvent.Types of this event
+	 */
+	public Types getiBankType() 
+	{
+		return type;
+	}
 
 	@Override
 	public boolean isCancelled() 
@@ -53,13 +53,13 @@ public class iBankEvent extends Event implements Cancellable
 		cancelled = arg0;
 	}
 
-    public void setData(Object data)
-    {
-        this.data = data;
-    }
+	public void setData(Object data)
+	{
+		this.data = data;
+	}
 
-    public Object getData()
-    {
-        return data;
-    }
+	public Object getData()
+	{
+		return data;
+	}
 }

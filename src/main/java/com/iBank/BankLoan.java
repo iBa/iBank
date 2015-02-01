@@ -38,7 +38,7 @@ public class BankLoan extends TimerTask
 					if(iBank.economy.has(Bukkit.getPlayer(a.getUser()), a.getAmount().doubleValue()))
 					{
 						iBank.economy.withdrawPlayer(Bukkit.getPlayer(a.getUser()), a.getAmount().doubleValue());
-						a.remove(); //close  
+						a.remove(); //close
 					}
 					else
 					{

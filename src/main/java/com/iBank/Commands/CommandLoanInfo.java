@@ -78,15 +78,15 @@ public class CommandLoanInfo extends Command
 	/**
 	 * Shows the loan info to destination
 	 * @param user The to-info user
-     * @param raw Raw name, may be null
+	 * @param raw Raw name, may be null
 	 * @param destination The destination user
 	 */
 	public void showLoanInfo(UUID user, String raw, CommandSender destination,int site)
 	{
 		List<Loan> allLoans;
-        if(raw == null) {
-            raw = Bukkit.getOfflinePlayer(user).getName();
-        }
+		if(raw == null) {
+			raw = Bukkit.getOfflinePlayer(user).getName();
+		}
 		if(raw.equalsIgnoreCase("all!"))
 		{ 
 			allLoans = Bank.getLoans();

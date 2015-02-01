@@ -47,7 +47,7 @@ public class CommandWithdraw extends Command
 			return;
 		}
 
-        Player p =(Player)sender;
+		Player p =(Player)sender;
 		
 		if(arguments.length == 2) 
 		{

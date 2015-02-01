@@ -14,10 +14,10 @@ import com.ibank.system.Configuration;
  * @author steffengy
  *
  */
-@CommandInfo(arguments = { "" }, 
-  permission = "ibank.access",
-  root = "bank", 
-  sub = "help"
+@CommandInfo(arguments = { "" },
+	permission = "ibank.access",
+	root = "bank", 
+	sub = "help"
 )
 public class CommandHelp extends Command
 {

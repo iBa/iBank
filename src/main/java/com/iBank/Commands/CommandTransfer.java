@@ -20,7 +20,7 @@ import java.math.BigDecimal;
  *
  */
 @CommandInfo(
-		arguments = { "SRC", "DEST", "AMOUNT" },  
+		arguments = { "SRC", "DEST", "AMOUNT" },
 		permission = "ibank.access",
 		root = "bank", 
 		sub = "transfer"

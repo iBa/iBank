@@ -96,7 +96,7 @@ public class Configuration {
 		 */
 		public Object getObject()
 		{
-		    return value;
+			return value;
 		}
 		
 		/**
@@ -104,68 +104,68 @@ public class Configuration {
 		 */
 		public Boolean getBoolean() 
 		{
-            return (Boolean) value;
-        }
+			return (Boolean) value;
+		}
 		
 		/*
 		 * @return The value of the Entry as Integer (or Double)
 		 */
-        public Integer getInteger() 
-        {
-            if(value instanceof Double) return ((Double) value).intValue();
-            return (Integer) value;
-        }
-        
-        /**
-         * @return The value of the Entry as Double
-         */
-        public Double getDouble() 
-        {
-            if(value instanceof Integer) return (double) (Integer) value;
+		public Integer getInteger() 
+		{
+			if(value instanceof Double) return ((Double) value).intValue();
+			return (Integer) value;
+		}
+		
+		/**
+		 * @return The value of the Entry as Double
+		 */
+		public Double getDouble() 
+		{
+			if(value instanceof Integer) return (double) (Integer) value;
 
-            return (Double) value;
-        }
-        
-        /**
-         * @return The value of the Entry as BigDecimal
-         */
-        public BigDecimal getBigDecimal() 
-        {
-            return new BigDecimal(String.valueOf(value));
-        }
-        
-        /**
-         * @return The value of the Entry as Long (or Integer)
-         */
-        public Long getLong() 
-        {
-            if(value instanceof Integer) return ((Integer) value).longValue();
+			return (Double) value;
+		}
+		
+		/**
+		 * @return The value of the Entry as BigDecimal
+		 */
+		public BigDecimal getBigDecimal() 
+		{
+			return new BigDecimal(String.valueOf(value));
+		}
+		
+		/**
+		 * @return The value of the Entry as Long (or Integer)
+		 */
+		public Long getLong() 
+		{
+			if(value instanceof Integer) return ((Integer) value).longValue();
 
-            return (Long) value;
-        }
-        
-        /*
-         * @return The value of the Entry as List
-         */
-        @SuppressWarnings("unchecked")
+			return (Long) value;
+		}
+		
+		/*
+		 * @return The value of the Entry as List
+		 */
+		@SuppressWarnings("unchecked")
 		public List<String> getStringList() 
 		{
-        		return (List<String>) value;
-        }
-        
-        /*
-         * Sets the value of this Entry
-         * @param value the value as object
-         */
-        public void setValue(Object value) 
-        {
-        	this.value = value;
-        }
-        
-        @Deprecated
-        public String toString() {
-        	return getValue();
-        }
+				return (List<String>) value;
+		}
+		
+		/*
+		 * Sets the value of this Entry
+		 * @param value the value as object
+		 */
+		public void setValue(Object value) 
+		{
+			this.value = value;
+		}
+		
+		@Deprecated
+		public String toString() {
+			return getValue();
+		}
 	}
 	
 	public static enum StringEntry
@@ -276,41 +276,41 @@ public class Configuration {
 			return value;
 		}
 		
-        /*
-         * Sets the value of this Entry
-         * @param value the value
-         */
-        public void setValue(String value) 
-        {
-        	this.value = value;
-        }
-        
-        @Override
-        @Deprecated
-        public String toString()
-        {
-            return this.value;
-        }
+		/*
+		 * Sets the value of this Entry
+		 * @param value the value
+		 */
+		public void setValue(String value) 
+		{
+			this.value = value;
+		}
+		
+		@Override
+		@Deprecated
+		public String toString()
+		{
+			return this.value;
+		}
 	}
-    /**
-     * Sets the config system up
-     * @param config The configuration got from the YamlFile 
-     */
-    public static void init(YamlConfiguration config)
-    {
-    	for(Entry s : Entry.values())
-    		if(!s.getKey().isEmpty() && config.get(s.getKey()) != null)
-    			s.setValue(config.get(s.getKey()));
-    }
-    
-    /**
-     * Sets the lang system up
-     * @param config The configuration got from the YamlFile 
-     */
-    public static void stringinit(YamlConfiguration config)
-    {
-    	for(StringEntry s : StringEntry.values())
-    		if(!s.getKey().isEmpty() && config.get(s.getKey()) != null)
+	/**
+	 * Sets the config system up
+	 * @param config The configuration got from the YamlFile 
+	 */
+	public static void init(YamlConfiguration config)
+	{
+		for(Entry s : Entry.values())
+			if(!s.getKey().isEmpty() && config.get(s.getKey()) != null)
+				s.setValue(config.get(s.getKey()));
+	}
+	
+	/**
+	 * Sets the lang system up
+	 * @param config The configuration got from the YamlFile 
+	 */
+	public static void stringinit(YamlConfiguration config)
+	{
+		for(StringEntry s : StringEntry.values())
+			if(!s.getKey().isEmpty() && config.get(s.getKey()) != null)
 				s.setValue(config.getString(s.getKey()));
-    }
+	}
 }
