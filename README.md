@@ -5,16 +5,13 @@ iBank
 
 Current Features
 -------
-  Regions  (custom percentages per region, bound to region, ...)
-  
-  BankAccounts (custom interests + balance)
-  
-  Loan money
-  
-  All fully configurable
+* Regions  (custom percentages per region, bound to region, ...)
+* BankAccounts (custom interests + balance)
+* Loan money
+* Supports UUIDs (fully supports name changing)
+* All fully configurable
   
 Supported Database Types
 -------
- Mysql
- 
- SQLite
+* Mysql
+* SQLite

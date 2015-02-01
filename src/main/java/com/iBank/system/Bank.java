@@ -1,0 +1,309 @@
+package com.ibank.system;
+
+import com.ibank.Database.AndCondition;
+import com.ibank.Database.Condition;
+import com.ibank.Database.Condition.Operators;
+import com.ibank.Database.DataSource;
+import com.ibank.Database.QueryResult;
+import com.ibank.Event.iBankEvent;
+import com.ibank.Event.iEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * The backend for all background code
+ * f.e. getting accounts => API
+ * @author steffengy
+ *
+ */
+public class Bank 
+{
+	/**
+	 * Gets an region from Database
+	 * @param name the Name of the region
+	 * @return the Region
+	 */
+	public static Region getRegion(String name) 
+	{
+		// fetch region data
+		QueryResult data = DataSource.query(new String[]{"loc1","loc2","onper","offper","owners"}, Configuration.Entry.DatabaseRegionTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		if(!data.found) return null;
+		Region ret = new Region(name, data.getString("loc1"), data.getString("loc2"));
+		if(data.getString("onper").length()>0) {
+			ret.setOnPercentage(Double.parseDouble(data.getString("onper")), false);
+		}
+		if(data.getString("offper").length()>0) {
+			ret.setOffPercentage(Double.parseDouble(data.getString("offper")), false);
+		}
+		if(data.getString("owners").length()>0) {
+			ret.initOwners(data.getString("owners"));
+		}
+		return ret;
+	}
+	
+	/**
+	 * Returns a list of all regions
+	 * @return List<String>
+	 */
+	public static List<String> getRegions() 
+	{
+		QueryResult data = DataSource.query(new String[]{"name"}, Configuration.Entry.DatabaseRegionTable.getValue());
+		List<String> ret = new ArrayList<String>();
+		if(!data.found) return ret;
+		boolean c = true;
+		while(c)
+		{
+			ret.add(data.getString("name"));
+			c = data.nextEntry();
+		}
+		return ret;
+	}
+	
+	/**
+	 * Returns if the region was found
+	 * @param name The name of the region
+	 * @return boolean
+	 */
+	public static boolean hasRegion(String name) 
+	{
+		QueryResult data = DataSource.query(new String[]{"loc1","loc2","onper","offper"}, Configuration.Entry.DatabaseRegionTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		return data.found;
+	}
+	
+	/**
+	 * Creates a region
+	 * @param name Name of the region
+	 * @param first First location
+	 * @param second Second location
+	 */
+	public static void createRegion(String name, Location first, Location second) 
+	{
+		//iBank - call Event
+		iBankEvent event = new iBankEvent(iEvent.Types.REGION_CREATE, new Object[] { name, first, second } );
+		Bukkit.getPluginManager().callEvent(event);
+		if(event.isCancelled()) {
+			return;
+		}
+		//iBank - end
+		DataSource.insertEntry(Configuration.Entry.DatabaseRegionTable.getValue(), new String[]{"name","loc1","loc2","onper","offper", "owners"}, new String[]{name, Bank.formLocation(first), Bank.formLocation(second), "", "", ""});
+	}
+	
+	/**
+	 * Removes a region 
+	 * @param name Name of the region 
+	 */
+	public static void removeRegion(String name) 
+	{
+		//iBank - call Event
+		iBankEvent event = new iBankEvent(iEvent.Types.REGION_DELETE, name );
+		Bukkit.getPluginManager().callEvent(event);
+		if(event.isCancelled()) return;
+		//iBank - end
+		DataSource.deleteEntry(Configuration.Entry.DatabaseRegionTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+	}
+	
+	/**
+	 * Converts a location to an iBank Location String
+	 * @param loc The location
+	 */
+	private static String formLocation(Location loc) 
+	{
+		return loc.getWorld().getName()+";"+loc.getX()+";"+loc.getY()+";"+loc.getZ();
+	}
+	
+	/**
+	 * Gets an Bankaccount by Name
+	 * @param name The name
+	 */
+	public static BankAccount getAccount(String name) 
+	{
+		QueryResult data = DataSource.query(new String[]{"balance", "owners", "users", "onper", "offper", "interval", "mD"}, Configuration.Entry.DatabaseAccountsTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		if(!data.found) return null;
+		BankAccount obj = new BankAccount(name, data.getBigInteger("balance"));
+		obj.initUsers(data.getString("users"));
+		obj.initOwners(data.getString("owners"));
+		if(data.hasKey("onper") && data.getString("onper").length() > 0) obj.setOnPercentage(data.getDouble("onper"), false);
+		if(data.hasKey("offper") && data.getString("offper").length()>0) obj.setOffPercentage(data.getDouble("offper"), false);
+		if(data.hasKey("interval")) obj.setInterval(data.getInteger("interval"), false);
+		if(data.hasKey("mD")) obj.setMinutesDone(data.getInteger("mD"), false);
+		return obj;
+	}
+	/**
+	 * Returns if this account exists
+	 * @param name The accountname
+	 * @return boolean
+	 */
+	public static boolean hasAccount(String name) 
+	{
+		QueryResult data = DataSource.query(new String[]{"balance"}, Configuration.Entry.DatabaseAccountsTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL));
+		return data.found;
+	}
+	
+	/**
+	 * Gets a list of bankaccounts
+	 * @return List<String>
+	 */
+	public static List<String> getAccounts() 
+	{
+		QueryResult data = DataSource.query(new String[]{"name"}, Configuration.Entry.DatabaseAccountsTable.getValue());
+		List<String> ret = new ArrayList<String>();
+		if(!data.found) return ret;
+		boolean c = true;
+		while(c)
+		{
+			ret.add(data.getString("name"));
+			c = data.nextEntry();
+		}
+		return ret;
+	}
+	
+	/**
+	 * Gets accounts where user has the user role
+	 * @param user The username
+	 * @return List<String>
+	 */
+	public static List<String> getAccountsByUser(UUID user)
+	{
+		QueryResult data = DataSource.query(new String[]{"name", "users"}, Configuration.Entry.DatabaseAccountsTable.getValue());
+		List<String> accounts = new ArrayList<String>();
+		if(!data.found) return accounts;
+		boolean c = true;
+		String str;
+		List<UUID> users;
+		while(c)
+		{
+			str = data.getString("users");
+            users = new ArrayList<UUID>();
+            for(String s : str.split(",")) {
+                if(s == null || s.trim().isEmpty()) {
+                    continue;
+                }
+                users.add(UUID.fromString(s));
+            }
+			if(users.contains(user)) accounts.add(data.getString("name"));
+			c = data.nextEntry();
+		}
+		return accounts;
+	}
+	
+	/**
+	 * Gets accounts where user has the owner role
+	 * @param user The username
+	 * @return List<String>
+	 */
+	public static List<String> getAccountsByOwner(UUID user)
+	{
+		QueryResult data = DataSource.query(new String[]{"name", "owners"}, Configuration.Entry.DatabaseAccountsTable.getValue());
+		List<String> ret = new ArrayList<String>();
+		if(!data.found) return ret;
+		boolean c = true;
+		String str;
+		List<UUID> users;
+		while(c)
+		{
+			str = data.getString("owners");
+            users = new ArrayList<UUID>();
+            for(String s : str.split(",")) {
+                if(s == null || s.trim().isEmpty()) {
+                    continue;
+                }
+                users.add(UUID.fromString(s));
+            }
+			if(users.contains(user)) ret.add(data.getString("name"));
+			c = data.nextEntry();
+		}
+		return ret;
+	}
+	
+	/**
+	 * Generates an user 
+	 * @param name The name of the account
+	 * @param user The The owner
+	 */
+	public static void createAccount(String name, UUID user)
+	{
+		//iBank - Call event
+		iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_CREATE, new String[] { name, user.toString() });
+		Bukkit.getPluginManager().callEvent(event);
+		if(event.isCancelled()) return;
+		//iBank - end
+		DataSource.insertEntry(Configuration.Entry.DatabaseAccountsTable.getValue(), new String[]{"name","balance","owners","users","onper","offper"}, new Object[] {name, Configuration.Entry.StandardBalance.getInteger(), user.toString(), "", "", ""});
+	}
+	
+	/**
+	 * Removes an account
+	 * @param name The name of the account
+	 */
+	public static void removeAccount(String name) 
+	{
+		//iBank - call Event
+				iBankEvent event = new iBankEvent(iEvent.Types.ACCOUNT_DELETE, name );
+				Bukkit.getPluginManager().callEvent(event);
+				if(event.isCancelled()) return;
+		//iBank - end
+		DataSource.deleteEntry(Configuration.Entry.DatabaseAccountsTable.getValue(), new AndCondition("name", name, Condition.Operators.IDENTICAL)); 
+	}
+	
+	/**
+	 * Returns a list with all loans
+	 * @return List<Loan>
+	 */
+	public static List<Loan> getLoans() 
+	{
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.getValue());
+		List<Loan> ret = new ArrayList<Loan>();
+		if(!data.found) return ret;
+		boolean c = true;
+		double interest;
+		while(c)
+		{
+			if(data.hasKey("interest")) interest = data.getDouble("interest");
+			else interest = Configuration.Entry.LoanInterest.getDouble();
+			ret.add(new Loan(UUID.fromString(data.getString("user")), interest , data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id")));
+			c = data.nextEntry();
+		}
+		return ret;
+	}
+	/**
+	 * Gets a list with all loans of the user
+	 * @param user The user
+	 */
+	public static List<Loan> getLoansByAccount(UUID user)
+	{
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.getValue(), new AndCondition("user", user.toString(), Operators.IDENTICAL));
+		List<Loan> ret = new ArrayList<Loan>();
+		if(!data.found) return ret;
+		boolean c = true;
+		double interest;
+		while(c)
+		{
+			if(data.hasKey("interest")) interest = data.getDouble("interest");
+			else interest = Configuration.Entry.LoanInterest.getDouble();
+			ret.add(new Loan(UUID.fromString(data.getString("user")), interest, data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger(
+                    "id")));
+			c = data.nextEntry();
+		}
+		return ret;
+	}
+	
+	/**
+	 * Gets the Loan with the id
+	 * @param id int id
+	 * @return Loan
+	 */
+	public static Loan getLoanById(int id) 
+	{
+		QueryResult data = DataSource.query(new String[]{"id", "user", "amount", "percentage", "interval", "until", "mD"},  Configuration.Entry.DatabaseLoanTable.getValue(), new AndCondition("id", id, Operators.IDENTICAL));
+		if(!data.found) return null;
+		Loan ret;
+		double interest;
+		if(data.hasKey("interest")) interest = data.getDouble("interest");
+		else interest = Configuration.Entry.LoanInterest.getDouble();
+		ret = new Loan(UUID.fromString(data.getString("user")), interest, data.getInteger("interval"), data.getLong("until"), data.getBigInteger("amount"), data.getInteger("mD"), data.getInteger("id"));
+		return ret;
+	}
+}
